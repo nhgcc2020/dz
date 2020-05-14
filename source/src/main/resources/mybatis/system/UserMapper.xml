@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.User" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="USER_KEY" property="userKey" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="TEL_BAK" property="telBak" jdbcType="VARCHAR" />
+    <result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="SALT" property="salt" jdbcType="VARCHAR" />
+    <result column="QQ" property="qq" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="DATE" />
+    <result column="NOW_PROVINCE" property="nowProvince" jdbcType="VARCHAR" />
+    <result column="NOW_CITY" property="nowCity" jdbcType="VARCHAR" />
+    <result column="NOW_COUNTRY" property="nowCountry" jdbcType="VARCHAR" />
+    <result column="LOCAL_PROVINCE" property="localProvince" jdbcType="VARCHAR" />
+    <result column="LOCAL_CITY" property="localCity" jdbcType="VARCHAR" />
+    <result column="LOCAL_COUNTRY" property="localCountry" jdbcType="VARCHAR" />
+    <result column="AVATAR_PATH" property="avatarPath" jdbcType="VARCHAR" />
+    <result column="BIND_WECHAT" property="bindWechat" jdbcType="VARCHAR" />
+    <result column="LOGIN_WECHAT" property="loginWechat" jdbcType="VARCHAR" />
+    <result column="BIND_QQ" property="bindQq" jdbcType="VARCHAR" />
+    <result column="BIND_ALIPAY" property="bindAlipay" jdbcType="VARCHAR" />
+    <result column="LAST_UPDATE_TIME" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="REGISTER_IP" property="registerIp" jdbcType="VARCHAR" />
+    <result column="REGISTER_CITY" property="registerCity" jdbcType="VARCHAR" />
+    <result column="REG_TYPE" property="regType" jdbcType="CHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="DEFAULT_COM" property="defaultCom" jdbcType="VARCHAR"/>
+    <result column="PROMOTER_KEY" property="promoterKey" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <resultMap id="UserComMap" type="com.ydz.vo.UserCompanyVO" extends="BaseResultMap">
+    <result property="comId" column="COM_ID"/>
+    <result property="withinComId" column="WITHIN_COM_ID"/>
+    <result property="comName" column="COM_NAME"/>
+    <result property="comShortname" column="COM_SHORTNAME"/>
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="COM_LOGO_PATH" property="comLogoPath" jdbcType="VARCHAR" />
+    <result column="COM_TYPE" property="comType" jdbcType="CHAR" />
+    <result column="COM_ATTR" property="comAttr" jdbcType="CHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result property="isAdmin" column="IS_ADMIN"/>
+    <result property="isBoss" column="IS_BOSS"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    UID, USER_KEY, USER_ID, TEL_BAK, NICK_NAME, REAL_NAME, EMAIL, QQ, 
+    BIRTHDAY, NOW_PROVINCE, NOW_CITY, NOW_COUNTRY, LOCAL_PROVINCE, LOCAL_CITY, LOCAL_COUNTRY,
+    BIND_WECHAT, LOGIN_WECHAT, BIND_QQ, BIND_ALIPAY, LAST_UPDATE_TIME, REGISTER_IP, 
+    REGISTER_CITY, REG_TYPE, IS_VALID, CREATE_TIME,DEFAULT_COM,AVATAR_PATH,PROMOTER_KEY
+  </sql>
+  <select id="selectUserComByUserId" resultMap="UserComMap" parameterType="pd">
+    SELECT
+        U.UID, U.USER_KEY, U.USER_ID, U.TEL_BAK, U.NICK_NAME, U.REAL_NAME, U.EMAIL, U.QQ,
+        U.BIRTHDAY, U.NOW_PROVINCE, U.NOW_CITY, U.NOW_COUNTRY, U.LOCAL_PROVINCE, U.LOCAL_CITY, U.LOCAL_COUNTRY,
+        U.BIND_WECHAT, U.LOGIN_WECHAT, U.BIND_QQ, U.BIND_ALIPAY, U.LAST_UPDATE_TIME, U.REGISTER_IP,
+        U.REGISTER_CITY, U.REG_TYPE, U.IS_VALID, U.CREATE_TIME,U.DEFAULT_COM,U.AVATAR_PATH,
+        C.COM_ID,C.WITHIN_COM_ID,C.COM_NAME,C.COM_SHORTNAME,C.INDUSTRY_ID,C.COM_LOGO_PATH,C.IS_VALID as comIsvalid,C.COM_TYPE,C.COM_ATTR,
+        E.IS_ADMIN,E.IS_BOSS
+    from YDZ_USER U,YDZ_COMPANY C,YDZ_COM_EMPLOYEE E
+    WHERE U.DEFAULT_COM = C.COM_KEY
+    AND U.USER_KEY = E.USER_KEY
+    AND U.DEFAULT_COM = E.COM_KEY
+    AND U.USER_ID = #{userId}
+  </select>
+
+
+  <select id="selectUserComByIdandKey" resultMap="UserComMap" parameterType="pd">
+    SELECT
+	    U.UID, 
+	    U.USER_KEY, 
+	    U.USER_ID, 
+	    U.TEL_BAK, 
+	    U.NICK_NAME, 
+	    U.REAL_NAME, 
+	    U.EMAIL, 
+	    U.QQ,
+	    U.BIRTHDAY, 
+	    U.NOW_PROVINCE, 
+	    U.NOW_CITY, 
+	    U.NOW_COUNTRY, 
+	    U.LOCAL_PROVINCE, 
+	    U.LOCAL_CITY, 
+	    U.LOCAL_COUNTRY,
+	    U.BIND_WECHAT, 
+	    U.LOGIN_WECHAT, 
+	    U.BIND_QQ, 
+	    U.BIND_ALIPAY, 
+	    U.LAST_UPDATE_TIME, 
+	    U.REGISTER_IP,
+	    U.REGISTER_CITY, 
+	    U.IS_VALID, 
+	    U.CREATE_TIME,
+	    U.DEFAULT_COM,
+	    U.AVATAR_PATH,
+	    C.COM_ID,
+	    C.WITHIN_COM_ID,
+	    C.COM_NAME,
+	    C.COM_SHORTNAME,
+	    C.INDUSTRY_ID,
+	    C.COM_LOGO_PATH,
+	    C.IS_VALID as comIsvalid,
+	    C.COM_TYPE,
+	    E.IS_ADMIN,
+	    E.IS_BOSS,
+	    C.COM_KEY,
+	    C.COM_ATTR
+    from YDZ_USER U,YDZ_COMPANY C,YDZ_COM_EMPLOYEE E
+    WHERE
+    #{comKey} = C.COM_KEY
+    AND U.USER_KEY = E.USER_KEY
+    AND #{comKey} = E.COM_KEY
+    AND U.USER_ID = #{userId}
+  </select>
+
+
+  <select id="selectByKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_USER where 1=1
+    <if test="userKey != null" >
+        and USER_KEY = #{userKey}
+    </if>
+    <if test="email != null" >
+        and EMAIL = #{email}
+    </if>
+    <if test="userId != null" >
+        and USER_ID = #{userId}
+    </if>
+    <if test="bindWechat != null" >
+        and BIND_WECHAT = #{bindWechat}
+    </if>
+    <if test="loginWechat != null" >
+        and BIND_WECHAT = #{loginWechat}
+    </if>
+    <if test="password != null" >
+      and PASSWORD = #{password}
+    </if>
+    <if test="uid != null" >
+      and UID = #{uid}
+    </if>
+    AND IS_VALID = '1'
+  </select>
+  
+  <select id="selectAuthorByUserId" resultMap="BaseResultMap" parameterType="pd">
+  	select USER_KEY,USER_ID,PASSWORD,SALT from YDZ_USER where IS_VALID = '1' and USER_ID = #{userId}
+  </select>
+  <select id="selectAvatarByUserKey" resultMap="BaseResultMap" parameterType="pd">
+  	select USER_KEY,USER_ID,AVATAR_PATH from YDZ_USER where IS_VALID = '1' and USER_KEY = #{userKey}
+  </select>
+  
+  <select id="selectAuthorByWechat" resultMap="BaseResultMap" parameterType="pd">
+  	select USER_KEY,BIND_WECHAT,DEFAULT_COM 
+  	from YDZ_USER
+  	where IS_VALID = '1' and BIND_WECHAT = #{bindWechat}
+  </select>
+  
+  <select id="selectPromotion" resultType="com.ydz.vo.UserPromoterVO" parameterType="pd">
+  	SELECT
+		u.REAL_NAME realName,
+		u.USER_ID userId,
+		c.COM_KEY comKey,
+		c.COM_NAME comName,
+		c.CREATE_TIME createTime,
+		u.USER_KEY promoterKey,
+		rp.STATUS status,
+		rp.RENTAL_VERSION rentalVersion
+	FROM
+		YDZ_COMPANY c ,
+		YDZ_USER u ,
+		YDZ_RENTAL_PERIOD rp
+	WHERE
+		u.USER_KEY = c.CREATOR
+	AND rp.COM_KEY = c.COM_KEY
+	AND c.COM_TYPE = '1'
+	AND u.PROMOTER_KEY = #{userKey}
+	<if test="paid == 1">
+		AND rp. STATUS = '1'
+		AND rp.RENTAL_VERSION = '01'
+	</if>
+	<if test="paid == 0">
+		AND rp.STATUS = 'T'
+	</if>
+  </select>
+  
+  
+  <delete id="deleteByUserKey" parameterType="pd" >
+    delete from YDZ_USER
+    where USER_KEY = #{userKey}
+  </delete>
+  
+  
+  <insert id="insertUser" parameterType="com.ydz.entity.system.User" keyProperty="uid" >
+    insert into YDZ_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userKey != null" >
+        USER_KEY,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="telBak != null" >
+        TEL_BAK,
+      </if>
+      <if test="nickName != null" >
+        NICK_NAME,
+      </if>
+      <if test="realName != null" >
+        REAL_NAME,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="salt != null" >
+        SALT,
+      </if>
+      <if test="qq != null" >
+        QQ,
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+      <if test="nowProvince != null" >
+        NOW_PROVINCE,
+      </if>
+      <if test="nowCity != null" >
+        NOW_CITY,
+      </if>
+      <if test="nowCountry != null" >
+        NOW_COUNTRY,
+      </if>
+      <if test="localProvince != null" >
+        LOCAL_PROVINCE,
+      </if>
+      <if test="localCity != null" >
+        LOCAL_CITY,
+      </if>
+      <if test="localCountry != null" >
+        LOCAL_COUNTRY,
+      </if>
+      <if test="avatarPath != null" >
+        AVATAR_PATH,
+      </if>
+      <if test="bindWechat != null" >
+        BIND_WECHAT,
+      </if>
+      <if test="loginWechat != null" >
+        LOGIN_WECHAT,
+      </if>
+      <if test="bindQq != null" >
+        BIND_QQ,
+      </if>
+      <if test="bindAlipay != null" >
+        BIND_ALIPAY,
+      </if>
+      <if test="lastUpdateTime != null" >
+        LAST_UPDATE_TIME,
+      </if>
+      <if test="registerIp != null" >
+        REGISTER_IP,
+      </if>
+      <if test="registerCity != null" >
+        REGISTER_CITY,
+      </if>
+      <if test="regType != null" >
+        REG_TYPE,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="defaultCom != null" >
+        DEFAULT_COM,
+      </if>
+      <if test="promoterKey != null" >
+        PROMOTER_KEY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userKey != null" >
+        #{userKey,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="telBak != null" >
+        #{telBak,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="nowProvince != null" >
+        #{nowProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="nowCity != null" >
+        #{nowCity,jdbcType=VARCHAR},
+      </if>
+      <if test="nowCountry != null" >
+        #{nowCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="localProvince != null" >
+        #{localProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="localCity != null" >
+        #{localCity,jdbcType=VARCHAR},
+      </if>
+      <if test="localCountry != null" >
+        #{localCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarPath != null" >
+        #{avatarPath,jdbcType=VARCHAR},
+      </if>
+      <if test="bindWechat != null" >
+        #{bindWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="loginWechat != null" >
+        #{loginWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="bindQq != null" >
+        #{bindQq,jdbcType=VARCHAR},
+      </if>
+      <if test="bindAlipay != null" >
+        #{bindAlipay,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registerIp != null" >
+        #{registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="registerCity != null" >
+        #{registerCity,jdbcType=VARCHAR},
+      </if>
+      <if test="regType != null" >
+        #{regType,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="defaultCom != null" >
+        #{defaultCom,jdbcType=VARCHAR},
+      </if>
+      <if test="promoterKey != null" >
+        #{promoterKey,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByUserKey" parameterType="com.ydz.entity.system.User" >
+    update YDZ_USER
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="telBak != null" >
+        TEL_BAK = #{telBak,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        NICK_NAME = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        REAL_NAME = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        SALT = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        QQ = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="nowProvince != null" >
+        NOW_PROVINCE = #{nowProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="nowCity != null" >
+        NOW_CITY = #{nowCity,jdbcType=VARCHAR},
+      </if>
+      <if test="nowCountry != null" >
+        NOW_COUNTRY = #{nowCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="localProvince != null" >
+        LOCAL_PROVINCE = #{localProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="localCity != null" >
+        LOCAL_CITY = #{localCity,jdbcType=VARCHAR},
+      </if>
+      <if test="localCountry != null" >
+        LOCAL_COUNTRY = #{localCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarPath != null" >
+        AVATAR_PATH = #{avatarPath,jdbcType=VARCHAR},
+      </if>
+      <if test="bindWechat != null" >
+        BIND_WECHAT = #{bindWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="loginWechat != null" >
+        LOGIN_WECHAT = #{loginWechat,jdbcType=VARCHAR},
+      </if>
+      <if test="bindQq != null" >
+        BIND_QQ = #{bindQq,jdbcType=VARCHAR},
+      </if>
+      <if test="bindAlipay != null" >
+        BIND_ALIPAY = #{bindAlipay,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateTime != null" >
+        LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="defaultCom != null" >
+        DEFAULT_COM = #{defaultCom,jdbcType=VARCHAR},
+      </if>
+      <if test="promoterKey != null" >
+         PROMOTER_KEY = #{promoterKey,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_KEY = #{userKey,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="removeBindWechat" parameterType="pd">
+  	update YDZ_USER set BIND_WECHAT = NULL
+  	where USER_KEY = #{userKey}
+  </update>
+  <update id="removeBindQq" parameterType="pd">
+  	update YDZ_USER set BIND_QQ = NULL
+  	where USER_KEY = #{userKey}
+  </update>
+  <update id="removeBindAlipay" parameterType="pd">
+  	update YDZ_USER set BIND_ALIPAY = NULL
+  	where USER_KEY = #{userKey}
+  </update>
+  
+</mapper>

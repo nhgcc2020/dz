@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>报表</title>
+    <link rel="stylesheet" type="text/css" href="../../../resources/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/wechat/css/mui.min.css">
+    <link rel="stylesheet" href="/wechat/css/main.css">
+    <script src="../../resources/jquery/jquery-2.1.3.js"></script>
+    <script src="../../resources/charts/echarts.js"></script>
+    <script type="text/javascript" src="../../../resources/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<style>
+    html {
+        margin: 0 auto;
+        padding: 0 auto;
+        font-size: 15px;
+    }
+    /**{margin:0 auto; padding:0 auto; font-family:"微软雅黑"; }
+    body{margin:0 auto; padding:0 auto;overflow-x:hidden;}
+    img{ border:0;}ul {margin:0; padding:0;}
+    ul li{ list-style:none;}
+    a{ text-decoration: none;}*/
+
+    @media only screen and (min-width: 320px) {
+        html {
+            font-size: 10px !important;
+        }
+    }
+
+    @media only screen and (min-width: 360px) {
+        html {
+            font-size: 11.25px !important;
+        }
+    }
+
+    @media only screen and (min-width: 400px) {
+        html {
+            font-size: 12.5px !important;
+        }
+    }
+
+    @media only screen and (min-width: 480px) {
+        html {
+            font-size: 15px !important;
+        }
+    }
+
+    @media only screen and (min-width: 640px) {
+        html {
+            font-size: 20px !important;
+        }
+    }
+
+    .header {
+        font-size: 1.4rem;
+        width: 50%;
+        margin: 20px auto;
+        color: #ccc;
+        height: 2rem;
+    }
+
+    .header span:nth-child(1) {
+        float: left;
+        padding: 5px;
+    }
+
+    .header span:nth-child(2) {
+        float: right;
+        padding: 5px;
+    }
+
+    .header-active {
+        color: #000;
+        border-bottom: 2px solid #3f87d9;
+    }
+
+    .time {
+        position: relative;
+        background: #f0f0f0;
+        padding: 0.5rem 1rem;
+    }
+
+    .time i {
+        float: right;
+        font-size: 1.8rem;
+    }
+    .monthDate{
+        font-size: 1.2rem;
+    }
+    .monthDat {
+        font-size: 1.2rem;
+        display: none;
+    }
+
+    .order {
+        padding: 1rem;
+        border-bottom: 1px solid #CCC;
+        color: #000;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    .order div {
+        display: inline-block;
+        position: relative;
+    }
+
+    .order_two {
+        float: right;
+        color: #666;
+    }
+
+    .iconfont_one {
+        position: absolute;
+        font-size: 2.4rem;
+        color: #88b9e3;
+        font-weight: normal;
+        border: none;
+        background: transparent;
+        bottom: -0.6rem;
+        padding: 0;
+    }
+
+    .money {
+        position: absolute;
+        color: #ff3200;
+        font-size: 1.8rem;
+        top: 15rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .empty {
+        height: 2rem;
+        background: #f0f0f0;
+    }
+
+    ul li span {
+        display: inline-block;
+        width: 33%;
+    }
+
+    ul li {
+        display: flex;
+        padding: 0.5rem 1rem;
+        border-bottom: .1rem solid #f2f2f3;
+        justify-content: flex-start;
+        font-size: 1.2rem;
+    }
+
+    ul li span:nth-child(1) {
+        color: #666;
+    }
+
+    .titl {
+        padding: 0.5rem 1rem;
+        display: flex;
+        justify-content: flex-start;
+        border-bottom: .1 rem solid #f2f2f3;
+        font-size: 1.2rem;
+    }
+
+    .titl span:nth-child(1) {
+        color: #666;
+    }
+
+    .titl span {
+        display: inline-block;
+        width: 33%;
+    }
+
+    .titl span:nth-child(2) {
+        text-align: center;
+    }
+
+    .titl span:nth-child(3) {
+        text-align: right;
+    }
+
+    .ul_one {
+        text-align: center;
+    }
+
+    .ul_two {
+        text-align: right;
+    }
+
+    .modal_header {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .reminder {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        color: #36a4d7;
+    }
+
+    .chart_parent {
+        margin-top: 2rem;
+    }
+
+    .iconfont_year {
+        display: none;
+        position: absolute;
+        right: 1rem;
+        width: 100px;
+        border: 1px solid #f0f0f0;
+        z-index: 200;
+        border-radius: 0.5rem;
+        background: #f8f8f8;
+        font-size: 1.2rem;
+        /*background-image: url("../image/2.jpg");*/
+        /*background-position: auto auto;*/
+         /*border-image-width: 30px;
+         border-image-slice: 30;*/
+          /*background-color: blue;*/
+         /*border-image-repeat: round;*/
+    }
+
+    .iconfont_year span{
+        display: block;
+        text-align: center;
+        /*background: #fff;*/
+        border-bottom: 1px solid #f0f0f0;
+        color: #666;
+        margin: 5px;
+    }
+
+    .iconfont_year span:last-child {
+        border: none;
+    }
+
+    .iconfont_month {
+        position: absolute;
+        right: 1rem;
+        width: 170px;
+        border: 1px solid #ccc;
+        background: #f8f8f8;
+        z-index: 200;
+        display: none;
+        border-radius: 0.5rem;
+    }
+
+    .iconfont_month span {
+        width: 31%;
+        font-size: 1.2rem;
+        box-sizing: border-box;
+        display: inline-block;
+        padding: 6px;
+        text-align: center;
+        color: #666;
+    }
+    .blank{
+        height: 50px;
+    }
+    .cover{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.2;
+        z-index: 100;
+        background: #000;
+        display: none;
+    }
+</style>
+
+<body>
+    <div class="header">
+        <span class="header-active">按自然年</span><span>按自然月</span>
+    </div>
+    <div class="time">
+        <span class="monthDate">2017年</span>
+        <span class="monthDat"></span>
+        <i class="iconfont">&#xe6a6;</i>
+        <div class="iconfont_year">
+            <span>2017年</span>
+            <span>2018年</span>
+        </div>
+        <div class="iconfont_month">
+            <span>1月</span>
+            <span>2月</span>
+            <span>3月</span>
+            <span>4月</span>
+            <span>5月</span>
+            <span>6月</span>
+            <span>7月</span>
+            <span>8月</span>
+            <span>9月</span>
+            <span>10月</span>
+            <span>11月</span>
+            <span>12月</span>
+        </div>
+    </div>
+    <div class="order">
+        <div><span class="order_one">订单金额年汇总</span><button class="iconfont iconfont_one" data-toggle="modal" data-target="#myModal">&#xe6b8;</button></div>
+        <div class="order_two"><i class="iconfont">&#xe6dd;</i><span>切换笔数</span></div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="margin:auto;margin-top: 15rem;">
+                <div class="modal_header">
+                    <h4>
+                        数据统计
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    订单生成即计入统计<br> 根据订单日期（非制单时间）归入所属月份
+                </div>
+                <div class="modal-footer">
+                    <span class="reminder" data-dismiss="modal">
+                    我知道了
+				</span>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal -->
+    </div>
+    <div class="money"></div>
+    <div class="chart_parent" style="width:100%; overflow: scroll;">
+        <div id="main_one" style="width: 550px;height:230px;margin-left:-3rem;"></div>
+        <div id="main_two" style="width: 1500px;height:230px;margin-left:-10rem;display:none;"></div>
+    </div>
+    <div class="empty"></div>
+    <div class="titl"><span>月份</span><span>笔数</span><span>金额</span></div>
+    <ul>
+    </ul>
+    <nav class="mui-bar mui-bar-tab">
+        <a class="mui-tab-item" href="/wechat/home/index.html">
+				<span class="mui-icon iconfont"><i class="iconfont">&#xe66b;</i></span>
+				<span class="mui-tab-label">工作台</span>
+			</a>
+        <a class="mui-tab-item mui-active" href="/wechat/report/sales-order-report.html">
+				<span class="mui-icon iconfont"><i class="iconfont">&#xe6de;</i></span>
+				<span class="mui-tab-label">报表</span>
+			</a>
+        <a class="mui-tab-item " href="/wechat/home/personal.html">
+				<span class="mui-icon iconfont"><i class="iconfont">&#xe672;</i></span>
+				<span class="mui-tab-label">我</span>
+			</a>
+    </nav>
+    <div class="blank"></div>
+    <div class="cover"></div>
+</body>
+
+</html>
+<script>
+    var month = [];
+    var totalPrice = [];
+    var date;
+    var number = 0;
+    var param = {
+        "year": "2017",
+        "month": ""
+    };
+    var it = 0;
+    var index = 0;
+    var times = new Date();
+    // 遮罩层
+    $(".cover").click(function(){
+        $(this).hide()
+         if (index == 0) {
+            $(".iconfont_year").hide();
+
+        } else {
+            $(".iconfont_month").hide();      
+        }
+    })
+    // 滚动条的滚动
+    $(".chart_parent").animate({ scrollLeft: times.getMonth() * 10 + 'px' }, 800)
+    // 年月选择
+    $(".header>span").click(function () {
+        index = $(this).index();
+        $(this).addClass("header-active").siblings().removeClass("header-active");
+        $(".chart_parent>div").eq(index).show().siblings().hide();
+        if (index == 1) {
+            $(".chart_parent").animate({ scrollLeft: times.getMonth() * 120 }, 1000)
+            $(".monthDat").text((times.getMonth()+1)+"月")
+            number = 0;
+            month = [];
+            totalPrice = [];
+            if(times.getMonth()<9){
+                 param = {
+                "year": parseInt($(".monthDate").text()),
+                "month":"0"+ parseInt($(".monthDat").text()) };
+            }else{
+                 param = {
+                "year": parseInt($(".monthDate").text()),
+                "month":parseInt($(".monthDat").text()) };
+            }
+            $(".titl span").eq(0).text("日期");
+            a(param);
+            $(".monthDat").show()
+        } else {
+            $(".chart_parent").animate({ scrollLeft: times.getMonth() * 10 + 'px' }, 800)
+            $(".monthDat").hide()
+            number = 0;
+            month = [];
+            totalPrice = [];
+            param = {
+                "year": parseInt($(".monthDate").eq(0).text()),
+                "month": ""
+            };
+            $(".titl span").eq(0).text("月份")
+            a(param);
+        }
+    })
+    // select选择
+    $(".time>i").click(function () {
+        $(".cover").show();
+        if (index == 0) {
+            $(".iconfont_year").fadeIn();
+
+        } else {
+            $(".iconfont_month").fadeIn();      
+        }
+    })
+    $(function(){
+                $(".iconfont_year").on("click","span",function () {
+                $(".cover").hide();
+                $(".monthDate").text($(this).text());
+                $(".iconfont_year").hide();
+                number = 0;
+                month = [];
+                totalPrice = [];
+                param = {
+                    "year": parseInt($(".monthDate").text()),
+                    "month": ""
+                };
+                a(param);
+            })
+
+    })
+     $(function(){
+                $(".iconfont_month").on("click","span",function () {
+                $(".cover").hide();
+                $(".monthDat").text($(this).text())
+                $(".iconfont_month").hide();
+                number = 0;
+                month = [];
+                totalPrice = [];
+               if($(this).index()<9){
+                 param = {
+                "year": parseInt($(".monthDate").text()),
+                "month":"0"+ parseInt($(".monthDat").text()) };
+            }else{
+                 param = {
+                "year": parseInt($(".monthDate").text()),
+                "month":parseInt($(".monthDat").text()) };
+            }
+                a(param);
+                console.log(parseInt($(".monthDat").text()))
+            })
+
+    })
+    //  切换笔数 切换金额
+    $(".order_two>span").click(function () {
+        if ($(this).text() == "切换笔数") {
+            $(".order_one").text("订单笔数年汇总")
+            $(this).text("切换金额")
+            totalPrice = [];
+            number = 0;
+            $.each(date.rows, function (i, n) {
+                totalPrice.push(n.orderNum)
+                number = number + parseInt(n.orderNum);
+                $(".money").text(number)
+            })
+            load(index)
+        } else {
+            $(".order_one").text("订单金额年汇总")
+            $(this).text("切换笔数")
+            totalPrice = [];
+            number = 0;
+            $.each(date.rows, function (i, n) {
+                totalPrice.push(n.totalPrice)
+                number = number + parseFloat(n.totalPrice);
+                $(".money").text(number.toFixed(2));
+            })
+            load(index);
+        }
+    })
+    //  请求发送
+    a(param);
+    function a(param) {
+        $("ul").empty()
+        $.post("/wx/reportcharts/salestrend", param)
+            .then(function (data) {
+                date = $.parseJSON(data)
+                if (date.total < 13) {
+                    for (i = 1; i < date.total + 1; i++) {
+                        month.push(i + "月")
+                    }
+                } else {
+                    for (i = 1; i < date.total + 1; i++) {
+                        month.push(i + "号")
+                    }
+                }
+                $.each(date.rows, function (i, n) {
+                    if (date.total < 13) {
+                        $("ul").append("<li><span>" + (i + 1) + "月</span><span class='ul_one'>" + n.orderNum + "笔</span><span class='ul_two'>" + n.totalPrice + "</span></li>")
+                    } else {
+                        $("ul").append("<li><span>" + (i + 1) + "号</span><span class='ul_one'>" + n.orderNum + "笔</span><span class='ul_two'>" + n.totalPrice + "</span></li>")
+                    }
+                    totalPrice.push(n.totalPrice)
+                    number = number + parseFloat(n.totalPrice);
+                    $(".money").text(number.toFixed(2))
+                })
+                load(index);
+                console.log(date.rows)
+            })
+    }
+    // 图表的引用
+    function load(index) {
+        if (index == 0) {
+            var myChart = echarts.init(document.getElementById('main_one'));
+        } else {
+            var myChart = echarts.init(document.getElementById('main_two'));
+        }
+        // 指定图表的配置项和数据
+        option = {
+
+            tooltip: {
+                trigger: 'item',
+                // formatter: '{a} <br/>{b} : {c}'
+                //   axis:{ axisLine:{show:false}}
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: month,
+                splitLine: { show: false },
+                axisTick: { show: false },
+                axisLine: {show: true, lineStyle: {color: '#CCC' } }
+
+            },
+            yAxis: {
+                splitLine: { show: false },
+                axisTick: { show: false },
+                axisLine: { show: false },
+                axisLabel: { show: false }
+            },
+            series: [
+                {
+                    name: "数值",
+                    type: 'line',
+                    smooth:true,
+                    symbolSize:"8",
+                    data: totalPrice,
+                    itemStyle: { normal: { width:"20px",height:"20px", label: { show: true } } },
+                    // , lineStyle: { color: '#fff' }
+                },
+
+            ]
+        };
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+</script>

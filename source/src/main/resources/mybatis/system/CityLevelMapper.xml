@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.CityLevelMapper" >
+
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.CityLevel">
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="CITY_LEVEL" property="cityLevel" jdbcType="CHAR" />
+    <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+    <result column="CITY_NAME" property="cityName" jdbcType="VARCHAR" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, CITY_LEVEL, CITY_ID, CITY_NAME, PROVINCE_ID, IS_VALID, REMARKS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_CITY_LEVEL
+    where IS_VALID = '1' and CITY_ID = #{cityId}
+    <if test="provinceId != null">
+      AND 	PROVINCE_ID = #{provinceId}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_CITY_LEVEL
+    where CITY_ID = #{cityId}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.system.CityLevel" >
+    insert into YDZ_CITY_LEVEL (UID, CITY_LEVEL, CITY_ID, 
+      CITY_NAME, PROVINCE_ID, IS_VALID, 
+      REMARKS)
+    values (#{uid,jdbcType=BIGINT}, #{cityLevel,jdbcType=CHAR}, #{cityId,jdbcType=VARCHAR}, 
+      #{cityName,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, #{isValid,jdbcType=CHAR}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.CityLevel" >
+    insert into YDZ_CITY_LEVEL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="cityLevel != null" >
+        CITY_LEVEL,
+      </if>
+      <if test="cityId != null" >
+        CITY_ID,
+      </if>
+      <if test="cityName != null" >
+        CITY_NAME,
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="cityLevel != null" >
+        #{cityLevel,jdbcType=CHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.CityLevel" >
+    update YDZ_CITY_LEVEL
+    <set >
+      <if test="cityLevel != null" >
+        CITY_LEVEL = #{cityLevel,jdbcType=CHAR},
+      </if>
+      <if test="cityId != null" >
+        CITY_ID = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        CITY_NAME = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CITY_ID = #{cityId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.CityLevel" >
+    update YDZ_CITY_LEVEL
+    set CITY_LEVEL = #{cityLevel,jdbcType=CHAR},
+      CITY_ID = #{cityId,jdbcType=VARCHAR},
+      CITY_NAME = #{cityName,jdbcType=VARCHAR},
+      PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where CITY_ID = #{cityId}
+  </update>
+</mapper>

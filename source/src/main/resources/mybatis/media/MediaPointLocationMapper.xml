@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.media.MediaPointLocationMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.media.MediaPointLocation" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" jdbcType="VARCHAR" property="comKey" />
+    <result column="INDUSTRY_ID" jdbcType="VARCHAR" property="industryId" />
+    <result column="MEDIA_NO" property="mediaNo" jdbcType="VARCHAR" />
+    <result column="ITEM_NO" property="itemNo" jdbcType="TINYINT" />
+    <result column="POINT_NO" property="pointNo" jdbcType="VARCHAR" />
+    <result column="POINT_NAME" property="pointName" jdbcType="VARCHAR" />
+    <result column="POINT_CODE" property="pointCode" jdbcType="VARCHAR" />
+    <result column="BELONGS_TYPE" property="belongsType" jdbcType="CHAR" />
+    <result column="POINT_PROVINCE" property="pointProvince" jdbcType="VARCHAR" />
+    <result column="POINT_CITY" property="pointCity" jdbcType="VARCHAR" />
+    <result column="POINT_COUNTRY" property="pointCountry" jdbcType="VARCHAR" />
+    <result column="POINT_LOCATION" property="pointLocation" jdbcType="VARCHAR" />
+    <result column="PLACE" property="place" jdbcType="VARCHAR" />
+    <result column="SPECIFICATION" property="specification" jdbcType="VARCHAR" />
+    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="PRICE_WAY" property="priceWay" jdbcType="CHAR" />
+    <result column="ENVIRONMENT" property="environment" jdbcType="VARCHAR" />
+    <result column="PRICE_SCHEME" property="priceScheme" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, COM_KEY, INDUSTRY_ID, MEDIA_NO, ITEM_NO, POINT_NO, POINT_NAME, POINT_CODE, BELONGS_TYPE, POINT_PROVINCE, POINT_CITY, 
+    POINT_COUNTRY, POINT_LOCATION, PLACE, SPECIFICATION, UNIT_PRICE, PRICE_WAY, ENVIRONMENT, 
+    PRICE_SCHEME, STATUS, IS_DEL, REMARKS, CREATE_TIME, CREATOR
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_media_point_location
+    where is_del = '0' 
+    and com_key = #{comKey} 
+    and media_no = #{mediaNo}
+    <if test="industryId != null">
+    	and industry_id = #{industryId}
+    </if>
+    <if test="pointNo != null">
+    	and point_no = #{pointNo}
+    </if>
+    <if test="pointName != null">
+    	and point_name like '%${pointName}%'
+    </if>
+    <if test="pointCode != null">
+    	and point_code = #{pointCode}
+    </if>
+    <if test="pointProvince != null">
+    	and point_province = #{pointProvince}
+    </if>
+    <if test="pointCity != null">
+    	and point_city = #{pointCity}
+    </if>
+    <if test="pointCountry != null">
+    	and point_country = #{pointCountry}
+    </if>
+  </select>
+  
+  <select id="listPageMediaPointLocations" resultType="com.ydz.entity.media.MediaPointLocation" parameterType="page">
+  	select 
+    <include refid="Base_Column_List" />
+    from ydz_media_point_location
+    where is_del = '0'
+    and com_key = #{pd.comKey} 
+    and media_no = #{pd.mediaNo}
+    <if test="pd.industryId != null">
+    	and industry_id = #{pd.industryId}
+    </if>
+    <if test="pd.pointNo != null">
+    	and point_no = #{pd.pointNo}
+    </if>
+    <if test="pd.status != null">
+    	and status = #{pd.status}
+    </if>
+    <if test="pd.belongsType != null">
+    	and belongs_type = #{pd.belongsType}
+    </if>
+    <if test="pd.pointName != null">
+    	and point_name like '%${pd.pointName}%'
+    </if>
+    <if test="pd.pointCode != null">
+    	and point_code = #{pd.pointCode}
+    </if>
+    <if test="pd.pointProvince != null">
+    	and point_province = #{pd.pointProvince}
+    </if>
+    <if test="pd.pointCity != null">
+    	and point_city = #{pd.pointCity}
+    </if>
+    <if test="pd.pointCountry != null">
+    	and point_country = #{pd.pointCountry}
+    </if>
+    order by uid asc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from ydz_media_point_location
+    where media_no = #{mediaNo}
+    <if test="comKey != null">
+    	and com_key = #{comKey}
+    </if>
+    <if test="pointNo != null">
+    	and point_no = #{pointNo}
+    </if>
+    <if test="pointCode != null">
+    	and point_code = #{pointCode}
+    </if>
+  </delete>
+  <insert id="insertList" parameterType="java.util.List" >
+    insert into ydz_media_point_location (
+      COM_KEY, INDUSTRY_ID, MEDIA_NO, 
+      POINT_NO, POINT_NAME, POINT_CODE, BELONGS_TYPE, 
+      POINT_PROVINCE, POINT_CITY, POINT_COUNTRY, 
+      POINT_LOCATION, PLACE, SPECIFICATION, 
+      UNIT_PRICE, PRICE_WAY, ENVIRONMENT, 
+      PRICE_SCHEME, STATUS, IS_DEL, 
+      REMARKS, CREATE_TIME, CREATOR
+      ) values 
+      <foreach collection="list" item="item" index="index"  
+        separator=",">  
+		    (#{item.comKey,jdbcType=VARCHAR}, #{item.industryId,jdbcType=VARCHAR}, #{item.mediaNo,jdbcType=VARCHAR}, 
+		      #{item.pointNo,jdbcType=VARCHAR}, #{item.pointName,jdbcType=VARCHAR}, #{item.pointCode,jdbcType=VARCHAR}, #{item.belongsType,jdbcType=CHAR}, 
+		      #{item.pointProvince,jdbcType=VARCHAR}, #{item.pointCity,jdbcType=VARCHAR}, #{item.pointCountry,jdbcType=VARCHAR}, 
+		      #{item.pointLocation,jdbcType=VARCHAR}, #{item.place,jdbcType=VARCHAR}, #{item.specification,jdbcType=VARCHAR}, 
+		      #{item.unitPrice,jdbcType=DECIMAL}, #{item.priceWay,jdbcType=CHAR}, #{item.environment,jdbcType=VARCHAR}, 
+		      #{item.priceScheme,jdbcType=VARCHAR}, #{item.status,jdbcType=CHAR}, #{item.isDel,jdbcType=CHAR}, 
+		      #{item.remarks,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.creator,jdbcType=VARCHAR}
+		      )
+	</foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.media.MediaPointLocation" >
+    insert into ydz_media_point_location
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="mediaNo != null" >
+        MEDIA_NO,
+      </if>
+      <if test="itemNo != null" >
+        ITEM_NO,
+      </if>
+      <if test="pointNo != null" >
+        POINT_NO,
+      </if>
+      <if test="pointName != null" >
+        POINT_NAME,
+      </if>
+      <if test="pointCode != null" >
+        POINT_CODE,
+      </if>
+      <if test="belongsType != null" >
+        BELONGS_TYPE,
+      </if>
+      <if test="pointProvince != null" >
+        POINT_PROVINCE,
+      </if>
+      <if test="pointCity != null" >
+        POINT_CITY,
+      </if>
+      <if test="pointCountry != null" >
+        POINT_COUNTRY,
+      </if>
+      <if test="pointLocation != null" >
+        POINT_LOCATION,
+      </if>
+      <if test="place != null" >
+        PLACE,
+      </if>
+      <if test="specification != null" >
+        SPECIFICATION,
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE,
+      </if>
+      <if test="priceWay != null" >
+        PRICE_WAY,
+      </if>
+      <if test="environment != null" >
+        ENVIRONMENT,
+      </if>
+      <if test="priceScheme != null" >
+        PRICE_SCHEME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaNo != null" >
+        #{mediaNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null" >
+        #{itemNo,jdbcType=TINYINT},
+      </if>
+      <if test="pointNo != null" >
+        #{pointNo,jdbcType=VARCHAR},
+      </if>
+      <if test="pointName != null" >
+        #{pointName,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCode != null" >
+        #{pointCode,jdbcType=VARCHAR},
+      </if>
+      <if test="belongsType != null" >
+        #{belongsType,jdbcType=CHAR},
+      </if>
+      <if test="pointProvince != null" >
+        #{pointProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCity != null" >
+        #{pointCity,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCountry != null" >
+        #{pointCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="pointLocation != null" >
+        #{pointLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null" >
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null" >
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="priceWay != null" >
+        #{priceWay,jdbcType=CHAR},
+      </if>
+      <if test="environment != null" >
+        #{environment,jdbcType=VARCHAR},
+      </if>
+      <if test="priceScheme != null" >
+        #{priceScheme,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.media.MediaPointLocation" >
+    update ydz_media_point_location
+    <set >
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaNo != null" >
+        MEDIA_NO = #{mediaNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNo != null" >
+        ITEM_NO = #{itemNo,jdbcType=TINYINT},
+      </if>
+      <if test="pointNo != null" >
+        POINT_NO = #{pointNo,jdbcType=VARCHAR},
+      </if>
+      <if test="pointName != null" >
+        POINT_NAME = #{pointName,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCode != null" >
+        POINT_CODE = #{pointCode,jdbcType=VARCHAR},
+      </if>
+      <if test="belongsType != null" >
+        BELONGS_TYPE = #{belongsType,jdbcType=CHAR},
+      </if>
+      <if test="pointProvince != null" >
+        POINT_PROVINCE = #{pointProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCity != null" >
+        POINT_CITY = #{pointCity,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCountry != null" >
+        POINT_COUNTRY = #{pointCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="pointLocation != null" >
+        POINT_LOCATION = #{pointLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null" >
+        PLACE = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null" >
+        SPECIFICATION = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="priceWay != null" >
+        PRICE_WAY = #{priceWay,jdbcType=CHAR},
+      </if>
+      <if test="environment != null" >
+        ENVIRONMENT = #{environment,jdbcType=VARCHAR},
+      </if>
+      <if test="priceScheme != null" >
+        PRICE_SCHEME = #{priceScheme,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where media_no = #{mediaNo}
+    <if test="pointNo != null">
+    	and point_no = #{pointNo}
+    </if>
+  </update>
+  <update id="updateStatusByPrimaryKey" parameterType="com.ydz.entity.media.MediaPointLocation" >
+    update ydz_media_point_location
+    set 
+      STATUS = #{status,jdbcType=CHAR}
+     where media_no = #{mediaNo} and point_no = #{pointNo}
+  </update>
+</mapper>

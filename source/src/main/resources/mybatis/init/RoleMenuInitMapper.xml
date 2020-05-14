@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.common.RoleMenuInitMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.init.RoleMenuInit" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="ROLE_KEY" property="roleKey" jdbcType="VARCHAR" />
+    <result column="MENU_ID" property="menuId" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="RENTAL_VERSION" property="rentalVersion" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, ROLE_KEY, MENU_ID, INDUSTRY_ID, RENTAL_VERSION, CREATE_TIME
+  </sql>
+  <select id="selectListByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_ROLE_MENU_INIT
+    where 1=1
+    <if test=" roleKey != null">
+    	and ROLE_KEY = #{roleKey}
+    </if>
+    <if test=" menuId != null">
+    	and MENU_ID = #{menuId}
+    </if>
+    <if test=" industryId!= null">
+    	and INDUSTRY_ID = #{industryId}
+    </if>
+    <if test=" rentalVersion != null">
+    	and RENTAL_VERSION = #{rentalVersion}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_ROLE_MENU_INIT
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.init.RoleMenuInit" >
+    insert into YDZ_ROLE_MENU_INIT (UID, ROLE_KEY, MENU_ID, 
+      INDUSTRY_ID, RENTAL_VERSION, CREATE_TIME
+      )
+    values (#{uid,jdbcType=BIGINT}, #{roleKey,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR}, 
+      #{industryId,jdbcType=VARCHAR}, #{rentalVersion,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.init.RoleMenuInit" >
+    insert into YDZ_ROLE_MENU_INIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="roleKey != null" >
+        ROLE_KEY,
+      </if>
+      <if test="menuId != null" >
+        MENU_ID,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="rentalVersion != null" >
+        RENTAL_VERSION,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="roleKey != null" >
+        #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="rentalVersion != null" >
+        #{rentalVersion,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.init.RoleMenuInit" >
+    update YDZ_ROLE_MENU_INIT
+    <set >
+      <if test="roleKey != null" >
+        ROLE_KEY = #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        MENU_ID = #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="rentalVersion != null" >
+        RENTAL_VERSION = #{rentalVersion,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.init.RoleMenuInit" >
+    update YDZ_ROLE_MENU_INIT
+    set ROLE_KEY = #{roleKey,jdbcType=VARCHAR},
+      MENU_ID = #{menuId,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      RENTAL_VERSION = #{rentalVersion,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

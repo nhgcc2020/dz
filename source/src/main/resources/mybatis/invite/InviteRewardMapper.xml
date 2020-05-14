@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.invite.InviteRewardMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.invite.InviteReward" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="USER_KEY" property="userKey" jdbcType="VARCHAR" />
+    <result column="INVITE_DATE" property="inviteDate" jdbcType="TIMESTAMP" />
+    <result column="INVITED_COM_KEY" property="invitedComKey" jdbcType="VARCHAR" />
+    <result column="REGISTER_TIME" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="PAYED_TIME" property="payedTime" jdbcType="TIMESTAMP" />
+    <result column="INTERVAL_DAYS" property="intervalDays" jdbcType="INTEGER" />
+    <result column="REWARD_MONEY" property="rewardMoney" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, USER_KEY, INVITE_DATE, INVITED_COM_KEY, REGISTER_TIME, PAYED_TIME, INTERVAL_DAYS, REWARD_MONEY, 
+    STATUS, IS_VALID, CREATE_TIME
+  </sql>
+  <sql id="Base_Column_List_Copy" >
+    R.UID, R.USER_KEY, R.INVITE_DATE, R.INVITED_COM_KEY, R.REGISTER_TIME, R.PAYED_TIME, R.INTERVAL_DAYS, R.REWARD_MONEY,
+    R.STATUS, R.IS_VALID, R.CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_INVITE_REWARD
+    where UID = #{uid,jdbcType=BIGINT}
+  </select>
+  <select id="listPageInviteReward" resultMap="BaseResultMap" parameterType="page" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_INVITE_REWARD
+  </select>
+
+  <select id="getListByKey" resultMap="BaseResultMap" parameterType="pd" >
+    select
+    <include refid="Base_Column_List_Copy" />,
+    C.COM_NAME AS comName,
+    U.USER_ID AS userId,
+    U.REAL_NAME AS realName
+    from YDZ_INVITE_REWARD R,YDZ_COMPANY C, YDZ_USER U
+    where
+    R.USER_KEY =  #{userKey}
+    AND R.INVITED_COM_KEY = C.COM_KEY
+    AND C.CREATOR = U.USER_KEY
+  </select>
+
+  <select id="getSumReward" resultType="java.math.BigDecimal" parameterType="pd" >
+    select sum(REWARD_MONEY)
+    from YDZ_INVITE_REWARD
+    where USER_KEY =  #{userKey}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_INVITE_REWARD
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.invite.InviteReward" >
+    insert into YDZ_INVITE_REWARD (UID, USER_KEY, INVITE_DATE, 
+      INVITED_COM_KEY, REGISTER_TIME, PAYED_TIME, INTERVAL_DAYS,
+      REWARD_MONEY, STATUS, IS_VALID, 
+      CREATE_TIME)
+    values (#{uid,jdbcType=BIGINT}, #{userKey,jdbcType=VARCHAR}, #{inviteDate,jdbcType=TIMESTAMP}, 
+      #{invitedComKey,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, #{payedTime,jdbcType=TIMESTAMP}, #{intervalDays,jdbcType=INTEGER}, 
+      #{rewardMoney,jdbcType=DECIMAL}, #{status,jdbcType=CHAR}, #{isValid,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.invite.InviteReward" >
+    insert into YDZ_INVITE_REWARD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="userKey != null" >
+        USER_KEY,
+      </if>
+      <if test="inviteDate != null" >
+        INVITE_DATE,
+      </if>
+      <if test="invitedComKey != null" >
+        INVITED_COM_KEY,
+      </if>
+      <if test="registerTime != null" >
+        REGISTER_TIME,
+      </if>
+      <if test="payedTime != null" >
+        PAYED_TIME,
+      </if>
+      <if test="intervalDays != null" >
+        INTERVAL_DAYS,
+      </if>
+      <if test="rewardMoney != null" >
+        REWARD_MONEY,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="userKey != null" >
+        #{userKey,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteDate != null" >
+        #{inviteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invitedComKey != null" >
+        #{invitedComKey,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payedTime != null" >
+        #{payedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="intervalDays != null" >
+        #{intervalDays,jdbcType=INTEGER},
+      </if>
+      <if test="rewardMoney != null" >
+        #{rewardMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.invite.InviteReward" >
+    update YDZ_INVITE_REWARD
+    <set >
+      <if test="userKey != null" >
+        USER_KEY = #{userKey,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteDate != null" >
+        INVITE_DATE = #{inviteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invitedComKey != null" >
+        INVITED_COM_KEY = #{invitedComKey,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        REGISTER_TIME = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payedTime != null" >
+        PAYED_TIME = #{payedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="intervalDays != null" >
+        INTERVAL_DAYS = #{intervalDays,jdbcType=INTEGER},
+      </if>
+      <if test="rewardMoney != null" >
+        REWARD_MONEY = #{rewardMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.invite.InviteReward" >
+    update YDZ_INVITE_REWARD
+    set USER_KEY = #{userKey,jdbcType=VARCHAR},
+      INVITE_DATE = #{inviteDate,jdbcType=TIMESTAMP},
+      INVITED_COM_KEY = #{invitedComKey,jdbcType=VARCHAR},
+      REGISTER_TIME = #{registerTime,jdbcType=TIMESTAMP},
+      PAYED_TIME = #{payedTime,jdbcType=TIMESTAMP},
+      INTERVAL_DAYS = #{intervalDays,jdbcType=INTEGER},
+      REWARD_MONEY = #{rewardMoney,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=CHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

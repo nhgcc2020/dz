@@ -1,0 +1,352 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>创建生意伙伴</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+    <link href="/wechat/css/main.css" rel="stylesheet"/>
+    <link href="/wechat/css/model.css" rel="stylesheet"/>
+    <script src="/common/growingio.js"></script>
+    <style>
+        .save_friend, .save_friend1 {
+            border-radius: 3px;
+            width: 100%;
+            height: 34px;
+        }
+
+        .save_friend1{
+            margin-bottom: 30px;
+        }
+        .save_friend_per,.save_friend_com{
+            width:90%;
+            margin: 20px 5% 40px;
+            float: left;
+            background: #2e8ae6;
+            color: #fff;
+            border-radius: 20px;
+        }
+        .save_friend1_per,.save_friend1_com{
+            width:90%;
+            margin: 20px 5% 40px;
+            float: right;
+            color: #999;
+            border-radius: 20px;
+        }
+        .tips_contants{
+            bottom: 30px !important;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<div class="mui-content">
+    <div class="user_file user_file_back">
+        <ul>
+            <li class="active">企业</li>
+            <li>个人</li>
+        </ul>
+    </div>
+
+    <ul class="add_friend">
+        <li class="active">
+            <form class="mui-input-group">
+                <p><i></i>企业全称</p>
+                <div class="mui-input-row">
+                    <input type="text" class="mui-input-clear" id="partnerName" onblur="copyPartnerName()" placeholder="请输入20字以内的企业名称">
+                </div>
+                <p><i></i>企业简称</p>
+                <div class="mui-input-row">
+                    <input type="text" class="mui-input-clear" id="partnerShortname" onblur="getZJM()" placeholder="请输入8字以内的企业简称">
+                </div>
+                <p>真实姓名</p>
+                <div class="mui-input-row">
+                    <input type="text" class="mui-input-clear" id="contacterName11" placeholder="请输入伙伴姓名">
+                </div>
+                <p>手机号码</p>
+                <div class="mui-input-row">
+                    <input type="text" class="mui-input-clear" id="tel11" onchange="addQuery(this)" placeholder="请输入联系电话">
+                </div>
+                <p>助记代码</p>
+                <div class="mui-input-row">
+                    <input type="text" class="mui-input-clear" id="mnemonicCode" placeholder=" 请填写便于记忆的助记代码，便于查找客户订单">
+                </div>
+                <p>价格级别</p>
+                <p class="mui-radio mui-left">
+                    <label for="jibie1">优惠价</label>
+                    <input name="partnerLevel" type="radio" value="1"  id="jibie1">
+                </p>
+                <p class="mui-radio mui-left">
+                    <label for="jibie2">标准价</label>
+                    <input name="partnerLevel" type="radio" value="2" checked id="jibie2">
+                </p>
+                <p class="mui-radio mui-left">
+                    <label for="jibie3">零散价</label>
+                    <input name="partnerLevel" type="radio" value="3" id="jibie3">
+                </p>
+                <button type="button" class="save_friend_com" onclick="create_partner_com(1)">创建伙伴</button>
+                <!--<button type="button" class="save_friend1_com" onclick="create_partner_com(2)">创建并发送邀请短信</button>-->
+            </form>
+        </li>
+        <li>
+            <form class="mui-input-group">
+                <p><i></i>真实姓名</p>
+                <div class="mui-input-row">
+                    <input type="text" class="mui-input-clear" id="contacterName11_per" onblur="getZJM2()" placeholder="请输入伙伴姓名">
+                </div>
+                <p><i></i>手机号码</p>
+                <div class="mui-input-row">
+                    <input type="text" class="mui-input-clear" id="tel11_per" onchange="addQuery2(this)"
+                           placeholder="请输入联系电话">
+                </div>
+                <p>助记代码</p>
+                <div class="mui-input-row">
+                    <input type="text" class="mui-input-clear" id="mnemonicCode_per" placeholder="请填写便于记忆的助记代码，便于查找客户订单">
+                </div>
+                <p>价格级别</p>
+                <p class="mui-radio mui-left">
+                    <label for="jibie4">优惠价</label>
+                    <input name="partnerLevel_per" type="radio" value="1"  id="jibie4">
+                </p>
+                <p class="mui-radio mui-left">
+                    <label for="jibie5">标准价</label>
+                    <input name="partnerLevel_per" type="radio" value="2" checked id="jibie5">
+                </p>
+                <p class="mui-radio mui-left">
+                    <label for="jibie6">零散价</label>
+                    <input name="partnerLevel_per" type="radio" value="3" id="jibie6">
+                </p>
+                <button type="button" class="save_friend_per" onclick="create_partner_per(1)">创建伙伴</button>
+                <!--<button type="button" class="save_friend1_per" onclick="create_partner_per(2)">创建并发送邀请短信</button>-->
+            </form>
+        </li>
+    </ul>
+</div>
+
+<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+<script src="/wechat/js/main.js"></script>
+<script src="/wechat/js/mui.min.js"></script>
+<script type="text/javascript">
+    var comFalg = false;
+    var comFalgCom = false;
+    function clean() {
+        //企业
+        $("#partnerName").val("");
+        $("#partnerShortname").val("");
+        $("#contacterName11").val("");
+        $("#tel11").val("");
+        $("#mnemonicCode").val("");
+        //个人
+        $("#contacterName11_per").val("");
+        $("#tel11_per").val("");
+        $("#mnemonicCode_per").val("");
+    }
+    $(function () {
+        $('.user_file li').click(function () {
+            index = $(this).index();
+            $(this).addClass('active').siblings().removeClass('active');
+            $('.add_friend li').eq(index).addClass('active').siblings().removeClass('active')  //点击隐藏或者显示
+            clean();
+            //$('.add_friend li input').val("");
+        })
+    })
+
+    //创建公司合作伙伴
+    function create_partner_com(num) {
+
+        var sendMsg = false;
+        if (num == "2") {
+            sendMsg = true;
+        }
+
+        var partnerName = $("#partnerName").val();
+        var partnerShortname = $("#partnerShortname").val();
+        var contacterName11 = $("#contacterName11").val();
+        var tel11 = $("#tel11").val();
+        var mnemonicCode = $("#mnemonicCode").val();
+
+
+        var partnerLevel = $("input[name='partnerLevel']:checked").val();
+        if (partnerName == undefined || $.trim(partnerName) == "") {
+            $("<div class='error_tips'>").fadeIn(250).html("请填写企业全称").delay(2000).fadeOut(250).appendTo(".mui-content");
+            return false;
+        }
+        if (partnerShortname == undefined || $.trim(partnerShortname) == "") {
+            $("<div class='error_tips'>").fadeIn(250).html("请填写企业简称").delay(2000).fadeOut(250).appendTo(".mui-content");
+            return false;
+        }
+        if(!addQuery()){
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/wx/partner/savePartnerWithout",
+            data: {
+                partnerName: partnerName,
+                partnerShortname: partnerShortname,
+                contacterName11: contacterName11,
+                tel11: tel11,
+                mnemonicCode: mnemonicCode,
+                partnerLevel: partnerLevel,
+                sendMsg: sendMsg,
+                partnerAttr: 1
+
+            },
+            async: false,
+            dataType: "json",
+            success: function (data) {
+                if(data.status == "1"){
+                    $("<div class='error_tips'>").fadeIn(250).html(data.msg).delay(2000).fadeOut(250).appendTo(".mui-content");
+                    clean();
+                    setTimeout(function(){
+                        window.location.href="/wechat/member/partner-creat-success.html";
+                    },1000);
+                }else{
+                    $("<div class='error_tips'>").fadeIn(250).html(data.msg).delay(2000).fadeOut(250).appendTo(".mui-content");
+                }
+            }
+        })
+
+
+    }
+
+    //创建个人合作伙伴
+    function create_partner_per(num) {
+
+        var sendMsg = false;
+        if (num == "2") {
+            sendMsg = true;
+        }
+
+
+
+        var contacterName11_per = $("#contacterName11_per").val();
+        var tel11_per = $("#tel11_per").val();
+        var mnemonicCode_per = $("#mnemonicCode_per").val();
+        var partnerLevel_per = $("input[name='partnerLevel_per']:checked").val();
+
+        if (contacterName11_per == undefined || $.trim(contacterName11_per) == "") {
+            $("<div class='error_tips'>").fadeIn(250).html("请填写真实姓名").delay(2000).fadeOut(250).appendTo(".mui-content");
+            return false;
+        }
+        if(!comFalg){
+            if($(".mui-content").find(".error_tips:visible").length ==0){
+                $("<div class='error_tips'>").fadeIn(250).html("手机号码校验不通过").delay(2000).fadeOut(250).appendTo(".mui-content");
+            }
+
+            return false;
+        }
+
+
+        $.ajax({
+            type: "POST",
+            url: "/wx/partner/savePartnerWithout",
+            data: {
+                contacterName11: contacterName11_per,
+                tel11: tel11_per,
+                mnemonicCode: mnemonicCode_per,
+                partnerLevel: partnerLevel_per,
+                sendMsg: sendMsg,
+                partnerAttr: 2
+            },
+            async: false,
+            dataType: "json",
+            success: function (data) {
+                if(data.status == "1"){
+                    $("<div class='error_tips'>").fadeIn(250).html(data.msg).delay(2000).fadeOut(250).appendTo(".mui-content");
+                    clean();
+                    setTimeout(function(){
+                        window.location.href="/wechat/member/partner-creat-success.html";
+                    },1000);
+                }else{
+                    $("<div class='error_tips'>").fadeIn(250).html(data.msg).delay(2000).fadeOut(250).appendTo(".mui-content");
+                }
+            }
+        })
+    }
+
+    //个人搜索
+    function addQuery2(ipt) {
+        var keyword = $("#tel11_per").val();
+        //var phone = partner.get("phone");
+        if (!(/^1[34578]\d{9}$/.test(keyword))) {
+            $("<div class='error_tips'>").fadeIn(250).html("手机号码有误，请重填").delay(2000).fadeOut(250).appendTo('.mui-content');
+            comFalg = false;
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/wx/partner/isRegistered",
+            data: {phone: keyword},
+            async:false,
+            dataType: "json",
+            success:function(data){
+                if (data) {
+                    $("<div class='error_tips'>").fadeIn(250).html("该手机用户已使用易对账，通过申请好友去加他吧").delay(2000).fadeOut(250).appendTo('.mui-content');
+                    //model.set("partner.tel11","");
+                    comFalg = false;
+                }else{
+                    comFalg = true;
+                }
+            }
+        });
+    }
+
+    //企业搜索
+    function addQuery(ipt) {
+        var keyword = $("#tel11").val();
+        if(keyword == undefined || keyword == ""){
+            comFalgCom =true;
+            return true;
+        }
+        if (!(/^1[34578]\d{9}$/.test(keyword))) {
+            $("<div class='error_tips'>").fadeIn(250).html("手机号码有误，请重填").delay(100).fadeOut(250).appendTo('.mui-content');
+            comFalgCom = false;
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/wx/partner/isRegistered",
+            data: {phone: keyword},
+            async:false,
+            dataType: "json",
+            success:function(data){
+                if (data) {
+                    $("<div class='error_tips'>").fadeIn(250).html("该手机用户已使用易对账，通过申请好友去加他吧").delay(100).fadeOut(250).appendTo('.mui-content');
+                    //model.set("partner.tel11","");
+                    comFalgCom =false;
+                }else{
+                    comFalgCom =true;
+                }
+            }
+        });
+        return comFalgCom;
+    }
+
+    //助记码
+    function getZJM(){
+        $.post("/tool/getPinYinHeadChar",{str:$("#partnerShortname").val()},function(data){
+            $("#mnemonicCode").val(data);
+        })
+    }
+    //助记码
+    function getZJM2(){
+        $.post("/tool/getPinYinHeadChar",{str:$("#contacterName11_per").val()},function(data){
+            $("#mnemonicCode_per").val(data);
+        })
+    }
+
+    function copyPartnerName(){
+        $("#partnerShortname").val($("#partnerName").val());
+        getZJM();
+    }
+</script>
+</body>
+
+</html>

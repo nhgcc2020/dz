@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.ProductPriceMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.ProductPrice" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="CATEGORY_DESC" property="categoryDesc" jdbcType="VARCHAR" />
+    <result column="P_CODE" property="pCode" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="TINYINT" />
+    <result column="PRICE_WAY" property="priceWay" jdbcType="CHAR" />
+    <result column="PRICE_WAY_DESC" property="priceWayDesc" jdbcType="VARCHAR" />
+    <result column="PRICE_UNIT" property="priceUnit" jdbcType="CHAR" />
+    <result column="PRICE_UNIT_DESC" property="priceUnitDesc" jdbcType="VARCHAR" />
+    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="PRICING_TYPE" property="pricingType" jdbcType="CHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="CREATE_TYPE" property="createType" jdbcType="CHAR" />
+    <result column="TIER" property="tier" jdbcType="TINYINT" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="treeResultMap" type="com.ydz.entity.system.ComProPriceVO" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="CATEGORY_DESC" property="categoryDesc" jdbcType="VARCHAR" />
+    <result column="P_CODE" property="pCode" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="TINYINT" />
+    <result column="PRICE_WAY" property="priceWay" jdbcType="CHAR" />
+    <result column="PRICE_WAY_DESC" property="priceWayDesc" jdbcType="VARCHAR" />
+    <result column="PRICE_UNIT" property="priceUnit" jdbcType="CHAR" />
+    <result column="PRICE_UNIT_DESC" property="priceUnitDesc" jdbcType="VARCHAR" />
+    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="PRICING_TYPE" property="pricingType" jdbcType="CHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="CREATE_TYPE" property="createType" jdbcType="CHAR" />
+    <result column="TIER" property="tier" jdbcType="TINYINT" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <collection property="comProPriceVOs" column="{pCode=CATEGORY_ID,industryId=INDUSTRY_ID,pricingType=PRICING_TYPE}" ofType="com.ydz.entity.system.ComProPriceVO" 
+    	javaType="java.util.ArrayList" select="listProductPriceChildren">
+    </collection>
+  </resultMap>
+  
+  <resultMap id="fastResultMap" type="com.ydz.entity.system.ComProPriceVO" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="CATEGORY_DESC" property="categoryDesc" jdbcType="VARCHAR" />
+    <result column="P_CODE" property="pCode" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="TINYINT" />
+    <result column="PRICE_WAY" property="priceWay" jdbcType="CHAR" />
+    <result column="PRICE_WAY_DESC" property="priceWayDesc" jdbcType="VARCHAR" />
+    <result column="PRICE_UNIT" property="priceUnit" jdbcType="CHAR" />
+    <result column="PRICE_UNIT_DESC" property="priceUnitDesc" jdbcType="VARCHAR" />
+    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="PRICING_TYPE" property="pricingType" jdbcType="CHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="CREATE_TYPE" property="createType" jdbcType="CHAR" />
+    <result column="TIER" property="tier" jdbcType="TINYINT" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    UID, CATEGORY_ID, CATEGORY_DESC, P_CODE, SORT_ITEM, PRICE_WAY, PRICE_WAY_DESC, PRICE_UNIT, 
+    PRICE_UNIT_DESC, UNIT_PRICE, IS_VALID, PRICING_TYPE, INDUSTRY_ID, CREATE_TYPE, TIER, REMARKS, CREATE_TIME
+  </sql>
+  
+  <select id="listAllProductPriceInit" resultMap="BaseResultMap" parameterType="pd">
+  	select 
+    <include refid="Base_Column_List" />
+    from YDZ_PRODUCT_PRICE
+    where IS_VALID = '1' 
+    	and INDUSTRY_ID = #{industryId} 
+    	and PRICING_TYPE = #{pricingType}
+  </select>
+  
+  <select id="listProductPrice" resultMap="treeResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_PRODUCT_PRICE
+    where IS_VALID = '1' and P_CODE = #{pCode} and INDUSTRY_ID = #{industryId} and PRICING_TYPE = #{pricingType}
+  </select>
+  <select id="listProductPriceChildren" resultMap="treeResultMap" parameterType="ProductPrice" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_PRODUCT_PRICE
+    where IS_VALID = '1' and P_CODE = #{pCode} and INDUSTRY_ID = #{industryId} and PRICING_TYPE = #{pricingType}
+  </select>  
+  
+  <select id="listFastProductPrice" resultMap="fastResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_PRODUCT_PRICE
+    where IS_VALID = '1' and INDUSTRY_ID = #{industryId} and PRICING_TYPE = #{pricingType}
+    <if test="pCode!=null">
+      and P_CODE = #{pCode}                      
+    </if>
+    <if test="pCodeTop!=null">
+      and P_CODE = #{pCodeTop}
+    </if>
+    <if test="tier!=null">
+      and TIER = #{tier}
+    </if>
+    order by SORT_ITEM
+  </select>
+  <select id="listFastProductPriceUnion" resultMap="fastResultMap" parameterType="pd" >
+    SELECT
+		CATEGORY_ID
+	FROM
+		YDZ_PRODUCT_PRICE where P_CODE = #{pCode} and INDUSTRY_ID = #{industryId}
+	UNION
+		(SELECT
+			CATEGORY_ID
+		FROM
+			YDZ_COM_PROPRICE
+		WHERE
+			COM_KEY = #{comKey} and INDUSTRY_ID = #{industryId}
+		and P_CODE = #{pCode}
+			)
+  </select>
+  
+<!--       SELECT
+		CATEGORY_ID, CATEGORY_DESC, P_CODE, SORT_ITEM, PRICE_WAY, 
+		PRICE_WAY_DESC, PRICE_UNIT, PRICE_UNIT_DESC, UNIT_PRICE, IS_VALID, 
+		PRICING_TYPE, INDUSTRY_ID, CREATE_TYPE
+	FROM
+		YDZ_PRODUCT_PRICE where P_CODE = #{pCode} and INDUSTRY_ID = #{industryId}
+	UNION
+		(SELECT
+			CATEGORY_ID, CATEGORY_DESC, P_CODE, SORT_ITEM, PRICE_WAY, 
+			PRICE_WAY_DESC, PRICE_UNIT, PRICE_UNIT_DESC, UNIT_PRICE, IS_VALID, 
+			PRICING_TYPE, INDUSTRY_ID, CREATE_TYPE
+		FROM
+			YDZ_COM_PROPRICE
+		WHERE
+			COM_KEY = #{comKey} and INDUSTRY_ID = #{industryId}
+		and P_CODE = #{pCode}
+			)
+	order by SORT_ITEM asc -->
+
+  <select id="listDropdownProductPrice" resultMap="fastResultMap" parameterType="pd" flushCache="true" useCache="false">
+    select
+    <include refid="Base_Column_List" />
+    from YDZ_PRODUCT_PRICE
+    where IS_VALID = '1' and INDUSTRY_ID = #{industryId} and PRICING_TYPE = #{pricingType} and INDUSTRY_ID = #{industryId}
+    <if test="pCode!=null">
+      and P_CODE = #{pCode}
+    </if>
+    <if test="pCodeTop!=null">
+      and P_CODE = #{pCodeTop}
+    </if>
+    <if test="categoryId!=null">
+      and CATEGORY_ID = #{categoryId}
+    </if>
+    order by SORT_ITEM
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" flushCache="true">
+    delete from YDZ_PRODUCT_PRICE
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ydz.entity.system.ProductPrice" >
+    insert into YDZ_PRODUCT_PRICE (UID, CATEGORY_ID, CATEGORY_DESC, 
+      P_CODE, SORT_ITEM, PRICE_WAY, 
+      PRICE_WAY_DESC, PRICE_UNIT, PRICE_UNIT_DESC, 
+      UNIT_PRICE, IS_VALID, PRICING_TYPE, 
+      INDUSTRY_ID, TIER, REMARKS, CREATE_TIME
+      )
+    values (#{uid,jdbcType=BIGINT}, #{categoryId,jdbcType=VARCHAR}, #{categoryDesc,jdbcType=VARCHAR}, 
+      #{pCode,jdbcType=VARCHAR}, #{sortItem,jdbcType=TINYINT}, #{priceWay,jdbcType=CHAR}, 
+      #{priceWayDesc,jdbcType=VARCHAR}, #{priceUnit,jdbcType=CHAR}, #{priceUnitDesc,jdbcType=VARCHAR}, 
+      #{unitPrice,jdbcType=DECIMAL}, #{isValid,jdbcType=CHAR}, #{pricingType,jdbcType=CHAR}, 
+      #{industryId,jdbcType=VARCHAR}, #{createType,jdbcType=CHAR},#{tier,jdbcType=TINYINT}, #{remarks,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.ProductPrice" flushCache="true">
+    insert into YDZ_PRODUCT_PRICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="categoryDesc != null" >
+        CATEGORY_DESC,
+      </if>
+      <if test="pCode != null" >
+        P_CODE,
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM,
+      </if>
+      <if test="priceWay != null" >
+        PRICE_WAY,
+      </if>
+      <if test="priceWayDesc != null" >
+        PRICE_WAY_DESC,
+      </if>
+      <if test="priceUnit != null" >
+        PRICE_UNIT,
+      </if>
+      <if test="priceUnitDesc != null" >
+        PRICE_UNIT_DESC,
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="pricingType != null" >
+        PRICING_TYPE,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="createType != null" >
+        CREATE_TYPE,
+      </if>
+      <if test="tier != null" >
+        TIER,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryDesc != null" >
+        #{categoryDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pCode != null" >
+        #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        #{sortItem,jdbcType=TINYINT},
+      </if>
+      <if test="priceWay != null" >
+        #{priceWay,jdbcType=CHAR},
+      </if>
+      <if test="priceWayDesc != null" >
+        #{priceWayDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="priceUnit != null" >
+        #{priceUnit,jdbcType=CHAR},
+      </if>
+      <if test="priceUnitDesc != null" >
+        #{priceUnitDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="pricingType != null" >
+        #{pricingType,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createType != null" >
+        #{createType,jdbcType=CHAR},
+      </if>
+      <if test="tier != null" >
+        #{tier,jdbcType=TINYINT},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.ProductPrice" flushCache="true">
+    update YDZ_PRODUCT_PRICE
+    <set >
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryDesc != null" >
+        CATEGORY_DESC = #{categoryDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pCode != null" >
+        P_CODE = #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM = #{sortItem,jdbcType=TINYINT},
+      </if>
+      <if test="priceWay != null" >
+        PRICE_WAY = #{priceWay,jdbcType=CHAR},
+      </if>
+      <if test="priceWayDesc != null" >
+        PRICE_WAY_DESC = #{priceWayDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="priceUnit != null" >
+        PRICE_UNIT = #{priceUnit,jdbcType=CHAR},
+      </if>
+      <if test="priceUnitDesc != null" >
+        PRICE_UNIT_DESC = #{priceUnitDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="pricingType != null" >
+        PRICING_TYPE = #{pricingType,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createType != null" >
+        CREATE_TYPE = #{createType,jdbcType=CHAR},
+      </if>
+      <if test="tier != null" >
+        TIER = #{tier,jdbcType=TINYINT},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.ProductPrice" flushCache="true">
+    update YDZ_PRODUCT_PRICE
+    set CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      CATEGORY_DESC = #{categoryDesc,jdbcType=VARCHAR},
+      P_CODE = #{pCode,jdbcType=VARCHAR},
+      SORT_ITEM = #{sortItem,jdbcType=TINYINT},
+      PRICE_WAY = #{priceWay,jdbcType=CHAR},
+      PRICE_WAY_DESC = #{priceWayDesc,jdbcType=VARCHAR},
+      PRICE_UNIT = #{priceUnit,jdbcType=CHAR},
+      PRICE_UNIT_DESC = #{priceUnitDesc,jdbcType=VARCHAR},
+      UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      PRICING_TYPE = #{pricingType,jdbcType=CHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      CREATE_TYPE = #{createType,jdbcType=CHAR},
+      TIER = #{tier,jdbcType=TINYINT},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

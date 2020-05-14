@@ -1,0 +1,77 @@
+<template>
+  <div>
+    <div class="x-header">
+      <back-header>
+        <p class="title">{{title}}</p>
+      </back-header>
+    </div>
+    <div class="big_first">
+      <ul class="ul_count">
+            <li style="display:flex;">
+                <div style="flex:1;">
+                    <p style="position:relative;height:35px;line-height:35px;margin-top:10px;">
+                        <i style="font-size:30px;position:absolute;top:0px;color:#ff9900;" class="iconfont">&#xe6f7;</i>
+                        <span style="margin-left:34px;color:#666;">加工明细</span>
+                    </p>
+                </div>
+            </li>
+            <li v-for="(n,index) in news" key="index" style="border-bottom:1px solid #f9f9f9;">
+                <p v-if="n.businessDesc" style="margin:10px 0;">{{n.businessDesc}}</p>
+                <p v-if="!n.businessDesc" style="margin:10px 0;color:#ccc;">无业务内容</p>
+                <p style="display:flex;font-size:12px;color:#999;margin-bottom:10px;"><span v-if="n.requirements" style="flex:1;">{{n.requirements}}&nbsp;&nbsp;&nbsp;<span v-if="n.isUrgent=='1'" style="color:#eb6877;">急</span></span><span v-if="!n.requirements" style="flex:1;color:#ccc;">无制作说明&nbsp;&nbsp;&nbsp;<span v-if="n.isUrgent=='1'" style="color:#eb6877;">急</span></span><span>{{n.length | money}}&nbsp; * &nbsp;{{n.width | money}}m&nbsp;x{{n.quantity}}</span></p>
+                <p v-if="n.status=='5'" style="text-align:right;font-size:12px;color:#ff9900;margin-bottom:10px;">{{n.workingProcedure | wltype}}&#x3000; 制作中</p>
+                <p v-if="n.status=='2'" style="text-align:right;font-size:12px;color:#01a09a;margin-bottom:10px;">{{n.workingProcedure | wltype}}&#x3000; 已完工</p>
+                <p v-if="n.status=='C'" style="text-align:right;font-size:12px;color:#ccc;margin-bottom:10px;">{{n.workingProcedure | wltype}}&#x3000; 已作废</p>
+            </li>
+        </ul> 
+    </div>
+  </div>
+</template>
+<script>
+import BackHeader from '../common/BackHeader';
+import $ from 'jquery';
+import address from '../url.js';
+export default {
+  components: {
+    BackHeader
+  },
+  data() {
+    return {
+        news:"",
+        title:""
+    }
+  },
+  created() {
+    this.getInfo();
+  },
+  methods: {
+    getInfo() {
+      var params = "&page=1&rows=300&salesNo=" + this.$route.params.salesNo;
+      this.axios.get(address.SyreportDetails + localStorage.getItem('token') + params)
+        .then(data => {
+         this.news = data.data.rows;
+         this.title = data.data.rows[0].partnerShortname;
+        })
+        .catch(function (err) {
+        })
+    }
+  }
+}
+</script>
+<style scoped>
+.big_first {
+  overflow: hidden;
+}
+.ul_count {
+    box-sizing: border-box;
+    padding-left: 22px;
+    background: #fff;
+    overflow: hidden;
+}
+.ul_count li {
+    box-sizing: border-box;
+    padding-right: 22px;
+    font-size: 14px;
+    overflow: hidden;
+}
+</style>

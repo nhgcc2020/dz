@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.common.MenuInitDictMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.common.MenuInitDict" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="MENU_ID" property="menuId" jdbcType="VARCHAR" />
+    <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+    <result column="MENU_ICON" property="menuIcon" jdbcType="VARCHAR" />
+    <result column="MENU_CLASS" property="menuClass" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="MENU_DESC" property="menuDesc" jdbcType="VARCHAR" />
+    <result column="RESOURCE_ID" property="resourceId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, MENU_ID, MENU_NAME, MENU_ICON, MENU_CLASS, MENU_URL, MENU_DESC, RESOURCE_ID, 
+    CREATE_TIME
+  </sql>
+  <select id="selectOneByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_MENU_INIT_DICT
+    where MENU_ID = #{menuId}
+    <if test=" resourceId != null">
+    	AND RESOURCE_ID = #{resourceId}
+    </if>
+  </select>
+  <select id="selectListByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_MENU_INIT_DICT
+    where 1 = 1
+    <if test=" menuId != null">
+    	AND MENU_ID = #{menuId}
+    </if>
+    <if test=" resourceId != null">
+    	AND RESOURCE_ID = #{resourceId}
+    </if>
+  </select>
+  
+  <select id="selectMenuByInit" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_MENU_INIT_DICT
+    where 1 = 1
+    <if test=" menuIdList != null">
+    	AND MENU_ID IN
+    	<foreach collection="menuIdList" item="item" index="index" open="(" separator="," close=")">
+      		#{item,jdbcType=VARCHAR}
+    	</foreach>
+    </if>
+
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_MENU_INIT_DICT
+    where MENU_ID = #{menuId}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.common.MenuInitDict" >
+    insert into YDZ_MENU_INIT_DICT (UID, MENU_ID, MENU_NAME, 
+      MENU_ICON, MENU_CLASS, MENU_URL, 
+      MENU_DESC, RESOURCE_ID, CREATE_TIME
+      )
+    values (#{uid,jdbcType=BIGINT}, #{menuId,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, 
+      #{menuIcon,jdbcType=VARCHAR}, #{menuClass,jdbcType=VARCHAR}, #{menuUrl,jdbcType=VARCHAR}, 
+      #{menuDesc,jdbcType=VARCHAR}, #{resourceId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.common.MenuInitDict" >
+    insert into YDZ_MENU_INIT_DICT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        MENU_ID,
+      </if>
+      <if test="menuName != null" >
+        MENU_NAME,
+      </if>
+      <if test="menuIcon != null" >
+        MENU_ICON,
+      </if>
+      <if test="menuClass != null" >
+        MENU_CLASS,
+      </if>
+      <if test="menuUrl != null" >
+        MENU_URL,
+      </if>
+      <if test="menuDesc != null" >
+        MENU_DESC,
+      </if>
+      <if test="resourceId != null" >
+        RESOURCE_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuId != null" >
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuIcon != null" >
+        #{menuIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="menuClass != null" >
+        #{menuClass,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuDesc != null" >
+        #{menuDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceId != null" >
+        #{resourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.common.MenuInitDict" >
+    update YDZ_MENU_INIT_DICT
+    <set >
+      <if test="menuId != null" >
+        MENU_ID = #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuIcon != null" >
+        MENU_ICON = #{menuIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="menuClass != null" >
+        MENU_CLASS = #{menuClass,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        MENU_URL = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="menuDesc != null" >
+        MENU_DESC = #{menuDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceId != null" >
+        RESOURCE_ID = #{resourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where 1=1 and MENU_ID = #{menuId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.common.MenuInitDict" >
+    update YDZ_MENU_INIT_DICT
+    set MENU_ID = #{menuId,jdbcType=VARCHAR},
+      MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      MENU_ICON = #{menuIcon,jdbcType=VARCHAR},
+      MENU_CLASS = #{menuClass,jdbcType=VARCHAR},
+      MENU_URL = #{menuUrl,jdbcType=VARCHAR},
+      MENU_DESC = #{menuDesc,jdbcType=VARCHAR},
+      RESOURCE_ID = #{resourceId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,190 @@
+/* 主色调定义 */
+/* 文字内容色调定义 */
+/* 背景色调定义 */
+/* 边框色调定义 */
+/* 主题色定义 */
+/* Input */
+/* main page */
+html body {
+  padding: 1em;
+}
+#tagsWrap {
+  padding: 1em;
+  border: 1px #337AB7 solid;
+  margin-bottom: 1em;
+}
+#tagsWrap > span {
+  margin-right: 1em;
+}
+#tagsWrap .search-ranges {
+  display: inline-block;
+}
+#tagsWrap .tag-range {
+  display: inline-block;
+  padding: 0.5em 0.8em;
+  text-align: center;
+  margin-right: 4px;
+}
+#tagsWrap .tag-range.checked {
+  background: #ebebed;
+}
+.ui.segment.custom-table {
+  padding: 0em 0em;
+  overflow: hidden;
+}
+.ui.segment.custom-table.urgent .corner-ribbon {
+  display: inline-block;
+}
+.ui.segment.custom-table .corner-ribbon {
+  display: none;
+}
+.ui.segment.custom-table .ui.widget-table table thead th {
+  background-color: rgba(197, 204, 211, 0.3);
+  padding: 0.6em 0.4em;
+}
+.ui.segment.custom-table .ui.widget-table table thead th > div:after {
+  visibility: hidden;
+}
+.ui.segment.custom-table .ui.widget-table table thead th .business-desc > span {
+  color: #337AB7;
+  padding: 0 0.4em;
+}
+.ui.segment.custom-table .ui.widget-table table tr:first-child td {
+  border-top: 1px;
+}
+.ui.segment.custom-table .ui.widget-table table tr:last-child td {
+  border-bottom-width: 1px;
+}
+.ui.segment.custom-table .ui.widget-table table td,
+.ui.segment.custom-table .ui.widget-table table th {
+  border-color: #e0e3e6;
+}
+.ui.segment.custom-table .ui.widget-table table tbody td > div {
+  padding: 0;
+}
+.ui.segment.custom-table .ui.widget-table table tbody td > div input {
+  border-width: 0;
+  border-radius: 0rem;
+}
+.ui.segment.custom-table .ui.widget-table table .table.item.current,
+.ui.segment.custom-table .ui.widget-table table .table.item:hover {
+  background-color: rgba(197, 204, 211, 0.1);
+}
+.ui.segment.custom-table .add-button {
+  letter-spacing: 2px;
+}
+.ui.segment.custom-table .bottom-box {
+  margin-top: 2px;
+  border-bottom: 1px solid #e0e3e6;
+  padding: 8px 0;
+}
+.ui.segment.custom-table .bottom-box .left-box {
+  padding: 0;
+  background-color: transparent;
+}
+.ui.segment.custom-table .bottom-box .left-box .remove-btn {
+  cursor: pointer;
+}
+.ui.segment.custom-table .bottom-box .left-box .remove-btn:hover {
+  color: #ff0000;
+}
+.ui.segment.custom-table .bottom-box .left-box .add-btn {
+  cursor: pointer;
+}
+.ui.segment.custom-table .bottom-box .left-box .add-btn:hover {
+  color: #ff0000;
+}
+.ui.segment.custom-table .bottom-box .urgent {
+  display: inline-block;
+}
+.ui.segment.custom-table .bottom-box .urgent > span {
+  margin-right: 10px;
+}
+.ui.segment.custom-table .bottom-box .right-box {
+  color: #337AB7;
+  line-height: 2em;
+}
+.ui.segment.custom-table .bottom-box .right-box > span {
+  margin-right: 10px;
+}
+.ui.segment.custom-table .bottom-box .right-box .price {
+  font-weight: bold;
+}
+#bottomBox {
+  margin-top: 1em;
+}
+#bottomBox > .h-box:not(.actions) {
+  height: 186px;
+}
+#bottomBox .ui.divider {
+  margin: 0.5rem 0;
+}
+#bottomBox .create-info {
+  height: 20px;
+}
+#bottomBox .create-info .value {
+  padding: 0 8px;
+}
+#bottomBox .remark-container {
+  padding-right: 2em;
+}
+#bottomBox .right-summary > .h-box {
+  height: 2.4em;
+  width: 240px;
+  line-height: 2em;
+}
+#bottomBox .right-summary > .h-box > .box {
+  padding: 2px;
+}
+#bottomBox .right-summary > .h-box > .box.price {
+  padding-right: 2em;
+}
+#bottomBox .right-summary > .h-box > .flex-box {
+  height: 100%;
+  overflow: hidden;
+}
+#bottomBox .right-summary > .h-box > .flex-box .ui.input {
+  margin: 2px 0 0 8px;
+}
+#bottomBox .right-summary > .h-box > .flex-box .ui.input i {
+  width: 1.4em;
+}
+#bottomBox .right-summary > .h-box > .flex-box .ui.input i.icon.percent:before {
+  content: "%";
+}
+#bottomBox .right-summary > .h-box > .flex-box input {
+  padding: 4px 12px 4px 4px !important;
+}
+#bottomBox .right-summary > .h-box .font-btn {
+  display: inline-block;
+  padding: 2px;
+  color: #fff;
+  height: 20px;
+  /*width: 20px;*/
+  text-align: center;
+  line-height: 14px;
+  margin-left: 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #8e8e8e;
+}
+#bottomBox .right-summary > .h-box .font-btn.active,
+#bottomBox .right-summary > .h-box .font-btn:hover {
+  background-color: red;
+}
+#bottomBox .right-summary > .h-box .font-btn.active:hover {
+  background-color: #8e8e8e;
+}
+.ui.positive.buttons .button, .ui.positive.button {
+  background-color: #2185D0 !important;
+  color: #FFFFFF;
+  text-shadow: none;
+  background-image: none;
+}
+
+ul li{
+}
+ul li label{
+  width: 250px;
+  display: inline-block;
+}

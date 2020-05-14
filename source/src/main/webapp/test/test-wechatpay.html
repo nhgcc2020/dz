@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://libs.cdnjs.net/jquery/1.9.0/jquery.min.js"></script>
+    <script src="http://libs.cdnjs.net/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+</head>
+<body>
+    <button onclick="pay()">支付</button>
+    <div id="code">
+
+    </div>
+    <script>
+        function pay() {
+            $.post("/wechat/pay/doPay?key=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1MTI4MTQwMjIxMDEsInBheWxvYWQiOiJ7XCJ1aWRcIjpudWxsLFwidHJhZGVOb1wiOm51bGwsXCJjaGVja2luZ05vXCI6XCJEMTcxMTA3NTU5MzYwNzkwXCIsXCJjb21LZXlcIjpcImY2ODFiODdhNjk3MDQ0ZmI5MzZhYmI1MTNlMWE4MTQ2XCIsXCJwYXJ0bmVyS2V5XCI6XCIxNGFiZjg5ZTRiOTA0YmExOTFjOGE0ZWIxMmY2ZGQ0NlwiLFwiaW5kdXN0cnlJZFwiOlwiMUNcIixcIm9yZGVyRGVzY1wiOlwiMjAxNy0xMS0wNCDoh7MgMjAxNy0xMS0wNCDnmoTplIDllK7ljZVcIixcInBheU1vbmV5XCI6MSxcImNsaWVudElwXCI6bnVsbCxcImlzUGF5ZWRcIjpudWxsLFwicmVtYXJrc1wiOm51bGwsXCJjcmVhdG9yXCI6XCJmZTdiMjc5ZjRhYTA0YmNmOWI1NmRiODZmODNlMmE3NlwiLFwiY3JlYXRlVGltZVwiOm51bGx9In0.xoA-rIfeLXNUe1ZlAg_5H71EPbIGZ4b8HLbtc_NoNDo",
+            		{},function (e) {
+            			debugger;
+                if(e.status == 1){
+                    jQuery('#code').qrcode(e.url);
+                }else {
+                    alert(e.msg);
+                }
+            })
+        }
+    </script>
+</body>
+</html>

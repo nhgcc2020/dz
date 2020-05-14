@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.common.MessageMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.common.Message" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="MSG_ID" property="msgId" jdbcType="VARCHAR" />
+    <result column="MSG_TITLE" property="msgTitle" jdbcType="VARCHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="MSG_CONTENT" property="msgContent" jdbcType="VARCHAR" />
+    <result column="SEND_KEY" property="sendKey" jdbcType="VARCHAR" />
+    <result column="SEND_NAME" property="sendName" jdbcType="VARCHAR" />
+    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="ACCEPT_USER_KEY" property="acceptUserKey" jdbcType="VARCHAR" />
+    <result column="ACCEPT_COM_KEY" property="acceptComKey" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="TYPE" property="type" jdbcType="CHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="FRIEND_STATUS" property="friendStatus" jdbcType="CHAR" />
+
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, MSG_ID, MSG_TITLE, COM_KEY, MSG_CONTENT, SEND_KEY, SEND_NAME, SEND_TIME, ACCEPT_USER_KEY, 
+    ACCEPT_COM_KEY, STATUS, TYPE, IS_DEL, CREATOR, CREATE_TIME, FRIEND_STATUS,REASON,REMARKS
+  </sql>
+
+  <resultMap id="BaseResultMapFR" type="com.ydz.vo.MessageCompanyVO" >
+    <!--<id column="UID" property="uid" jdbcType="BIGINT" />-->
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="COM_ID" property="comId" jdbcType="VARCHAR" />
+    <!--<result column="WITHIN_COM_ID" property="withinComId" jdbcType="VARCHAR" />-->
+    <result column="COM_NAME" property="comName" jdbcType="VARCHAR" />
+    <result column="COM_SHORTNAME" property="comShortname" jdbcType="VARCHAR" />
+    <result column="MSG_ID" property="msgId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="UID" property="uid" jdbcType="BIGINT"/>
+    <!-- <collection property="employeeList" resultMap="EmployeeResultMap" /> -->
+    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List_FR" >
+    C.COM_KEY,
+    C.COM_ID,
+    C.COM_NAME,
+    C.COM_SHORTNAME,
+    C.COM_LOGO_PATH,
+    M.MSG_ID,
+    M.STATUS,
+    M.UID,
+    M.SEND_TIME
+  </sql>
+
+  <select id="listPageMessages" resultMap="BaseResultMap" parameterType="com.ydz.entity.Page">
+    select
+    <include refid="Base_Column_List" />
+    from YDZ_MESSAGE
+    where
+    IS_DEL = '0'
+    <if test="pd.msgId != null" >
+      and MSG_ID = #{pd.msgId}
+    </if>
+    <if test="pd.msgTitle != null" >
+      and MSG_TITLE LIKE '%${pd.msgTitle}%'
+    </if>
+    <if test="pd.comKey != null" >
+      and COM_KEY = #{pd.comKey}
+    </if>
+    <if test="pd.status != null" >
+      and STATUS = #{pd.status}
+    </if>
+    <if test="pd.type != null" >
+      and TYPE = #{pd.type}
+    </if>
+    <if test="pd.sendKey != null" >
+      AND SEND_KEY = #{pd.sendKey,jdbcType=VARCHAR}
+    </if>
+    <if test="pd.acceptUserKey != null" >
+      AND ACCEPT_USER_KEY = #{pd.acceptUserKey,jdbcType=VARCHAR}
+    </if>
+    <if test="pd.acceptComKey != null" >
+      AND ACCEPT_COM_KEY = #{pd.acceptComKey,jdbcType=VARCHAR}
+    </if>
+    <if test="pd.creator != null" >
+      CREATOR = #{pd.creator,jdbcType=VARCHAR}
+    </if>
+    ORDER BY CREATE_TIME DESC
+  </select>
+
+  <select id="selectOneByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select
+    M.UID, M.MSG_ID, M.MSG_TITLE, M.COM_KEY, M.MSG_CONTENT, M.SEND_KEY, M.SEND_NAME,
+    M.SEND_TIME, M.ACCEPT_USER_KEY,M.ACCEPT_COM_KEY, M.STATUS, M.TYPE, M.IS_DEL, M.CREATOR,
+    M.CREATE_TIME, M.FRIEND_STATUS,M.REASON,M.REMARKS,
+    U.USER_ID AS sendPhone,
+    EU.REAL_NAME AS adminName,
+    EU.USER_ID AS adminPhone
+    from YDZ_MESSAGE M
+    JOIN YDZ_USER U ON U.USER_KEY = M.SEND_KEY
+    LEFT JOIN YDZ_COM_EMPLOYEE E ON E.COM_KEY = M.COM_KEY AND E.IS_ADMIN = "1"
+    LEFT JOIN YDZ_USER EU ON E.USER_KEY = EU.USER_KEY
+    where
+    IS_DEL = '0' and MSG_ID = #{msgId}
+    <if test="msgTitle != null" >
+        and MSG_TITLE LIKE '%${msgTitle}%'
+    </if>
+    <if test="comKey != null" >
+        and COM_KEY = #{comKey}
+    </if>
+    <if test="status != null" >
+        and STATUS = #{status}
+    </if>
+    <if test="type != null" >
+        and TYPE = #{type}
+    </if>
+    <if test="sendKey != null" >
+      AND SEND_KEY = #{sendKey,jdbcType=VARCHAR}
+    </if>
+    <if test="acceptUserKey != null" >
+      AND ACCEPT_USER_KEY = #{acceptUserKey,jdbcType=VARCHAR}
+    </if>
+    <if test="acceptComKey != null" >
+      AND ACCEPT_COM_KEY = #{acceptComKey,jdbcType=VARCHAR}
+    </if>
+    <if test="creator != null" >
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    </if>
+     ORDER BY CREATE_TIME DESC
+  </select>
+  
+  <select id="selectCountReadStatus" resultType="java.lang.Integer" parameterType="pd" >
+  	select count(MSG_ID) msgCount from YDZ_MESSAGE
+    where IS_DEL = '0' and STATUS = '0' 
+    <if test="acceptUserKey != null" >
+      AND ACCEPT_USER_KEY = #{acceptUserKey,jdbcType=VARCHAR}
+    </if>
+    <if test="acceptComKey != null" >
+      AND ACCEPT_COM_KEY = #{acceptComKey,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null" >
+        and STATUS = #{status}
+    </if>
+    <if test="type != null" >
+        and TYPE = #{type}
+    </if>
+  </select>
+  
+  <select id="listPageFriendRequest" resultMap="BaseResultMapFR" parameterType="com.ydz.entity.Page">
+    select
+      <include refid="Base_Column_List_FR" />
+    FROM
+    YDZ_MESSAGE M,YDZ_COMPANY C where
+      M.IS_DEL = '0'
+      AND M.ACCEPT_COM_KEY = #{pd.comKey}
+      AND M.STATUS = "0"
+      AND M.COM_KEY = C.COM_KEY
+    order by M.UID DESC
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_MESSAGE
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.common.Message" >
+    insert into YDZ_MESSAGE (MSG_ID, MSG_TITLE,
+      COM_KEY, MSG_CONTENT, SEND_KEY, 
+      SEND_NAME, SEND_TIME, ACCEPT_USER_KEY, 
+      ACCEPT_COM_KEY, STATUS, TYPE, 
+      IS_DEL, CREATOR, CREATE_TIME
+      )
+    values ( #{msgId,jdbcType=VARCHAR}, #{msgTitle,jdbcType=VARCHAR},
+      #{comKey,jdbcType=VARCHAR}, #{msgContent,jdbcType=VARCHAR}, #{sendKey,jdbcType=VARCHAR}, 
+      #{sendName,jdbcType=VARCHAR}, #{sendTime,jdbcType=TIMESTAMP}, #{acceptUserKey,jdbcType=VARCHAR}, 
+      #{acceptComKey,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{type,jdbcType=CHAR}, 
+      #{isDel,jdbcType=CHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.common.Message" >
+    insert into YDZ_MESSAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <!--<if test="uid != null" >
+        UID,
+      </if>-->
+      <if test="msgId != null" >
+        MSG_ID,
+      </if>
+      <if test="msgTitle != null" >
+        MSG_TITLE,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="msgContent != null" >
+        MSG_CONTENT,
+      </if>
+      <if test="sendKey != null" >
+        SEND_KEY,
+      </if>
+      <if test="sendName != null" >
+        SEND_NAME,
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME,
+      </if>
+      <if test="acceptUserKey != null" >
+        ACCEPT_USER_KEY,
+      </if>
+      <if test="acceptComKey != null" >
+        ACCEPT_COM_KEY,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="reason != null">
+        REASON,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="friendStatus != null">
+        FRIEND_STATUS,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <!--<if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>-->
+      <if test="msgId != null" >
+        #{msgId,jdbcType=VARCHAR},
+      </if>
+      <if test="msgTitle != null" >
+        #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="msgContent != null" >
+        #{msgContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sendKey != null" >
+        #{sendKey,jdbcType=VARCHAR},
+      </if>
+      <if test="sendName != null" >
+        #{sendName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptUserKey != null" >
+        #{acceptUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptComKey != null" >
+        #{acceptComKey,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="friendStatus != null">
+        #{friendStatus,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.common.Message" >
+    update YDZ_MESSAGE
+    <set >
+      <if test="msgTitle != null" >
+        MSG_TITLE = #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="msgContent != null" >
+        MSG_CONTENT = #{msgContent,jdbcType=VARCHAR},
+      </if>
+      <if test="sendKey != null" >
+        SEND_KEY = #{sendKey,jdbcType=VARCHAR},
+      </if>
+      <if test="sendName != null" >
+        SEND_NAME = #{sendName,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTime != null" >
+        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptUserKey != null" >
+        ACCEPT_USER_KEY = #{acceptUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptComKey != null" >
+        ACCEPT_COM_KEY = #{acceptComKey,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+
+      <if test="friendStatus != null">
+        FRIEND_STATUS = #{friendStatus,jdbcType=CHAR},
+      </if>
+
+      <if test="reason != null">
+        REASON = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+
+    </set>
+    where
+    MSG_ID = #{msgId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.common.Message" >
+    update YDZ_MESSAGE
+    set MSG_ID = #{msgId,jdbcType=VARCHAR},
+      MSG_TITLE = #{msgTitle,jdbcType=VARCHAR},
+      COM_KEY = #{comKey,jdbcType=VARCHAR},
+      MSG_CONTENT = #{msgContent,jdbcType=VARCHAR},
+      SEND_KEY = #{sendKey,jdbcType=VARCHAR},
+      SEND_NAME = #{sendName,jdbcType=VARCHAR},
+      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+      ACCEPT_USER_KEY = #{acceptUserKey,jdbcType=VARCHAR},
+      ACCEPT_COM_KEY = #{acceptComKey,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      TYPE = #{type,jdbcType=CHAR},
+      IS_DEL = #{isDel,jdbcType=CHAR},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+
+      REASON = #{reason,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      FRIEND_STATUS = #{friendStatus,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>商机报价单打印</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+    <meta HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
+    <meta HTTP-EQUIV="expires" CONTENT="0">
+    <link rel="stylesheet" type="text/css" href="/resources/new/base_new.css?v=da63245499">
+    <style>
+        html,
+        body {
+            color: #000;
+        }
+
+        .Customer-address {
+            color: #000;
+        }
+
+        .talRight {
+            text-align: right;
+        }
+
+        .talCenter {
+            text-align: center;
+        }
+
+        .order {
+            position: absolute;
+            right: 25px;
+            top: 5px;
+            font-size: 12px;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 18px;
+            color: #000;
+        }
+
+        html,
+        body {
+            font-size: 16px;
+        }
+
+        th {
+            font-weight: normal;
+        }
+
+        .Customer-address {
+            font-size: 12px;
+        }
+
+        table,
+        th,
+        td {
+            vertical-align: top;
+        }
+
+        .datagrid-body tr>td:last-child,
+        .datagrid-header tr>td:last-child {
+            border-right: none !important;
+        }
+
+        .ui.items-view table tbody tr:nth-child(even) {
+            background: none !important;
+        }
+
+        .ui.items-view .item {
+            cursor: default;
+        }
+
+        #order .table-wrapper>table thead th:nth-child(11),
+        #order .table-wrapper>table thead th:nth-child(1),
+        #order .table-wrapper>table thead th:nth-child(12),
+        #order .table-wrapper>table thead th:nth-child(2) {
+            font-weight: 700;
+        }
+
+        .pagination table {
+            height: 50px;
+            line-height: 50px;
+            float: right;
+        }
+
+        .datagrid-row-over,
+        .datagrid-header td.datagrid-header-over {
+            background: none !important;
+            color: #000;
+            cursor: default;
+        }
+
+        .datagrid-header td,
+        .datagrid-body td,
+        .datagrid-footer td {
+            border-style: solid;
+            border-color: #e4e4e4;
+        }
+
+        .datagrid-header-row,
+        .datagrid-row {
+            height: 30px;
+            line-height: 30px;
+        }
+
+        table,
+        th,
+        td {
+            vertical-align: middle;
+        }
+
+        .datagrid-header .datagrid-cell {
+            text-align: center !important;
+        }
+
+        .datagrid-body td {
+            position: relative;
+        }
+
+        .datagrid-cell a:hover,
+        .datagrid-cell a:visited,
+        .datagrid-cell a:link {
+            color: #4284d9;
+            text-decoration: none;
+        }
+
+
+        .line {
+            border-bottom: 1px solid #000;
+            box-sizing: border-box;
+            padding: 0 20px 10px;
+        }
+
+        #print {
+            border: none;
+            /*padding: 10px 20px;*/
+            border-radius: 5px;
+        }
+
+        .sales {
+            margin: 5px;
+        }
+
+        .list_one {
+            text-align: center;
+            margin: 20px 0 13px;
+            font-size: 16px;
+        }
+
+        .code {
+            /*display: none;*/
+            position: absolute;
+            top: 0px;
+            background-color: #fff;
+        }
+
+        .codeone {
+            display: none;
+            position: absolute;
+            top: 0;
+        }
+
+        .total-preson {
+            position: absolute;
+            width: 70%;
+            left: 0;
+            bottom: 12px;
+            margin-left: 300px;
+        }
+
+        .total-preson p {
+            line-height: normal;
+            margin-bottom: 8px;
+        }
+        /*.money {
+            margin-left: 100px;
+        }*/
+
+        .empoy {
+            margin-bottom: 8px;
+            border-bottom: 1px solid #000;
+        }
+
+        .division {
+            border-bottom: 1px solid #000;
+            margin: 10px 0;
+        }
+
+        .sales #print {
+            display: block;
+            width: 120px;
+            background: #2e8ae6;
+            margin: 50px auto;
+            color: #fff;
+            height: 30px;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .total_right li {
+            margin-top: 2px;
+        }
+        .total_right{
+            width: 34%;
+        }
+        .total_beizhu {
+            position: absolute;
+            width: 100%;
+            height: auto;
+            top: 10px;
+            text-decoration: none;
+            float: left;
+        }
+
+        b {
+            margin-left: 5px;
+        }
+
+        .datagrid .panel-body {
+            border-bottom: none;
+        }
+
+        .datagrid-header,
+        .datagrid-td-rownumber {
+            background: none !important;
+        }
+
+        .datagrid-header,
+        .datagrid-toolbar,
+        .datagrid-pager,
+        .datagrid-footer-inner,
+        .datagrid-header td,
+        .datagrid-body td,
+        .datagrid-footer td,
+        .panel-header,
+        .panel-body {
+            border-color: #000;
+        }
+
+        .ding {
+            padding-bottom: 7px;
+        }
+
+        table,
+        table td,
+        table th {
+            border-collapse: collapse;
+            border: 1px solid #000;
+        }
+
+        table td,
+        table th {
+            color: #000;
+            height: 30px;
+            padding: 0 3px;
+            line-height: 30px;
+            text-align: center;
+        }
+
+
+
+        *,
+        *:before,
+        *:after {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        html {
+            /*font-size: 62.5%;*/
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        .alipayCls {
+            width: 120px;
+            height: 100px;
+            display: inline-block;
+        }
+
+        .wechatCls {
+            width: 120px;
+            height: 100px;
+            display: inline-block;
+        }
+    </style>
+    <style media="print">
+        .sales #print,
+        #plugin {
+            display: none;
+        }
+    </style>
+    <script src="/resources/jquery/jquery-2.1.3.min.js?v=a03e4bc153"></script>
+    <script src="/resources/cola-ui/china_city.js?v=bef170068c"></script>
+    <script src="/resources/business/base_new.js?v=9ac481258d"></script>
+    <script src="/resources/easyui/pace.min.js?v=cdbdd88ddf"></script>
+</head>
+
+<body style="border:none !important;padding:10px 25px 0px 25px;width:1100px;margin:0 auto;position:relative;">
+    <div id="datagrid-mask-msg" class="frame_box datagrid-mask-msg" style="display:block;left:50%"><span></span></div>
+    <div id="tableContainer">
+
+    </div>
+
+    <script id="tpl-detail" type="text/html">
+
+        <div class="ui form" style="position:relative;">
+
+
+            <div class="header"><span class="line"><span>{{bottomComInfo.comShortname}}</span>&#x3000;<span>报价单</span> <span>( {{versionDate}} )</span></span>
+            </div>
+            <div class="order">
+                <p>报价单号 : <span>{{oppoNo}}</span></p>
+            </div>
+            <div class="list_one">
+                <span>客户 : {{data.partnerShortname}}</span>&#x3000; <span>联系人 : </span><span>{{data.contactName}} {{data.contactTel}}</span>&#x3000; <span>项目地址 : {{data.address}}</span>
+                <div style="margin-top:10px;"><span>项目名称 : {{data.oppoDesc}}</span> ( <span style="font-size:14px;">{{data.startDate}} 至 {{data.endDate}}</span> )</div>
+            </div>
+
+
+            <table class="tbWk" style="width:100%;">
+                <col width="10%" />
+                <col width="6%" />
+                <col width="23%" />
+                <col width="15%" />
+                <col width="6%" />
+                <col width="8%" />
+                <col width="8%" />
+                <col width="10%" />
+                <col width="10%" />
+                <thead>
+                    <th>报价分类</th>
+                    <th>序号</th>
+                    <th>业务内容</th>
+                    <th>规格描述</th>
+                    <th>数量</th>
+                    <th>单位</th>
+                    <th>单价</th>
+                    <th>备注</th>
+                    <th>行小计</th>
+                </thead>
+                <tbody>
+                    {{each details as item i}}
+                    <tr>
+                        <td>{{item.classDesc}}</td>
+                        <td>{{i+1}}</td>
+                        <td>{{item.businessDesc}}</td>
+                        <td>{{item.specification}}</td>
+
+
+                        <td>{{item.quantity}}</td>
+                        <td>{{item.unit}}</td>
+                        <td class="talRight">{{item.unitPrice | formatNumber}}</td>
+                        <td>{{item.remarks}}</td>
+                        <td class="talRight">{{item.totalPrice | formatNumber}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+
+            </table>
+
+
+
+            <div class="ui form">
+                <div id="tableContainer" class="field" style="margin-bottom: 10px;"></div>
+                <div class="total-drive" style="position:relative;">
+                    <div>
+                        <div style="float:left;width:40%;margin-top:2px;">
+                            <div>备注 : <span id="shifouweikong">{{remarks}}</span></div>
+                        </div>
+
+                        <div class="total_right">
+
+                            <ul class='ding'>
+                                <li>合&#x3000;&#x3000;计 :<span>{{price | formatNumber}}</span></li>
+                                <li>折&#x3000;&#x3000;扣 :<span> - <i>{{discount | formatNumber}}</i> </span></li>
+                                <li>税&#x3000;&#x3000;点 :<span>   <i>{{taxPrice | formatNumber}}</i> </span></li>
+                                <li>减&#x3000;&#x3000;免 :<span> - <i>{{preferential | formatNumber}}</i> </span></li>
+                                <div class='division'></div>
+                            </ul>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+
+                    <div style="position:relative;">
+                        <div class="total_left" style="float:right;width:34%;">
+                            <ul>
+                                <li style='margin-bottom:8px;'>报价金额 :<span style='float:right;'>{{totalPrice | formatNumber}}</span></li>
+                                <li>大&#x3000;&#x3000;写 :<span style='float:right;'><i>{{totalPrice | convertCurrency}}</i> </span></li>
+                            </ul>
+
+                        </div>
+
+                        <div style="clear:both;"></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="empoy"></div>
+
+            <div class="Customer-address">
+                电话 : <span>{{bottomComInfo.comTel}}</span> QQ : <span>{{bottomComInfo.comQQ}}</span>
+                <span class="relation">联系人 : <span style="margin:0;">{{bottomComInfo.realName}} ({{bottomComInfo.userId}})</span></span>
+                <span class="addr">
+    地址 : <span>
+    <b>{{bottomComInfo.comAddress}}</b>
+    </span></span>
+            </div>
+            <h4 class="sales">
+                <button onclick="window.print()" id="print">打印</button>
+            </h4>
+        </div>
+
+    </script>
+
+    <script type="text/javascript">
+        function GetRequest() {
+            var url = location.search; //获取url中"?"符后的字串
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+        }
+        var oppoNo = GetRequest().oppoNo;
+        var quotationNo = GetRequest().quotationNo;
+        var salesNo = '${quotationNo}';
+        var industryId = '${quotationNo}';
+        function convertCurrency(currencyDigits) {
+            // Constants:
+            var MAXIMUM_NUMBER = 99999999999.99;
+            // Predefine the radix characters and currency symbols for output:
+            var CN_ZERO = "零";
+            var CN_ONE = "壹";
+            var CN_TWO = "贰";
+            var CN_THREE = "叁";
+            var CN_FOUR = "肆";
+            var CN_FIVE = "伍";
+            var CN_SIX = "陆";
+            var CN_SEVEN = "柒";
+            var CN_EIGHT = "捌";
+            var CN_NINE = "玖";
+            var CN_TEN = "拾";
+            var CN_HUNDRED = "佰";
+            var CN_THOUSAND = "仟";
+            var CN_TEN_THOUSAND = "万";
+            var CN_HUNDRED_MILLION = "亿";
+            var CN_SYMBOL = "";
+            var CN_DOLLAR = "元";
+            var CN_TEN_CENT = "角";
+            var CN_CENT = "分";
+            var CN_INTEGER = "整";
+
+            // Variables:
+            var integral;    // Represent integral part of digit number.
+            var decimal;    // Represent decimal part of digit number.
+            var outputCharacters;    // The output result.
+            var parts;
+            var digits, radices, bigRadices, decimals;
+            var zeroCount;
+            var i, p, d;
+            var quotient, modulus;
+
+            // Validate input string:
+            currencyDigits = currencyDigits.toString();
+            if (currencyDigits == "") {
+                return "";
+            }
+            if (currencyDigits.match(/[^,.\d]/) != null) {
+                return "";
+            }
+            if ((currencyDigits).match(/^((\d{1,3}(,\d{3})*(.((\d{3},)*\d{1,3}))?)|(\d+(.\d+)?))$/) == null) {
+                return "";
+            }
+
+            // Normalize the format of input digits:
+            currencyDigits = currencyDigits.replace(/,/g, "");    // Remove comma delimiters.
+            currencyDigits = currencyDigits.replace(/^0+/, "");    // Trim zeros at the beginning.
+            // Assert the number is not greater than the maximum number.
+            if (Number(currencyDigits) > MAXIMUM_NUMBER) {
+                return "";
+            }
+
+            // Process the coversion from currency digits to characters:
+            // Separate integral and decimal parts before processing coversion:
+            parts = currencyDigits.split(".");
+            if (parts.length > 1) {
+                integral = parts[0];
+                decimal = parts[1];
+                // Cut down redundant decimal digits that are after the second.
+                decimal = decimal.substr(0, 2);
+            }
+            else {
+                integral = parts[0];
+                decimal = "";
+            }
+            // Prepare the characters corresponding to the digits:
+            digits = new Array(CN_ZERO, CN_ONE, CN_TWO, CN_THREE, CN_FOUR, CN_FIVE, CN_SIX, CN_SEVEN, CN_EIGHT, CN_NINE);
+            radices = new Array("", CN_TEN, CN_HUNDRED, CN_THOUSAND);
+            bigRadices = new Array("", CN_TEN_THOUSAND, CN_HUNDRED_MILLION);
+            decimals = new Array(CN_TEN_CENT, CN_CENT);
+            // Start processing:
+            outputCharacters = "";
+            // Process integral part if it is larger than 0:
+            if (Number(integral) > 0) {
+                zeroCount = 0;
+                for (i = 0; i < integral.length; i++) {
+                    p = integral.length - i - 1;
+                    d = integral.substr(i, 1);
+                    quotient = p / 4;
+                    modulus = p % 4;
+                    if (d == "0") {
+                        zeroCount++;
+                    }
+                    else {
+                        if (zeroCount > 0) {
+                            outputCharacters += digits[0];
+                        }
+                        zeroCount = 0;
+                        outputCharacters += digits[Number(d)] + radices[modulus];
+                    }
+                    if (modulus == 0 && zeroCount < 4) {
+                        outputCharacters += bigRadices[quotient];
+                    }
+                }
+                outputCharacters += CN_DOLLAR;
+            }
+            // Process decimal part if there is:
+            if (decimal != "") {
+                for (i = 0; i < decimal.length; i++) {
+                    d = decimal.substr(i, 1);
+                    if (d != "0") {
+                        outputCharacters += digits[Number(d)] + decimals[i];
+                    }
+                }
+            }
+            // Confirm and return the final output string:
+            if (outputCharacters == "") {
+                outputCharacters = CN_ZERO + CN_DOLLAR;
+            }
+            if (decimal == "") {
+                outputCharacters += CN_INTEGER;
+            }
+            outputCharacters = CN_SYMBOL + outputCharacters;
+            return outputCharacters;
+        }
+        $(function () {
+            try {
+
+                //打印 
+                $("#print").click(function () {
+                    //                window.parent.parent.open("/print/sales-order-detail-print.html?salesNo=${param.salesNo}" + "&industryId=${param.industryId}");
+                });
+
+            } catch (e) {
+
+            }
+            order_detail.initTbData(salesNo, industryId);
+        })
+        function initPageTwoData(d) {
+            var salesOrderDetail = {};
+            salesOrderDetail.orders = d.details;
+            template.defaults.imports.convertCurrency = function (value) {
+                return convertCurrency(value);
+            };
+            template.defaults.imports.formatNumber = function (value) {
+                return accounting.formatNumber(value, 2);
+            };
+            var html = template('tpl-detail', d);
+            document.getElementById("tableContainer").innerHTML += html;
+            $("#tableContainer").removeClass("hide");
+            if (d.discount == "" || d.discount == "null") {
+                $(".total_right li").eq(1).hide()
+            }
+            if (d.taxPrice == "" || d.taxPrice == "null") {
+                $(".total_right li").eq(2).hide()
+            }
+            if (d.preferential == "" || d.preferential == "null") {
+                $(".total_right li").eq(3).hide()
+            }
+        }
+        //    页面方法的主体
+        var order_detail = {
+            initTbData: function (salesNo, industryId) {
+                $.ajax({
+                    url: "/ydz/opportunity/queryOneOpportunityOrder?oppoNo=" + oppoNo,
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (dt) {
+                        if (dt.code == "1") {
+                            var d = dt;
+                            $.ajax({
+                                url: "/ydz/opportunity/queryOneQuotationOrderAndDetail?oppoNo=" + oppoNo + "&quotationNo=" + quotationNo,
+                                type: 'GET',
+                                dataType: "json",
+                                success: function (dt) {
+                                    if (dt.code == "1") {
+                                        var M = Object.assign(d,dt.data);
+                                        initPageTwoData(M);
+                                    }
+
+                                }
+                            });
+                        }
+
+                    }
+                });
+            }
+        }
+
+    </script>
+</body>
+
+</html>

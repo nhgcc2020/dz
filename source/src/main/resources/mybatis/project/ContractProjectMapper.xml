@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.project.ContractProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.project.ContractProject" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="CONTRACT_NO" property="contractNo" jdbcType="VARCHAR" />
+    <result column="CONTRACT_DESC" property="contractDesc" jdbcType="VARCHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_NAME" property="partnerName" jdbcType="VARCHAR" />
+    <result column="PARTNER_SHORTNAME" property="partnerShortname" jdbcType="VARCHAR" />
+    <result column="CONTACT_ID" property="contactId" jdbcType="VARCHAR" />
+    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="PROJECT_TYPE" property="projectType" jdbcType="CHAR" />
+    <result column="PROJECT_TYPE_DESC" property="projectTypeDesc" jdbcType="VARCHAR" />
+    <result column="SALES_ID" property="salesId" jdbcType="VARCHAR" />
+    <result column="SALES_NAME" property="salesName" jdbcType="VARCHAR" />
+    <result column="START_DATE" property="startDate" jdbcType="DATE" />
+    <result column="END_DATE" property="endDate" jdbcType="DATE" />
+    <result column="SIGN_DATE" property="signDate" jdbcType="DATE" />
+    <result column="CONTRACT_MONEY" property="contractMoney" jdbcType="DECIMAL" />
+    <result column="ACTUAL_CONTRACT_MONEY" property="actualContractMoney" jdbcType="DECIMAL" />
+    <result column="INVOICE_CONTRACT_MONEY" property="invoiceContractMoney" jdbcType="DECIMAL" />
+    <result column="RETURNED_CONTRACT_MONEY" property="returnedContractMoney" jdbcType="DECIMAL" />
+    <result column="WAITFOR_CONTRACT_MONEY" property="waitforContractMoney" jdbcType="DECIMAL" />
+    <result column="BADDEBT_MONEY" property="baddebtMoney" jdbcType="DECIMAL" />
+    <result column="PARTNER_SIGNER_ID" property="partnerSignerId" jdbcType="VARCHAR" />
+    <result column="PARTNER_SIGNER_NAME" property="partnerSignerName" jdbcType="VARCHAR" />
+    <result column="OUR_SIGNER_ID" property="ourSignerId" jdbcType="VARCHAR" />
+    <result column="OUR_SIGNER_NAME" property="ourSignerName" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="OPPO_NO" property="oppoNo" jdbcType="VARCHAR" />
+    <result column="PARTICIPANT_EMPLOYEE_ID" property="participantEmployeeId" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, CONTRACT_NO, CONTRACT_DESC, COM_KEY, INDUSTRY_ID, PARTNER_KEY, PARTNER_NAME, 
+    PARTNER_SHORTNAME, CONTACT_ID, CONTACT_NAME, PROJECT_TYPE, PROJECT_TYPE_DESC, SALES_ID, SALES_NAME, START_DATE, END_DATE, SIGN_DATE, CONTRACT_MONEY, 
+    ACTUAL_CONTRACT_MONEY, INVOICE_CONTRACT_MONEY, RETURNED_CONTRACT_MONEY, WAITFOR_CONTRACT_MONEY, BADDEBT_MONEY,
+    PARTNER_SIGNER_ID, PARTNER_SIGNER_NAME, OUR_SIGNER_ID, OUR_SIGNER_NAME, STATUS, OPPO_NO, PARTICIPANT_EMPLOYEE_ID, REMARKS, IS_VALID, 
+    IS_DEL, CREATE_TIME, CREATOR
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_contract_project
+    where is_del = '0' and is_valid = '1' and contract_no = #{contractNo}
+    <if test="comKey != null">
+    	and com_key = #{comKey}
+    </if>
+  </select>
+  <select id="listPageContractProjects" resultMap="BaseResultMap" parameterType="page" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_contract_project
+    where is_del = '0' and is_valid = '1' and com_key = #{pd.comKey}
+    <if test="pd.contractNo != null">
+    	and contract_no = #{pd.contractNo}
+    </if>
+    <if test="pd.partnerKey != null">
+    	and partner_key = #{pd.partnerKey}
+    </if>
+    <if test="pd.salesId != null">
+    	and sales_id = #{pd.salesId}
+    </if>
+    <if test="pd.status != null">
+    	and status = #{pd.status}
+    </if>
+    <if test="pd.searchKey != null">
+    	and concat(partner_name,contract_desc) like '%${pd.searchKey}%'
+    </if>
+    <if test="pd.startDate != null and pd.endDate !=null">
+    	and START_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+    </if>
+    order by create_time desc
+  </select>
+  <select id="getSumContractMoney" resultType="com.ydz.vo.OrderTotalVO" parameterType="pd" >
+    select 
+    	round(sum(contract_money),2) sumContractMoney,
+    	round(sum(actual_contract_money),2) sumActualContractMoney,
+    	round(sum(invoice_contract_money),2) sumInvoiceContractMoney,
+    	round(sum(returned_contract_money),2) sumReturnedContractMoney,
+    	round(sum(waitfor_contract_money),2) sumWaitforContractMoney,
+    	round(sum(baddebt_money),2) sumBaddebtMoney,
+    	count(contract_no) orderCount
+    from ydz_contract_project
+    where is_del = '0' and is_valid = '1' and com_key = #{comKey}
+    <if test="contractNo != null">
+    	and contract_no = #{contractNo}
+    </if>
+    <if test="partnerKey != null">
+    	and partner_key = #{partnerKey}
+    </if>
+    <if test="salesId != null">
+    	and sales_id = #{salesId}
+    </if>
+    <if test="status != null">
+    	and status = #{status}
+    </if>
+    <if test="searchKey != null">
+    	and concat(partner_name,contract_desc) like '%${searchKey}%'
+    </if>
+    <if test="startDate != null and endDate !=null">
+    	and START_DATE BETWEEN #{startDate} AND #{endDate}
+    </if>
+    order by create_time desc
+  </select>
+  <select id="selectCountContract" resultType="com.ydz.entity.workbench.TodoCountVO" parameterType="pd">
+  	SELECT
+		count(CONTRACT_NO) orderCount ,
+		STATUS orderStatus
+	FROM
+		ydz_contract_project
+	WHERE
+		is_valid = '1'
+	AND is_del = '0'
+	AND STATUS = '01'
+	AND com_key = #{comKey}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from ydz_contract_project
+    where contract_no = #{contractNo}
+    <if test="comKey != null">
+    	and com_key = #{comKey}
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.project.ContractProject" >
+    insert into ydz_contract_project (UID, CONTRACT_NO, CONTRACT_DESC, 
+      COM_KEY, INDUSTRY_ID, PARTNER_KEY, 
+      PARTNER_NAME, PARTNER_SHORTNAME, CONTACT_ID, 
+      CONTACT_NAME, START_DATE, END_DATE, 
+      SIGN_DATE, PARTNER_SIGNER_ID, PARTNER_SIGNER_NAME, 
+      OUR_SIGNER_ID, OUR_SIGNER_NAME, STATUS, 
+      OPPO_NO, REMARKS, IS_VALID, 
+      IS_DEL, CREATE_TIME, CREATOR
+      )
+    values (#{uid,jdbcType=BIGINT}, #{contractNo,jdbcType=VARCHAR}, #{contractDesc,jdbcType=VARCHAR}, 
+      #{comKey,jdbcType=VARCHAR}, #{industryId,jdbcType=VARCHAR}, #{partnerKey,jdbcType=VARCHAR}, 
+      #{partnerName,jdbcType=VARCHAR}, #{partnerShortname,jdbcType=VARCHAR}, #{contactId,jdbcType=VARCHAR}, 
+      #{contactName,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{signDate,jdbcType=DATE}, #{partnerSignerId,jdbcType=VARCHAR}, #{partnerSignerName,jdbcType=VARCHAR}, 
+      #{ourSignerId,jdbcType=VARCHAR}, #{ourSignerName,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{oppoNo,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{isValid,jdbcType=CHAR}, 
+      #{isDel,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.project.ContractProject" >
+    insert into ydz_contract_project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="contractNo != null" >
+        CONTRACT_NO,
+      </if>
+      <if test="contractDesc != null" >
+        CONTRACT_DESC,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY,
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME,
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME,
+      </if>
+      <if test="contactId != null" >
+        CONTACT_ID,
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME,
+      </if>
+      <if test="projectType != null" >
+        PROJECT_TYPE,
+      </if>
+      <if test="projectTypeDesc != null" >
+        PROJECT_TYPE_DESC,
+      </if>
+      <if test="salesId != null" >
+        SALES_ID,
+      </if>
+      <if test="salesName != null" >
+        SALES_NAME,
+      </if>
+      <if test="startDate != null" >
+        START_DATE,
+      </if>
+      <if test="endDate != null" >
+        END_DATE,
+      </if>
+      <if test="signDate != null" >
+        SIGN_DATE,
+      </if>
+      <if test="contractMoney != null" >
+        CONTRACT_MONEY,
+      </if>
+      <if test="partnerSignerId != null" >
+        PARTNER_SIGNER_ID,
+      </if>
+      <if test="partnerSignerName != null" >
+        PARTNER_SIGNER_NAME,
+      </if>
+      <if test="ourSignerId != null" >
+        OUR_SIGNER_ID,
+      </if>
+      <if test="ourSignerName != null" >
+        OUR_SIGNER_NAME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="oppoNo != null" >
+        OPPO_NO,
+      </if>
+      <if test="participantEmployeeId != null" >
+        PARTICIPANT_EMPLOYEE_ID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractDesc != null" >
+        #{contractDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        #{partnerShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactId != null" >
+        #{contactId,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        #{projectType,jdbcType=CHAR},
+      </if>
+      <if test="projectTypeDesc != null" >
+        #{projectTypeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="salesId != null" >
+        #{salesId,jdbcType=VARCHAR},
+      </if>
+      <if test="salesName != null" >
+        #{salesName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="signDate != null" >
+        #{signDate,jdbcType=DATE},
+      </if>
+      <if test="contractMoney != null" >
+        #{contractMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="partnerSignerId != null" >
+        #{partnerSignerId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerSignerName != null" >
+        #{partnerSignerName,jdbcType=VARCHAR},
+      </if>
+      <if test="ourSignerId != null" >
+        #{ourSignerId,jdbcType=VARCHAR},
+      </if>
+      <if test="ourSignerName != null" >
+        #{ourSignerName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="oppoNo != null" >
+        #{oppoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="participantEmployeeId != null" >
+        #{participantEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.project.ContractProject" >
+    update ydz_contract_project
+    <set >
+      <if test="contractNo != null" >
+        CONTRACT_NO = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractDesc != null" >
+        CONTRACT_DESC = #{contractDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME = #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME = #{partnerShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactId != null" >
+        CONTACT_ID = #{contactId,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        PROJECT_TYPE = #{projectType,jdbcType=CHAR},
+      </if>
+      <if test="projectTypeDesc != null" >
+        PROJECT_TYPE_DESC = #{projectTypeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="salesId != null" >
+        SALES_ID = #{salesId,jdbcType=VARCHAR},
+      </if>
+      <if test="salesName != null" >
+        SALES_NAME = #{salesName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        START_DATE = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        END_DATE = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="signDate != null" >
+        SIGN_DATE = #{signDate,jdbcType=DATE},
+      </if>
+      <if test="contractMoney != null" >
+        CONTRACT_MONEY = #{contractMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="partnerSignerId != null" >
+        PARTNER_SIGNER_ID = #{partnerSignerId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerSignerName != null" >
+        PARTNER_SIGNER_NAME = #{partnerSignerName,jdbcType=VARCHAR},
+      </if>
+      <if test="ourSignerId != null" >
+        OUR_SIGNER_ID = #{ourSignerId,jdbcType=VARCHAR},
+      </if>
+      <if test="ourSignerName != null" >
+        OUR_SIGNER_NAME = #{ourSignerName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="oppoNo != null" >
+        OPPO_NO = #{oppoNo,jdbcType=VARCHAR},
+      </if>
+	 <if test="participantEmployeeId != null" >
+        PARTICIPANT_EMPLOYEE_ID = #{participantEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where contract_no = #{contractNo}
+    <if test="comKey != null">
+    	and com_key = #{comKey}
+    </if>
+  </update>
+  <update id="updateContractByPara" parameterType="pd" >
+    update ydz_contract_project
+    <set>
+   	  <if test="actualContractMoney != null" >
+        ACTUAL_CONTRACT_MONEY = #{actualContractMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceContractMoney != null" >
+        INVOICE_CONTRACT_MONEY = #{invoiceContractMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="returnedContractMoney != null" >
+        RETURNED_CONTRACT_MONEY = #{returnedContractMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="waitforContractMoney != null" >
+        WAITFOR_CONTRACT_MONEY = #{waitforContractMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="baddebtMoney != null" >
+        BADDEBT_MONEY = #{baddebtMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+      	STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="participantEmployeeId">
+      	PARTICIPANT_EMPLOYEE_ID = #{participantEmployeeId},
+      </if>
+    </set>
+    where contract_no = #{contractNo}
+    <if test="comKey != null">
+    	and com_key = #{comKey}
+    </if>
+  </update>
+</mapper>

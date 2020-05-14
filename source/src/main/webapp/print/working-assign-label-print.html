@@ -1,0 +1,152 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>制作派工标签打印</title>
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+    <meta HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
+    <meta HTTP-EQUIV="expires" CONTENT="0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <style type="text/css">
+        /*.tbWk{
+            font-size: 2px;
+        }*/
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 10px;
+            font-family: Microsoft YaHei;
+        }
+
+        p {
+            height: 20px;
+        }
+        .tbWk caption {
+            padding: 10px;
+            font-size: 42px;
+        }
+        .tbWk {
+            border-collapse: collapse;
+        }
+
+        .tbWk td {
+            font-size: 10px;
+            border: 1px solid #000 !important;
+            padding: 1px 5px;
+        }
+
+        .selfmessage {
+            margin-top: 5px;
+        }
+        .sales{
+            width: 100%;
+            position: fixed;
+            bottom:0px;
+        }
+        .sales #print {
+            display: block;
+            width: 120px;
+            background: #2e8ae6;
+            margin: 50px auto;
+            color: #fff;
+            height: 30px;
+            border: none;
+        }
+    </style>
+    <style media="print">
+        .sales #print {
+            display: none;
+        }
+    </style>
+    <script src="/resources/jquery/jquery-2.1.3.js?v=b11891de95"></script>
+    <script src="/resources/util/jquery.qrcode.min.js?v=05f0b1d7d4"></script>
+    <script src="/resources/business/base_new.js?v=9ac481258d"></script>
+    <script>
+        var workingProcedure = "${workingProcedure}";
+        $(function () {
+            function GetRequest() {
+                var url = location.search; //获取url中"?"符后的字串
+                var theRequest = new Object();
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    strs = str.split("&");
+                    for (var i = 0; i < strs.length; i++) {
+                        theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                    }
+                }
+                return theRequest;
+            }
+            $("#print").click(function () {
+                window.print();
+            })
+            var arrnumber = {}
+            var uidG=GetRequest().uid;
+            var partnerKeyG=GetRequest().partnerKey|| "";
+
+            
+            // 
+            // {{each list as item i}}
+            // {{/each}}
+
+            $.ajax({
+                url: '/order/workingassigntask/workingTaskLabel',
+                data: {uidIns:uidG,partnerKey:partnerKeyG},
+                type: 'post',
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                dataType: "json",
+                success: function (dat) {
+                    var html = template('tpl-wangong', dat);
+                    document.getElementById("wangong").innerHTML = html;
+                  for(var i=0;i<dat.data.length;i++){
+                      
+                       $('.qrCodeDataMid'+i).qrcode({ width: 70, height: 70, text: $('.qrCodeDataMid'+i).attr('did') });
+                  }
+                      //  $('.qrCodeDataMid').qrcode({ width: 70, height: 70, text: dat.taskurl });
+                  
+                }
+            })
+
+        })
+    </script>
+    <script id="tpl-wangong" type="text/html">
+        {{each data as item i}}
+            <h2></h2>
+                <table class="tbWk" style="width:100%;">
+                    <caption >{{item.partnerShortname}}</caption>
+                    <col width="100%" />
+                    <tr>
+                        <td>{{item.contacterName}} {{item.mobile}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{item.businessDesc}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{item.specification}} 数量 {{item.quantity}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">{{item.requirement}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{item.address}}</td>
+                    </tr>
+                </table>
+            <div class="selfmessage">
+                <p>{{item.comShortname}}</p>
+                <div class="qrCodeDataMid{{i}}" style="float:right;" did="{{item.taskurl}}" ></div>
+            </div>
+        {{/each}}
+        </script>
+</head>
+
+<body style="">
+    <div class="table" id="wangong" style=" width:100%; height:275px; margin: 0 auto;position: relative; text-align: left;">
+    </div>
+    <h4 class="sales">
+        <button id="print">打印</button>
+    </h4>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 工作的bean -->
+	<bean id="initDataJob" class="com.ydz.job.InitDataJob" />
+	<!-- job的配置开始 -->
+	<bean id="initDataDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="initDataJob" />
+		<property name="targetMethod" value="work" />
+	</bean>
+	<!-- job的配置结束 -->
+	
+ 	<bean id="simpleTrigger"
+		class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail" ref="initDataDetail" />
+		<property name="startDelay" value="10000"/>
+		 <property name="repeatInterval" value="0"/>   
+         <property name ="repeatCount" value ="0"/>   
+	</bean>
+	
+<!-- 	<bean id="initDataJobTrigger"  class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+        <property name="jobDetail" ref="initDataDetail" />  
+        <property name="cronExpression" value="*,3 * * * * ?" />  
+    </bean>   -->	
+	<!-- 启动触发器的配置开始 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="simpleTrigger" />
+			</list>
+		</property>
+	</bean>
+	<!-- 启动触发器的配置结束 -->
+</beans>

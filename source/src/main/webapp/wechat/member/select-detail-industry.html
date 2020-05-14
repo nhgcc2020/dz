@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>选择小行业</title>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+    <link href="/wechat/css/main.css" rel="stylesheet"/>
+	<script src="/common/growingio.js"></script>
+	<style>
+		.related_form_prov_undline input{
+			top:12px !important;
+		}
+	</style>
+</head>
+<body>
+
+	
+	<div class="mui-content">
+		<div class="mui-content-padded related_form_content">
+			<form class="mui-input-group related_form">
+				
+				<div class="mui-input-row mui-radio mui-left related_form_prov_undline">
+					<label>普通型广告设计制作公司</label>
+					<input name="radio1" value="1A" type="radio" checked="checked">
+				</div> 
+				<div class="industry">
+					适用于较小规模的广告设计制作公司
+				</div>
+				
+				<div class="mui-input-row mui-radio mui-left related_form_prov_undline">
+					<label>综合型广告及媒体发布公司</label>
+					<input name="radio1" value="1B" type="radio">
+				</div> 
+				<div class="industry">
+					适用于综合型的广告设计制作、活动策划执行及广告媒体代理发布业务的公司
+				</div>
+				
+				<div class="mui-input-row mui-radio mui-left related_form_prov_undline">
+					<label>广告加工制作公司</label>
+					<input name="radio1" value="1C" type="radio">
+				</div> 
+				<div class="industry">
+					适合于主要做广告加工的行业用户，例如写真 / 喷绘 / 字牌 / 
+					雕刻 / 条幅 等加工，也包含有活动策划执行及管理广告媒体资
+					源及广告合同的功能
+				</div>
+				<div class="mui-input-row mui-radio mui-left related_form_prov_undline">
+					<label>数码图文快印</label>
+					<input name="radio1" value="1D" type="radio">
+				</div> 
+				<div class="industry">
+					适合图文快印业务为主、其他业务为辅的行业用户。
+				</div>
+
+				<div class="mui-input-row mui-checkbox mui-left related_form_prov_undline" style="margin-top: 25px;">
+					<label style="color: #ff0000;">我已确认选择。<span style="color: #999;">(该选择在提交之后不可更改)</span></label>
+					<input name="checkbox1" value="Item1" id="check_checked" type="checkbox">
+				</div>
+
+			    <div class="mui-button-row related_form_sub">
+			        <button type="button" class="mui-btn mui-btn-primary" id="next_tap" disabled>下一步</button>
+			    </div>
+			</form>
+		</div>		
+	</div>
+
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+	<script>
+
+		$("#check_checked").click(function(){
+			if($(this).is(":checked")){
+				$("#next_tap").removeAttr("disabled");
+			}else{
+				$("#next_tap").attr("disabled","true");
+			}
+		});
+
+
+		$("#next_tap").click(function(){
+			$(this).html("").addClass("lodingBtn").attr("disabled","true");
+			var $mIds = $("input[name='radio1']");
+			var mId;
+			$mIds.each(function(){
+				if($(this).prop("checked")){
+					mId = $(this).val();
+				}
+			});
+
+			if(mId != undefined && mId != ""){
+				window.location.href="create-company.html?mId="+mId;
+			}
+		})
+	</script>
+
+</body>
+</html>

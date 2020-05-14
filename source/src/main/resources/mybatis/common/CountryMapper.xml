@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.common.CountryMapper" >
+<cache eviction="FIFO"     
+    size="10240"     
+    readOnly="true" />
+  <resultMap id="BaseResultMap" type="com.ydz.entity.common.Country" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="COUNTRY_ID" property="countryId" jdbcType="VARCHAR" />
+    <result column="COUNTRY_NAME" property="countryName" jdbcType="VARCHAR" />
+    <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, COUNTRY_ID, COUNTRY_NAME, CITY_ID
+  </sql>
+
+  <select id="selectByCountryId" resultMap="BaseResultMap" parameterType="pd">
+    select COUNTRY_ID, COUNTRY_NAME, CITY_ID from YDZ_COUNTRY
+    where COUNTRY_ID = #{countryId}
+  </select>
+
+  <select id="listAllCountryByCity" resultMap="BaseResultMap" parameterType="pd" >
+    select COUNTRY_ID, COUNTRY_NAME, CITY_ID from YDZ_COUNTRY
+    where 1 = 1
+    <if test=" cityId!=null ">
+    	and CITY_ID = #{cityId}
+    </if>
+  </select>
+
+<!--   <select id="listAllCountryByCityAsVo" resultType="com.ydz.vo.SelectVo">
+    select COUNTRY_ID AS `value`, COUNTRY_NAME AS `text` from YDZ_COUNTRY
+    where CITY_ID = #{cityId}
+  </select> -->
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_COUNTRY
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from YDZ_COUNTRY
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+  <insert id="insert" parameterType="com.ydz.entity.common.Country" >
+    insert into YDZ_COUNTRY (ID, COUNTRY_ID, COUNTRY_NAME, 
+      CITY_ID)
+    values (#{id,jdbcType=INTEGER}, #{countryId,jdbcType=VARCHAR}, #{countryName,jdbcType=VARCHAR}, 
+      #{cityId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.common.Country" >
+    insert into YDZ_COUNTRY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="countryId != null" >
+        COUNTRY_ID,
+      </if>
+      <if test="countryName != null" >
+        COUNTRY_NAME,
+      </if>
+      <if test="cityId != null" >
+        CITY_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="countryId != null" >
+        #{countryId,jdbcType=VARCHAR},
+      </if>
+      <if test="countryName != null" >
+        #{countryName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.common.Country" >
+    update YDZ_COUNTRY
+    <set >
+      <if test="countryId != null" >
+        COUNTRY_ID = #{countryId,jdbcType=VARCHAR},
+      </if>
+      <if test="countryName != null" >
+        COUNTRY_NAME = #{countryName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        CITY_ID = #{cityId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.common.Country" >
+    update YDZ_COUNTRY
+    set COUNTRY_ID = #{countryId,jdbcType=VARCHAR},
+      COUNTRY_NAME = #{countryName,jdbcType=VARCHAR},
+      CITY_ID = #{cityId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

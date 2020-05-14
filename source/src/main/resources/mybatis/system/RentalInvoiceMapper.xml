@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.RentalInvoiceMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.RentalInvoice" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="INVOICE_KEY" property="invoiceKey" jdbcType="VARCHAR" />
+    <result column="RENTAL_KEY" property="rentalKey" jdbcType="VARCHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="INVOICE_TITLE" property="invoiceTitle" jdbcType="VARCHAR" />
+    <result column="INVOICE_CONTENT" property="invoiceContent" jdbcType="VARCHAR" />
+    <result column="TAX_RATE" property="taxRate" jdbcType="DECIMAL" />
+    <result column="INVOICE_TYPE" property="invoiceType" jdbcType="CHAR" />
+    <result column="INVOICE_DATE" property="invoiceDate" jdbcType="DATE" />
+    <result column="RECIPIENTS" property="recipients" jdbcType="VARCHAR" />
+    <result column="RECEIVED_PROVINCE" property="receivedProvince" jdbcType="VARCHAR" />
+    <result column="RECEIVED_CITY" property="receivedCity" jdbcType="VARCHAR" />
+    <result column="RECEIVED_COUNTRY" property="receivedCountry" jdbcType="VARCHAR" />
+    <result column="RECEIVED_ADDRESS" property="receivedAddress" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, INVOICE_KEY, RENTAL_KEY, COM_KEY, INVOICE_TITLE, INVOICE_CONTENT, TAX_RATE, 
+    INVOICE_TYPE, INVOICE_DATE, RECIPIENTS, RECEIVED_PROVINCE, RECEIVED_CITY, RECEIVED_COUNTRY, 
+    RECEIVED_ADDRESS, REMARKS, CREATOR, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_RENTAL_INVOICE
+    where UID = #{uid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_RENTAL_INVOICE
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.system.RentalInvoice" >
+    insert into YDZ_RENTAL_INVOICE (UID, INVOICE_KEY, RENTAL_KEY, 
+      COM_KEY, INVOICE_TITLE, INVOICE_CONTENT, 
+      TAX_RATE, INVOICE_TYPE, INVOICE_DATE, 
+      RECIPIENTS, RECEIVED_PROVINCE, RECEIVED_CITY, 
+      RECEIVED_COUNTRY, RECEIVED_ADDRESS, REMARKS, 
+      CREATOR, CREATE_TIME)
+    values (#{uid,jdbcType=BIGINT}, #{invoiceKey,jdbcType=VARCHAR}, #{rentalKey,jdbcType=VARCHAR}, 
+      #{comKey,jdbcType=VARCHAR}, #{invoiceTitle,jdbcType=VARCHAR}, #{invoiceContent,jdbcType=VARCHAR}, 
+      #{taxRate,jdbcType=DECIMAL}, #{invoiceType,jdbcType=CHAR}, #{invoiceDate,jdbcType=DATE}, 
+      #{recipients,jdbcType=VARCHAR}, #{receivedProvince,jdbcType=VARCHAR}, #{receivedCity,jdbcType=VARCHAR}, 
+      #{receivedCountry,jdbcType=VARCHAR}, #{receivedAddress,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.RentalInvoice" >
+    insert into YDZ_RENTAL_INVOICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="invoiceKey != null" >
+        INVOICE_KEY,
+      </if>
+      <if test="rentalKey != null" >
+        RENTAL_KEY,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="invoiceTitle != null" >
+        INVOICE_TITLE,
+      </if>
+      <if test="invoiceContent != null" >
+        INVOICE_CONTENT,
+      </if>
+      <if test="taxRate != null" >
+        TAX_RATE,
+      </if>
+      <if test="invoiceType != null" >
+        INVOICE_TYPE,
+      </if>
+      <if test="invoiceDate != null" >
+        INVOICE_DATE,
+      </if>
+      <if test="recipients != null" >
+        RECIPIENTS,
+      </if>
+      <if test="receivedProvince != null" >
+        RECEIVED_PROVINCE,
+      </if>
+      <if test="receivedCity != null" >
+        RECEIVED_CITY,
+      </if>
+      <if test="receivedCountry != null" >
+        RECEIVED_COUNTRY,
+      </if>
+      <if test="receivedAddress != null" >
+        RECEIVED_ADDRESS,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceKey != null" >
+        #{invoiceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="rentalKey != null" >
+        #{rentalKey,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null" >
+        #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceContent != null" >
+        #{invoiceContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRate != null" >
+        #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceType != null" >
+        #{invoiceType,jdbcType=CHAR},
+      </if>
+      <if test="invoiceDate != null" >
+        #{invoiceDate,jdbcType=DATE},
+      </if>
+      <if test="recipients != null" >
+        #{recipients,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedProvince != null" >
+        #{receivedProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedCity != null" >
+        #{receivedCity,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedCountry != null" >
+        #{receivedCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedAddress != null" >
+        #{receivedAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.RentalInvoice" >
+    update YDZ_RENTAL_INVOICE
+    <set >
+      <if test="invoiceKey != null" >
+        INVOICE_KEY = #{invoiceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="rentalKey != null" >
+        RENTAL_KEY = #{rentalKey,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null" >
+        INVOICE_TITLE = #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceContent != null" >
+        INVOICE_CONTENT = #{invoiceContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taxRate != null" >
+        TAX_RATE = #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceType != null" >
+        INVOICE_TYPE = #{invoiceType,jdbcType=CHAR},
+      </if>
+      <if test="invoiceDate != null" >
+        INVOICE_DATE = #{invoiceDate,jdbcType=DATE},
+      </if>
+      <if test="recipients != null" >
+        RECIPIENTS = #{recipients,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedProvince != null" >
+        RECEIVED_PROVINCE = #{receivedProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedCity != null" >
+        RECEIVED_CITY = #{receivedCity,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedCountry != null" >
+        RECEIVED_COUNTRY = #{receivedCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="receivedAddress != null" >
+        RECEIVED_ADDRESS = #{receivedAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.RentalInvoice" >
+    update YDZ_RENTAL_INVOICE
+    set INVOICE_KEY = #{invoiceKey,jdbcType=VARCHAR},
+      RENTAL_KEY = #{rentalKey,jdbcType=VARCHAR},
+      COM_KEY = #{comKey,jdbcType=VARCHAR},
+      INVOICE_TITLE = #{invoiceTitle,jdbcType=VARCHAR},
+      INVOICE_CONTENT = #{invoiceContent,jdbcType=VARCHAR},
+      TAX_RATE = #{taxRate,jdbcType=DECIMAL},
+      INVOICE_TYPE = #{invoiceType,jdbcType=CHAR},
+      INVOICE_DATE = #{invoiceDate,jdbcType=DATE},
+      RECIPIENTS = #{recipients,jdbcType=VARCHAR},
+      RECEIVED_PROVINCE = #{receivedProvince,jdbcType=VARCHAR},
+      RECEIVED_CITY = #{receivedCity,jdbcType=VARCHAR},
+      RECEIVED_COUNTRY = #{receivedCountry,jdbcType=VARCHAR},
+      RECEIVED_ADDRESS = #{receivedAddress,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

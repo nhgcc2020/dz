@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.BusinessPriceInitMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.init.BusinessPriceInit" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="RENTAL_VERSION" property="rentalVersion" jdbcType="CHAR" />
+    <result column="BUSINESS_PRICE" property="businessPrice" jdbcType="DECIMAL" />
+    <result column="BUSINESS_UNIT" property="businessUnit" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="INTEGER" />
+    <result column="CITY_LEVEL" property="cityLevel" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, RENTAL_VERSION, BUSINESS_PRICE, BUSINESS_UNIT, REMARKS, SORT_ITEM, CITY_LEVEL, 
+    INDUSTRY_ID, IS_VALID, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_BUSINESS_PRICE_INIT
+    where IS_VALID = '1' and INDUSTRY_ID = #{industryId}
+    <if test="rentalVersion != null">
+    	and RENTAL_VERSION = #{rentalVersion}
+    </if>
+    <if test="cityLevel != null">
+    	and CITY_LEVEL = #{cityLevel}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_BUSINESS_PRICE_INIT
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.init.BusinessPriceInit" >
+    insert into YDZ_BUSINESS_PRICE_INIT (UID, RENTAL_VERSION, BUSINESS_PRICE, 
+      BUSINESS_UNIT, REMARKS, SORT_ITEM, 
+      CITY_LEVEL, INDUSTRY_ID, IS_VALID, 
+      CREATE_TIME)
+    values (#{uid,jdbcType=BIGINT}, #{rentalVersion,jdbcType=CHAR}, #{businessPrice,jdbcType=DECIMAL}, 
+      #{businessUnit,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{sortItem,jdbcType=INTEGER}, 
+      #{cityLevel,jdbcType=VARCHAR}, #{industryId,jdbcType=VARCHAR}, #{isValid,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.init.BusinessPriceInit" >
+    insert into YDZ_BUSINESS_PRICE_INIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="rentalVersion != null" >
+        RENTAL_VERSION,
+      </if>
+      <if test="businessPrice != null" >
+        BUSINESS_PRICE,
+      </if>
+      <if test="businessUnit != null" >
+        BUSINESS_UNIT,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM,
+      </if>
+      <if test="cityLevel != null" >
+        CITY_LEVEL,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="rentalVersion != null" >
+        #{rentalVersion,jdbcType=CHAR},
+      </if>
+      <if test="businessPrice != null" >
+        #{businessPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="businessUnit != null" >
+        #{businessUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="cityLevel != null" >
+        #{cityLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.init.BusinessPriceInit" >
+    update YDZ_BUSINESS_PRICE_INIT
+    <set >
+      <if test="rentalVersion != null" >
+        RENTAL_VERSION = #{rentalVersion,jdbcType=CHAR},
+      </if>
+      <if test="businessPrice != null" >
+        BUSINESS_PRICE = #{businessPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="businessUnit != null" >
+        BUSINESS_UNIT = #{businessUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="cityLevel != null" >
+        CITY_LEVEL = #{cityLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.init.BusinessPriceInit" >
+    update YDZ_BUSINESS_PRICE_INIT
+    set RENTAL_VERSION = #{rentalVersion,jdbcType=CHAR},
+      BUSINESS_PRICE = #{businessPrice,jdbcType=DECIMAL},
+      BUSINESS_UNIT = #{businessUnit,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      CITY_LEVEL = #{cityLevel,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

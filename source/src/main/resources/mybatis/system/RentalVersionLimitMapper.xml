@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.RentalVersionLimitMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.RentalVersionLimit" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="RENTAL_VERSION" property="rentalVersion" jdbcType="CHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="USER_COUNT" property="userCount" jdbcType="INTEGER" />
+    <result column="CUSTOMER_COUNT" property="customerCount" jdbcType="INTEGER" />
+    <result column="REMAKRS" property="remakrs" jdbcType="VARCHAR" />
+    <result column="CHANGE_TIME" property="changeTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, RENTAL_VERSION, INDUSTRY_ID, USER_COUNT, CUSTOMER_COUNT, REMAKRS, CHANGE_TIME, 
+    CREATE_TIME
+  </sql>
+  <sql id="Simple_Column_List" >
+    RENTAL_VERSION, INDUSTRY_ID, USER_COUNT, CUSTOMER_COUNT, REMAKRS
+  </sql>
+  <select id="selectListByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Simple_Column_List" />
+    from YDZ_RENTAL_VERSION_LIMIT
+    where INDUSTRY_ID = #{industryId}
+  </select>
+  <select id="selectOneByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Simple_Column_List" />
+    from YDZ_RENTAL_VERSION_LIMIT
+    where INDUSTRY_ID = #{industryId} and RENTAL_VERSION = #{rentalVersion}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_RENTAL_VERSION_LIMIT
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.system.RentalVersionLimit" >
+    insert into YDZ_RENTAL_VERSION_LIMIT (UID, RENTAL_VERSION, INDUSTRY_ID, 
+      USER_COUNT, CUSTOMER_COUNT, REMAKRS, 
+      CHANGE_TIME, CREATE_TIME)
+    values (#{uid,jdbcType=BIGINT}, #{rentalVersion,jdbcType=CHAR}, #{industryId,jdbcType=VARCHAR}, 
+      #{userCount,jdbcType=INTEGER}, #{customerCount,jdbcType=INTEGER}, #{remakrs,jdbcType=VARCHAR}, 
+      #{changeTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.RentalVersionLimit" >
+    insert into YDZ_RENTAL_VERSION_LIMIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="rentalVersion != null" >
+        RENTAL_VERSION,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="userCount != null" >
+        USER_COUNT,
+      </if>
+      <if test="customerCount != null" >
+        CUSTOMER_COUNT,
+      </if>
+      <if test="remakrs != null" >
+        REMAKRS,
+      </if>
+      <if test="changeTime != null" >
+        CHANGE_TIME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="rentalVersion != null" >
+        #{rentalVersion,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="userCount != null" >
+        #{userCount,jdbcType=INTEGER},
+      </if>
+      <if test="customerCount != null" >
+        #{customerCount,jdbcType=INTEGER},
+      </if>
+      <if test="remakrs != null" >
+        #{remakrs,jdbcType=VARCHAR},
+      </if>
+      <if test="changeTime != null" >
+        #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.RentalVersionLimit" >
+    update YDZ_RENTAL_VERSION_LIMIT
+    <set >
+      <if test="rentalVersion != null" >
+        RENTAL_VERSION = #{rentalVersion,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="userCount != null" >
+        USER_COUNT = #{userCount,jdbcType=INTEGER},
+      </if>
+      <if test="customerCount != null" >
+        CUSTOMER_COUNT = #{customerCount,jdbcType=INTEGER},
+      </if>
+      <if test="remakrs != null" >
+        REMAKRS = #{remakrs,jdbcType=VARCHAR},
+      </if>
+      <if test="changeTime != null" >
+        CHANGE_TIME = #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where INDUSTRY_ID = #{industryId} and RENTAL_VERSION = #{rentalVersion}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.RentalVersionLimit" >
+    update YDZ_RENTAL_VERSION_LIMIT
+    set RENTAL_VERSION = #{rentalVersion,jdbcType=CHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      USER_COUNT = #{userCount,jdbcType=INTEGER},
+      CUSTOMER_COUNT = #{customerCount,jdbcType=INTEGER},
+      REMAKRS = #{remakrs,jdbcType=VARCHAR},
+      CHANGE_TIME = #{changeTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

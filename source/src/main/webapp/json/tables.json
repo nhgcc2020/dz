@@ -1,0 +1,495 @@
+{
+    "table01": {
+        "bind": "order01",
+        "showHeader": true,
+        "class": "celled selectable compact",
+        "columns": [
+            {
+                "caption": "项目或业务内容",
+                "bind": ".businessDesc",
+                "align": "center"
+            },
+            {
+                "caption": "物料/制作/说明",
+                "bind": ".requirements",
+                "align": "center"
+
+            },
+            {
+                "caption": "长（米）",
+                "bind": ".length",
+                "align": "center",
+                "width":"80px"
+
+            },
+            {
+                "caption": "宽（米）",
+                "bind": ".width",
+                "align": "center",
+                "width":"80px"
+
+
+            },
+            {
+                "caption": "计价方式",
+                "bind": ".priceWay",
+                "align": "center",
+                "width":"80px"
+            },
+            {
+                "caption": "数量",
+                "bind": ".quantity",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单位",
+                "bind": ".unit",
+                "align": "center",
+                "width":"100px;"
+
+            },
+            {
+                "caption": "单价",
+                "bind": ".unitPrice",
+                "align": "right",
+                "width":"100px"
+
+
+            },
+            {
+                "caption": "减免",
+                "bind": ".preferential",
+                "align": "right",
+                "width":"100px"
+            },
+            {
+                "caption": "行小计",
+                "bind": ".totalPrice",
+                "align": "right",
+                "width":"100px"
+            }
+
+        ]
+    },
+    "table02": {
+        "$type": "Table",
+        "bind": "order02",
+        "showHeader": true,
+        "class": "celled selectable compact",
+        "columns": [
+            {
+                "caption": "项目或业务内容",
+                "bind": ".businessDesc",
+                "align": "center"
+            },
+            {
+                "caption": "物料/制作/说明",
+                "bind": ".requirements",
+                "align": "center"
+
+            },
+            {
+                "caption": "长（米）",
+                "bind": ".length",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "宽（米）",
+                "bind": ".width",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "计价方式",
+                "bind": ".priceWay",
+                "align": "center",
+                "width":"80px"
+            },
+            {
+                "caption": "数量",
+                "bind": ".quantity",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单位",
+                "bind": ".unit",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单价",
+                "bind": ".unitPrice",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "减免",
+                "bind": ".preferential",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "行小计",
+                "bind": ".totalPrice",
+                "align": "center",
+                "width": "60px"
+            }
+
+        ]
+    },
+    "table03": {
+        "$type": "Table",
+        "bind": "order03",
+        "showHeader": true,
+        "class": "celled selectable compact",
+        "columns": [
+            {
+                "caption": "项目或业务内容",
+                "bind": ".businessDesc",
+                "align": "center"
+            },
+            {
+                "caption": "物料/制作/说明",
+                "bind": ".requirements",
+                "align": "center"
+
+            },
+            {
+                "caption": "长（米）",
+                "bind": ".length",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "宽（米）",
+                "bind": ".width",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "计价方式",
+                "bind": ".priceWay",
+                "align": "center",
+                "width":"80px"
+            },
+            {
+                "caption": "数量",
+                "bind": ".quantity",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单位",
+                "bind": ".unit",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单价",
+                "bind": ".unitPrice",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "减免",
+                "bind": ".preferential",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "行小计",
+                "bind": ".totalPrice",
+                "align": "center",
+                "width": "60px"
+            }
+
+        ]
+    },
+    "table04": {
+        "$type": "Table",
+        "bind": "order04",
+        "showHeader": true,
+        "class": "celled selectable compact",
+        "columns": [
+            {
+                "caption": "项目或业务内容",
+                "bind": ".businessDesc",
+                "align": "center"
+            },
+            {
+                "caption": "物料/制作/说明",
+                "bind": ".requirements",
+                "align": "center"
+
+            },
+            {
+                "caption": "长（米）",
+                "bind": ".length",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "宽（米）",
+                "bind": ".width",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "计价方式",
+                "bind": ".priceWay",
+                "align": "center",
+                "width":"80px"
+            },
+            {
+                "caption": "数量",
+                "bind": ".quantity",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单位",
+                "bind": ".unit",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单价",
+                "bind": ".unitPrice",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "减免",
+                "bind": ".preferential",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "行小计",
+                "bind": ".totalPrice",
+                "align": "center",
+                "width": "60px"
+            }
+
+        ]
+    },
+    "table05": {
+        "$type": "Table",
+        "bind": "order05",
+        "showHeader": true,
+        "class": "celled selectable compact",
+        "columns": [
+            {
+                "caption": "项目或业务内容",
+                "bind": ".businessDesc",
+                "align": "center"
+            },
+            {
+                "caption": "物料/制作/说明",
+                "bind": ".requirements",
+                "align": "center"
+
+            },
+            {
+                "caption": "长（米）",
+                "bind": ".length",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "宽（米）",
+                "bind": ".width",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "计价方式",
+                "bind": ".priceWay",
+                "align": "center",
+                "width":"80px"
+            },
+            {
+                "caption": "数量",
+                "bind": ".quantity",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单位",
+                "bind": ".unit",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单价",
+                "bind": ".unitPrice",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "减免",
+                "bind": ".preferential",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "行小计",
+                "bind": ".totalPrice",
+                "align": "center",
+                "width": "60px"
+            }
+
+        ]
+    },
+    "table06": {
+        "$type": "Table",
+        "bind": "order06",
+        "showHeader": true,
+        "class": "celled selectable compact",
+        "columns": [
+            {
+                "caption": "项目或业务内容",
+                "bind": ".businessDesc",
+                "align": "center"
+            },
+            {
+                "caption": "物料/制作/说明",
+                "bind": ".requirements",
+                "align": "center"
+
+            },
+            {
+                "caption": "长（米）",
+                "bind": ".length",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "宽（米）",
+                "bind": ".width",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "计价方式",
+                "bind": ".priceWay",
+                "align": "center",
+                "width":"80px"
+            },
+            {
+                "caption": "数量",
+                "bind": ".quantity",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单位",
+                "bind": ".unit",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单价",
+                "bind": ".unitPrice",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "减免",
+                "bind": ".preferential",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "行小计",
+                "bind": ".totalPrice",
+                "align": "center",
+                "width": "60px"
+            }
+
+        ]
+    },
+    "table07": {
+        "$type": "Table",
+        "bind": "order07",
+        "showHeader": true,
+        "class": "celled selectable compact",
+        "columns": [
+            {
+                "caption": "项目或业务内容",
+                "bind": ".businessDesc",
+                "align": "center"
+            },
+            {
+                "caption": "物料/制作/说明",
+                "bind": ".requirements",
+                "align": "center"
+
+            },
+            {
+                "caption": "长（米）",
+                "bind": ".length",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "宽（米）",
+                "bind": ".width",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "计价方式",
+                "bind": ".priceWay",
+                "align": "center",
+                "width":"80px"
+            },
+            {
+                "caption": "数量",
+                "bind": ".quantity",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单位",
+                "bind": ".unit",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "单价",
+                "bind": ".unitPrice",
+                "align": "center",
+                "width": "60px"
+
+            },
+            {
+                "caption": "减免",
+                "bind": ".preferential",
+                "align": "center",
+                "width": "60px"
+            },
+            {
+                "caption": "行小计",
+                "bind": ".totalPrice",
+                "align": "center",
+                "width": "60px"
+            }
+
+        ]
+    }
+}

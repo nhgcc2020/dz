@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.MenuInitMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.init.MenuInit" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="RENTAL_VERSION" property="rentalVersion" jdbcType="CHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="MENU_ID" property="menuId" jdbcType="VARCHAR" />
+    <result column="MENU_NAME" property="label" jdbcType="VARCHAR" />
+    <result column="P_MENU_ID" property="pMenuId" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="INTEGER" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CLOSEABLE" property="closeable" jdbcType="CHAR" javaType="Boolean"/>
+    <result column="TIER" property="tier" jdbcType="TINYINT" />
+    <result column="MENU_DESC" property="menuDesc" jdbcType="VARCHAR" />
+    <result column="MENU_CLASS" property="icon" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="path" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="treeMenuInit" type="MenuInit" >
+    <result column="MENU_ID" property="menuId" jdbcType="VARCHAR" />
+    <result column="MENU_NAME" property="label" jdbcType="VARCHAR" />
+    <result column="P_MENU_ID" property="pMenuId" jdbcType="VARCHAR" />
+    <result column="MENU_DESC" property="menuDesc" jdbcType="VARCHAR" />
+    <result column="MENU_CLASS" property="icon" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="path" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CLOSEABLE" property="closeable" jdbcType="CHAR" javaType="Boolean"/>
+    <collection property="menus" column="MENU_ID" ofType="MenuInit" 
+    	javaType="java.util.ArrayList" select="listMenuInitChildren">
+    </collection>
+  </resultMap>  
+  
+  
+  <sql id="Base_Column_List" >
+    UID, MENU_ID, MENU_NAME, P_MENU_ID, MENU_DESC, MENU_CLASS, MENU_URL, SORT_ITEM, INDUSTRY_ID, 
+    IS_VALID, CLOSEABLE, TIER, CREATE_TIME
+  </sql>
+  
+   <select id="listMenuInitByIndustryId" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+		<include refid="Base_Column_List" />
+	from YDZ_MENU_INIT
+    where IS_VALID = '1' and P_MENU_ID = #{pMenuId} 
+    <if test="industryId != null">
+    	and INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="industryIdLike != null">
+    	and INDUSTRY_ID LIKE '%${industryIdLike}%'
+    </if>
+    order by SORT_ITEM
+
+  </select> 
+  
+  <select id="listMenuInitById" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+		m.MENU_ID, d.MENU_NAME, m.P_MENU_ID, d.MENU_DESC, d.MENU_CLASS, 
+		d.MENU_URL, m.SORT_ITEM, m.INDUSTRY_ID, m.RENTAL_VERSION, m.IS_VALID, 
+		m.CLOSEABLE, m.TIER, m.CREATE_TIME
+	from YDZ_MENU_INIT m,YDZ_MENU_INIT_DICT d
+    where m.IS_VALID = '1' and m.MENU_ID = d.MENU_ID
+    <if test="rentalVersion != null">
+    	and m.RENTAL_VERSION = #{rentalVersion}
+    </if>
+    <if test="industryId != null">
+    	and m.INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="pMenuId != null">
+    	and m.P_MENU_ID = #{pMenuId}
+    </if>
+    <if test="menuId != null">
+    	and m.MENU_ID = #{menuId}
+    </if>
+    <if test="menuIdLike != null">
+    	and m.MENU_ID LIKE '%${menuIdLike}%'
+    </if>
+    <if test="pMenuIdIN != null">
+    	and m.P_MENU_ID in 
+    	<foreach collection="pMenuIdIN" item="item" index="index">
+    		#{item}
+    	</foreach>
+    </if>
+    <if test="industryIdLike != null">
+    	and m.INDUSTRY_ID LIKE '%${industryIdLike}%'
+    </if>
+    order by m.SORT_ITEM
+
+  </select> 
+  
+  <select id="selectLevelMenus" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+		<include refid="Base_Column_List" />
+	from YDZ_MENU_INIT
+    where IS_VALID = '1' and INDUSTRY_ID LIKE '%${industryIdLike}%'
+    <if test="pMenuId != null">
+    	and P_MENU_ID = #{pMenuId}
+    </if>
+    <if test="menuIdIN != null">
+    	and MENU_ID  in
+    	<foreach item="item" index="index" collection="menuIdIN" open="(" separator="," close=")">  
+		  #{item}  
+	    </foreach>  
+    </if>
+    order by SORT_ITEM
+
+  </select> 
+    
+  <!-- ========================== -->
+  
+  <resultMap id="treeIndustryMenuInit" type="MenuInit" >
+    <result column="MENU_ID" property="menuId" jdbcType="VARCHAR" />
+    <result column="MENU_NAME" property="label" jdbcType="VARCHAR" />
+    <result column="P_MENU_ID" property="pMenuId" jdbcType="VARCHAR" />
+    <result column="MENU_DESC" property="menuDesc" jdbcType="VARCHAR" />
+    <result column="MENU_CLASS" property="icon" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="path" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="CLOSEABLE" property="closeable" jdbcType="CHAR" javaType="Boolean"/>
+    <collection property="menus" column="{menuId=MENU_ID,industryId=INDUSTRY_ID}" ofType="MenuInit" 
+    	javaType="java.util.ArrayList" select="listMenuInitChildrenByIndustry">
+    </collection>
+  </resultMap>
+  
+  <select id="listAllMenuInitByIndustry" resultMap="treeIndustryMenuInit" parameterType="pd" >
+     SELECT DISTINCT 
+	  b.MENU_ID,
+	  c.P_MENU_ID,
+	  c.MENU_NAME,
+	  c.MENU_CLASS,
+	  c.MENU_URL,
+	  c.CLOSEABLE,
+	  c.TIER,
+	  a.INDUSTRY_ID
+	FROM
+	  YDZ_INDUSTRY_BUSINESS_INIT a,
+	  YDZ_BUSINESS_MENU_INIT b,
+	  YDZ_MENU_INIT c 
+	WHERE a.BUSINESS_CODE = b.BUSINESS_CODE   
+	  AND b.MENU_ID = c.MENU_ID 
+	  AND a.IS_VALID = '1'
+	  AND b.IS_VALID = '1'
+	  AND c.IS_VALID = '1'
+	  AND a.INDUSTRY_ID = #{industryId}
+	  AND c.P_MENU_ID = #{pMenuId}
+  </select>
+  
+  <select id="listMenuInitChildrenByIndustry" resultMap="treeIndustryMenuInit" parameterType="MenuInit" >
+    SELECT DISTINCT 
+	  b.MENU_ID,
+	  c.P_MENU_ID,
+	  c.MENU_NAME,
+	  c.MENU_CLASS,
+	  c.MENU_URL,
+	  c.CLOSEABLE,
+	  c.TIER,
+	  a.INDUSTRY_ID
+	FROM
+	  YDZ_INDUSTRY_BUSINESS_INIT a,
+	  YDZ_BUSINESS_MENU_INIT b,
+	  YDZ_MENU_INIT c 
+	WHERE a.BUSINESS_CODE = b.BUSINESS_CODE 
+	  AND b.MENU_ID = c.MENU_ID 
+	  AND a.IS_VALID = '1'
+	  AND b.IS_VALID = '1'
+	  AND c.IS_VALID = '1'
+	  AND c.P_MENU_ID = #{menuId}
+	  AND a.INDUSTRY_ID = #{industryId}
+  </select>
+  
+  
+</mapper>

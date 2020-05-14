@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.assignment.InstallationCheckingOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.assignment.InstallationCheckingOrder" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="INSTALLATIONCHECKING_NO" property="installationcheckingNo" jdbcType="VARCHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_NAME" property="partnerName" jdbcType="VARCHAR" />
+    <result column="PARTNER_SHORTNAME" property="partnerShortname" jdbcType="VARCHAR" />
+    <result column="CONTACT_ID" property="contactId" jdbcType="VARCHAR" />
+    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="ORDER_DATE" property="orderDate" jdbcType="DATE" />
+    <result column="CASE_DESC" property="caseDesc" jdbcType="VARCHAR" />
+    <result column="TOTAL_PRICE" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="INSTALLATION_PRICE" property="installationPrice" jdbcType="DECIMAL" />
+    <result column="PREPAY_PRICE" property="prepayPrice" jdbcType="DECIMAL" />
+    <result column="PAYABLE_PRICE" property="payablePrice" jdbcType="DECIMAL" />
+    <result column="PREFERENTIAL" property="preferential" jdbcType="DECIMAL" />
+    <result column="PAID_UP" property="paidUp" jdbcType="DECIMAL" />
+    <result column="BALANCE_MONEY" property="balanceMoney" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ORDER_CYCLE" property="orderCycle" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="INSTALLATION_NO" property="installationNo" jdbcType="VARCHAR" />
+    <result column="INSTALLATION_ORDER_NUM" property="installationOrderNum" jdbcType="INTEGER" />
+    <result column="DETAIL_NUM" property="detailNum" jdbcType="INTEGER" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, INSTALLATIONCHECKING_NO, COM_KEY, INDUSTRY_ID, PARTNER_KEY, PARTNER_NAME, PARTNER_SHORTNAME, 
+    CONTACT_ID, CONTACT_NAME, ORDER_DATE, CASE_DESC, TOTAL_PRICE, INSTALLATION_PRICE, 
+    PREPAY_PRICE, PAYABLE_PRICE, PREFERENTIAL, PAID_UP, BALANCE_MONEY, STATUS, ORDER_CYCLE, REMARKS, INSTALLATION_NO, INSTALLATION_ORDER_NUM, 
+    DETAIL_NUM, IS_VALID, IS_DEL, CREATOR, CREATE_TIME
+  </sql>
+  <sql id="Base_Column_List_COPY" >
+    io.UID, io.INSTALLATIONCHECKING_NO, io.COM_KEY, io.INDUSTRY_ID, io.PARTNER_KEY, io.PARTNER_NAME, io.PARTNER_SHORTNAME, 
+    io.CONTACT_ID, io.CONTACT_NAME, io.ORDER_DATE, io.CASE_DESC, io.TOTAL_PRICE, io.INSTALLATION_PRICE, 
+    io.PREPAY_PRICE, io.PAYABLE_PRICE, io.PREFERENTIAL, io.PAID_UP, io.BALANCE_MONEY, io.STATUS, io.ORDER_CYCLE, io.REMARKS, 
+    io.INSTALLATION_NO, io.INSTALLATION_ORDER_NUM, io.DETAIL_NUM, io.IS_VALID, io.IS_DEL, io.CREATOR, io.CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List_COPY" />,u.REAL_NAME creatorName
+    from ydz_installationchecking_order io, ydz_user u
+    where io.IS_VALID = '1' AND io.IS_DEL = '0'
+    AND io.CREATOR = u.USER_KEY 
+    AND io.COM_KEY = #{comKey} 
+    AND io.INSTALLATIONCHECKING_NO = #{installationcheckingNo}
+  </select>
+  
+  <sql id="Base_Column_List_Concat" >
+    DISTINCT(io.INSTALLATIONCHECKING_NO) installationcheckingNo, io.COM_KEY comKey, io.INDUSTRY_ID industryId, io.PARTNER_KEY partnerKey, 
+    io.PARTNER_NAME partnerName, io.PARTNER_SHORTNAME partnerShortname, io.CONTACT_ID contactId, io.CONTACT_NAME contactName, io.ORDER_DATE orderDate, 
+    io.CASE_DESC caseDesc, io.TOTAL_PRICE totalPrice, io.INSTALLATION_PRICE installationPrice, io.PREPAY_PRICE prepayPrice, io.PAYABLE_PRICE payablePrice, 
+    io.PREFERENTIAL preferential, io.PAID_UP paidUp, io.BALANCE_MONEY balanceMoney, 
+    io.STATUS status, io.ORDER_CYCLE orderCycle, io.REMARKS remarks, io.INSTALLATION_NO intallationNo, io.INSTALLATION_ORDER_NUM installationOrderNum, 
+    io.DETAIL_NUM detailNum, io.IS_VALID isValid, io.IS_DEL isDel, io.CREATOR creator, io.CREATE_TIME createTime, CONCAT(io.INSTALLATION_ORDER_NUM,' (',io.DETAIL_NUM,')') orderCountValue
+  </sql>
+  <select id="listPageCheckingOrdersConcat" resultType="com.ydz.entity.assignment.InstallationCheckingOrderVO" parameterType="page" >
+    select 
+    <include refid="Base_Column_List_Concat" />,
+    rp.RECPAY_NAME AS recpayName,
+    rp.RECPAY_DATE AS recpayDate,
+    rp.ACCOUNT_PAYEE AS accountPayee,
+    rp.REMARKS AS balanceRemarks
+	from
+		ydz_installationchecking_order_detail iod,
+		ydz_installationchecking_order io
+		LEFT JOIN ydz_receipt_payment rp ON io.INSTALLATIONCHECKING_NO = rp.CHECKING_NO
+    where io.IS_VALID = '1' AND io.IS_DEL = '0' AND io.COM_KEY = #{pd.comKey}
+    <if test="pd.partnerKey != null">
+    	and io.PARTNER_KEY = #{pd.partnerKey}
+    </if>
+    <if test="pd.industryId != null">
+    	and io.INDUSTRY_ID = #{pd.industryId}
+    </if>
+    <if test="pd.searchKey != null">
+	    and CONCAT(io.INSTALLATIONCHECKING_NO,io.CASE_DESC,iod.BUSINESS_DESC) LIKE '%${pd.searchKey}%'
+    </if>
+    <if test="pd.startDate != null and pd.endDate !=null">
+    	and io.ORDER_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+    </if>
+    <if test="pd.orderStatus != null">
+    	and io.STATUS = #{pd.orderStatus}
+    </if>
+    order by io.CREATE_TIME DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from ydz_installationchecking_order
+    where COM_KEY = #{comKey} and INSTALLATIONCHECKING_NO = #{installationcheckingNo}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.assignment.InstallationCheckingOrder" >
+    insert into ydz_installationchecking_order (UID, INSTALLATIONCHECKING_NO, COM_KEY, 
+      INDUSTRY_ID, PARTNER_KEY, PARTNER_NAME, 
+      PARTNER_SHORTNAME, CONTACT_ID, CONTACT_NAME, 
+      ORDER_DATE, CASE_DESC, TOTAL_PRICE, 
+      INSTALLATION_PRICE, PREPAY_PRICE, PAYABLE_PRICE, PREFERENTIAL, PAID_UP, BALANCE_MONEY, 
+      STATUS, ORDER_CYCLE, REMARKS, INSTALLATION_NO, 
+      INSTALLATION_ORDER_NUM, DETAIL_NUM, IS_VALID, 
+      IS_DEL, CREATOR, CREATE_TIME
+      )
+    values (#{uid,jdbcType=BIGINT}, #{installationcheckingNo,jdbcType=VARCHAR}, #{comKey,jdbcType=VARCHAR}, 
+      #{industryId,jdbcType=VARCHAR}, #{partnerKey,jdbcType=VARCHAR}, #{partnerName,jdbcType=VARCHAR}, 
+      #{partnerShortname,jdbcType=VARCHAR}, #{contactId,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, 
+      #{orderDate,jdbcType=DATE}, #{caseDesc,jdbcType=VARCHAR}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{installationPrice,jdbcType=DECIMAL}, #{prepayPrice,jdbcType=DECIMAL}, #{payablePrice,jdbcType=DECIMAL}, 
+      #{preferential,jdbcType=DECIMAL}, #{paidUp,jdbcType=DECIMAL}, #{balanceMoney,jdbcType=DECIMAL}, 
+      #{status,jdbcType=VARCHAR}, #{orderCycle,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{installationNo,jdbcType=VARCHAR}, 
+      #{installationOrderNum,jdbcType=INTEGER}, #{detailNum,jdbcType=INTEGER}, #{isValid,jdbcType=CHAR}, 
+      #{isDel,jdbcType=CHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.assignment.InstallationCheckingOrder" >
+    insert into ydz_installationchecking_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="installationcheckingNo != null" >
+        INSTALLATIONCHECKING_NO,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY,
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME,
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME,
+      </if>
+      <if test="contactId != null" >
+        CONTACT_ID,
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME,
+      </if>
+      <if test="orderDate != null" >
+        ORDER_DATE,
+      </if>
+      <if test="caseDesc != null" >
+        CASE_DESC,
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE,
+      </if>
+      <if test="installationPrice != null" >
+        INSTALLATION_PRICE,
+      </if>
+      <if test="prepayPrice != null" >
+        PREPAY_PRICE,
+      </if>
+      <if test="payablePrice != null" >
+        PAYABLE_PRICE,
+      </if>
+      <if test="preferential != null" >
+        PREFERENTIAL,
+      </if>
+      <if test="paidUp != null" >
+        PAID_UP,
+      </if>
+      <if test="balanceMoney != null" >
+        BALANCE_MONEY,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="orderCycle != null" >
+        ORDER_CYCLE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="installationNo != null" >
+        INSTALLATION_NO,
+      </if>
+      <if test="installationOrderNum != null" >
+        INSTALLATION_ORDER_NUM,
+      </if>
+      <if test="detailNum != null" >
+        DETAIL_NUM,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="installationcheckingNo != null" >
+        #{installationcheckingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        #{partnerShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactId != null" >
+        #{contactId,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="caseDesc != null" >
+        #{caseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="installationPrice != null" >
+        #{installationPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="prepayPrice != null" >
+        #{prepayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="payablePrice != null" >
+        #{payablePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="preferential != null" >
+        #{preferential,jdbcType=DECIMAL},
+      </if>
+      <if test="paidUp != null" >
+        #{paidUp,jdbcType=DECIMAL},
+      </if>
+      <if test="balanceMoney != null" >
+        #{balanceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCycle != null" >
+        #{orderCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="installationNo != null" >
+        #{installationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="installationOrderNum != null" >
+        #{installationOrderNum,jdbcType=INTEGER},
+      </if>
+      <if test="detailNum != null" >
+        #{detailNum,jdbcType=INTEGER},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.assignment.InstallationCheckingOrder" >
+    update ydz_installationchecking_order
+    <set >
+      <if test="installationcheckingNo != null" >
+        INSTALLATIONCHECKING_NO = #{installationcheckingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME = #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME = #{partnerShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactId != null" >
+        CONTACT_ID = #{contactId,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        ORDER_DATE = #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="caseDesc != null" >
+        CASE_DESC = #{caseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="installationPrice != null" >
+        INSTALLATION_PRICE = #{installationPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="prepayPrice != null" >
+        PREPAY_PRICE = #{prepayPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="payablePrice != null" >
+        PAYABLE_PRICE = #{payablePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="preferential != null" >
+        PREFERENTIAL = #{preferential,jdbcType=DECIMAL},
+      </if>
+      <if test="paidUp != null" >
+        PAID_UP = #{paidUp,jdbcType=DECIMAL},
+      </if>
+      <if test="balanceMoney != null" >
+        BALANCE_MONEY = #{balanceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCycle != null" >
+        ORDER_CYCLE = #{orderCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="installationNo != null" >
+        INSTALLATION_NO = #{installationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="installationOrderNum != null" >
+        INSTALLATION_ORDER_NUM = #{installationOrderNum,jdbcType=INTEGER},
+      </if>
+      <if test="detailNum != null" >
+        DETAIL_NUM = #{detailNum,jdbcType=INTEGER},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where COM_KEY = #{comKey} and INSTALLATIONCHECKING_NO = #{installationcheckingNo}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.assignment.InstallationCheckingOrder" >
+    update ydz_installationchecking_order
+    set INSTALLATIONCHECKING_NO = #{installationcheckingNo,jdbcType=VARCHAR},
+      COM_KEY = #{comKey,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      PARTNER_NAME = #{partnerName,jdbcType=VARCHAR},
+      PARTNER_SHORTNAME = #{partnerShortname,jdbcType=VARCHAR},
+      CONTACT_ID = #{contactId,jdbcType=VARCHAR},
+      CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      ORDER_DATE = #{orderDate,jdbcType=DATE},
+      CASE_DESC = #{caseDesc,jdbcType=VARCHAR},
+      TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      INSTALLATION_PRICE = #{installationPrice,jdbcType=DECIMAL},
+      PREPAY_PRICE = #{prepayPrice,jdbcType=DECIMAL},
+      PAYABLE_PRICE = #{payablePrice,jdbcType=DECIMAL},
+      PREFERENTIAL = #{preferential,jdbcType=DECIMAL},
+      PAID_UP = #{paidUp,jdbcType=DECIMAL},
+      BALANCE_MONEY = #{balanceMoney,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ORDER_CYCLE = #{orderCycle,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      INSTALLATION_NO = #{installationNo,jdbcType=VARCHAR},
+      INSTALLATION_ORDER_NUM = #{installationOrderNum,jdbcType=INTEGER},
+      DETAIL_NUM = #{detailNum,jdbcType=INTEGER},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      IS_DEL = #{isDel,jdbcType=CHAR},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

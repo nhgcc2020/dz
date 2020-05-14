@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.assignment.AssignWorkingProcedureMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.assignment.AssignWorkingProcedure" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="WORKSHOP" property="workshop" jdbcType="VARCHAR" />
+    <result column="WORKING_PROCEDURE" property="workingProcedure" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, COM_KEY, INDUSTRY_ID, WORKSHOP, WORKING_PROCEDURE, REMARKS, CREATE_TIME, 
+    CREATOR
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_ASSIGN_WORKING_PROCEDURE
+    where COM_KEY = #{comKey}
+    <if test="industryId != null">
+    	and INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="workshop != null">
+    	and WORKSHOP = #{workshop}
+    </if>
+    <if test="workingProcedure != null">
+    	and WORKING_PROCEDURE like '%${workingProcedure}%'
+    </if>
+  </select>
+  <select id="listPageAssignWorkingProcedure" resultMap="BaseResultMap" parameterType="page" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_ASSIGN_WORKING_PROCEDURE
+    where COM_KEY = #{pd.comKey}
+    <if test="pd.industryId != null">
+    	and INDUSTRY_ID = #{pd.industryId}
+    </if>
+    <if test="pd.workshop != null">
+    	and WORKSHOP = #{pd.workshop}
+    </if>
+    <if test="pd.workingProcedure != null">
+    	and WORKING_PROCEDURE like '%${pd.workingProcedure}%'
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_ASSIGN_WORKING_PROCEDURE
+    where COM_KEY = #{comKey} and WORKSHOP = #{workshop}
+    <if test="workingProcedure != null">
+    	and WORKING_PROCEDURE like '%${workingProcedure}%'
+    </if>
+    
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.assignment.AssignWorkingProcedure" >
+    insert into YDZ_ASSIGN_WORKING_PROCEDURE (UID, COM_KEY, INDUSTRY_ID, 
+      WORKSHOP, WORKING_PROCEDURE, REMARKS, CREATE_TIME, CREATOR
+      )
+    values (#{uid,jdbcType=BIGINT}, #{comKey,jdbcType=VARCHAR}, #{industryId,jdbcType=VARCHAR}, 
+      #{workshop,jdbcType=VARCHAR}, #{workingProcedure,jdbcType=VARCHAR},
+      #{remarks,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.assignment.AssignWorkingProcedure" >
+    insert into YDZ_ASSIGN_WORKING_PROCEDURE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="workshop != null" >
+        WORKSHOP,
+      </if>
+      <if test="workingProcedure != null" >
+        WORKING_PROCEDURE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="workshop != null" >
+        #{workshop,jdbcType=VARCHAR},
+      </if>
+      <if test="workingProcedure != null" >
+        #{workingProcedure,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.assignment.AssignWorkingProcedure" >
+    update YDZ_ASSIGN_WORKING_PROCEDURE
+    <set >
+      <if test="workshop != null" >
+        WORKSHOP = #{workshop,jdbcType=VARCHAR},
+      </if>
+      <if test="workingProcedure != null" >
+        WORKING_PROCEDURE = #{workingProcedure,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COM_KEY = #{comKey}
+    <if test="uid != null">
+    	and UID = #{uid}
+    </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.assignment.AssignWorkingProcedure" >
+    update YDZ_ASSIGN_WORKING_PROCEDURE
+    set COM_KEY = #{comKey,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      WORKSHOP = #{workshop,jdbcType=VARCHAR},
+      WORKING_PROCEDURE = #{workingProcedure,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

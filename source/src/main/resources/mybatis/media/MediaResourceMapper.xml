@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydz.dao.media.MediaResourceMapper">
+  <resultMap id="BaseResultMap" type="com.ydz.entity.media.MediaResource">
+    <id column="UID" jdbcType="BIGINT" property="uid" />
+    <result column="MEDIA_NO" jdbcType="VARCHAR" property="mediaNo" />
+    <result column="COM_KEY" jdbcType="VARCHAR" property="comKey" />
+    <result column="INDUSTRY_ID" jdbcType="VARCHAR" property="industryId" />
+    <result column="MEDIA_DESC" jdbcType="VARCHAR" property="mediaDesc" />
+    <result column="MEDIA_TYPE" jdbcType="CHAR" property="mediaType" />
+    <result column="MEDIA_TYPE_DESC" jdbcType="VARCHAR" property="mediaTypeDesc" />
+    <result column="SHOW_TYPE" jdbcType="CHAR" property="showType" />
+    <result column="SHOW_TYPE_DESC" jdbcType="VARCHAR" property="showTypeDesc" />
+    <result column="POINT_NUM" jdbcType="TINYINT" property="pointNum" />
+    <result column="IS_DEL" jdbcType="CHAR" property="isDel" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR" jdbcType="VARCHAR" property="creator" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UID, MEDIA_NO, COM_KEY, INDUSTRY_ID, MEDIA_DESC, MEDIA_TYPE, MEDIA_TYPE_DESC, SHOW_TYPE, 
+    SHOW_TYPE_DESC, POINT_NUM, IS_DEL, REMARKS, CREATE_TIME, CREATOR
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="pd" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_media_resource
+    where is_del = '0' and com_key = #{comKey}
+    <if test="mediaNo != null">
+    	and MEDIA_NO = #{mediaNo}
+    </if>
+    <if test="industryId != null">
+    	and INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="mediaType != null">
+    	and MEDIA_TYPE = #{mediaType}
+    </if>
+    <if test="showType != null">
+    	and SHOW_TYPE = #{showType}
+    </if>
+  </select>
+  <select id="listPageMediaResources" resultType="com.ydz.entity.media.MediaResource" parameterType="page">
+  	SELECT
+		mr.UID ,
+		mr.MEDIA_NO ,
+		mr.COM_KEY ,
+		mr.INDUSTRY_ID ,
+		mr.MEDIA_DESC ,
+		mr.MEDIA_TYPE ,
+		mr.MEDIA_TYPE_DESC ,
+		mr.SHOW_TYPE ,
+		mr.SHOW_TYPE_DESC ,
+		(select count(point_no) from ydz_media_point_location where MEDIA_NO = mr.MEDIA_NO) POINT_NUM ,
+		mr.IS_DEL ,
+		mr.REMARKS ,
+		mr.CREATE_TIME ,
+		mr.CREATOR
+	FROM
+		ydz_media_resource mr
+    where mr.is_del = '0' and mr.com_key = #{pd.comKey}
+    <if test="pd.mediaNo != null">
+    	and mr.MEDIA_NO = #{pd.mediaNo}
+    </if>
+    <if test="pd.industryId != null">
+    	and mr.INDUSTRY_ID = #{pd.industryId}
+    </if>
+    <if test="pd.mediaType != null">
+    	and mr.MEDIA_TYPE = #{pd.mediaType}
+    </if>
+    <if test="pd.showType != null">
+    	and mr.SHOW_TYPE = #{pd.showType}
+    </if>
+    order by mr.uid desc
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="pd">
+    delete from ydz_media_resource
+    where com_key = #{comKey} and MEDIA_NO = #{mediaNo}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.media.MediaResource">
+    insert into ydz_media_resource (UID, MEDIA_NO, COM_KEY, 
+      INDUSTRY_ID, MEDIA_DESC, MEDIA_TYPE, 
+      MEDIA_TYPE_DESC, SHOW_TYPE, SHOW_TYPE_DESC, 
+      POINT_NUM, IS_DEL, REMARKS, 
+      CREATE_TIME, CREATOR)
+    values (#{uid,jdbcType=BIGINT}, #{mediaNo,jdbcType=VARCHAR}, #{comKey,jdbcType=VARCHAR}, 
+      #{industryId,jdbcType=VARCHAR}, #{mediaDesc,jdbcType=VARCHAR}, #{mediaType,jdbcType=CHAR}, 
+      #{mediaTypeDesc,jdbcType=VARCHAR}, #{showType,jdbcType=CHAR}, #{showTypeDesc,jdbcType=VARCHAR}, 
+      #{pointNum,jdbcType=TINYINT}, #{isDel,jdbcType=CHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.media.MediaResource">
+    insert into ydz_media_resource
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mediaNo != null">
+        MEDIA_NO,
+      </if>
+      <if test="comKey != null">
+        COM_KEY,
+      </if>
+      <if test="industryId != null">
+        INDUSTRY_ID,
+      </if>
+      <if test="mediaDesc != null">
+        MEDIA_DESC,
+      </if>
+      <if test="mediaType != null">
+        MEDIA_TYPE,
+      </if>
+      <if test="mediaTypeDesc != null">
+        MEDIA_TYPE_DESC,
+      </if>
+      <if test="showType != null">
+        SHOW_TYPE,
+      </if>
+      <if test="showTypeDesc != null">
+        SHOW_TYPE_DESC,
+      </if>
+      <if test="pointNum != null">
+        POINT_NUM,
+      </if>
+      <if test="isDel != null">
+        IS_DEL,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creator != null">
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mediaNo != null">
+        #{mediaNo,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null">
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null">
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaDesc != null">
+        #{mediaDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaType != null">
+        #{mediaType,jdbcType=CHAR},
+      </if>
+      <if test="mediaTypeDesc != null">
+        #{mediaTypeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="showType != null">
+        #{showType,jdbcType=CHAR},
+      </if>
+      <if test="showTypeDesc != null">
+        #{showTypeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pointNum != null">
+        #{pointNum,jdbcType=TINYINT},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.media.MediaResource">
+    update ydz_media_resource
+    <set>
+      <if test="industryId != null">
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaDesc != null">
+        MEDIA_DESC = #{mediaDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="mediaType != null">
+        MEDIA_TYPE = #{mediaType,jdbcType=CHAR},
+      </if>
+      <if test="mediaTypeDesc != null">
+        MEDIA_TYPE_DESC = #{mediaTypeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="showType != null">
+        SHOW_TYPE = #{showType,jdbcType=CHAR},
+      </if>
+      <if test="showTypeDesc != null">
+        SHOW_TYPE_DESC = #{showTypeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pointNum != null">
+        POINT_NUM = #{pointNum,jdbcType=TINYINT},
+      </if>
+      <if test="isDel != null">
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where com_key = #{comKey} and MEDIA_NO = #{mediaNo}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.media.MediaResource">
+    update ydz_media_resource
+    set MEDIA_NO = #{mediaNo,jdbcType=VARCHAR},
+      COM_KEY = #{comKey,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      MEDIA_DESC = #{mediaDesc,jdbcType=VARCHAR},
+      MEDIA_TYPE = #{mediaType,jdbcType=CHAR},
+      MEDIA_TYPE_DESC = #{mediaTypeDesc,jdbcType=VARCHAR},
+      SHOW_TYPE = #{showType,jdbcType=CHAR},
+      SHOW_TYPE_DESC = #{showTypeDesc,jdbcType=VARCHAR},
+      POINT_NUM = #{pointNum,jdbcType=TINYINT},
+      IS_DEL = #{isDel,jdbcType=CHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

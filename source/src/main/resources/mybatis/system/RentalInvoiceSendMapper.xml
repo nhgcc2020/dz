@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.RentalInvoiceSendMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.RentalInvoiceSend" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="INVOICE_KEY" property="invoiceKey" jdbcType="VARCHAR" />
+    <result column="BILL_NO" property="billNo" jdbcType="VARCHAR" />
+    <result column="SEND_DATE" property="sendDate" jdbcType="DATE" />
+    <result column="EXPRESS_COM" property="expressCom" jdbcType="VARCHAR" />
+    <result column="EXPRESS_NO" property="expressNo" jdbcType="VARCHAR" />
+    <result column="CMNT" property="cmnt" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, INVOICE_KEY, BILL_NO, SEND_DATE, EXPRESS_COM, EXPRESS_NO, CMNT, CREATOR, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_RENTAL_INVOICE_SEND
+    where UID = #{uid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_RENTAL_INVOICE_SEND
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.system.RentalInvoiceSend" >
+    insert into YDZ_RENTAL_INVOICE_SEND (UID, INVOICE_KEY, BILL_NO, 
+      SEND_DATE, EXPRESS_COM, EXPRESS_NO, 
+      CMNT, CREATOR, CREATE_TIME
+      )
+    values (#{uid,jdbcType=BIGINT}, #{invoiceKey,jdbcType=VARCHAR}, #{billNo,jdbcType=VARCHAR}, 
+      #{sendDate,jdbcType=DATE}, #{expressCom,jdbcType=VARCHAR}, #{expressNo,jdbcType=VARCHAR}, 
+      #{cmnt,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.RentalInvoiceSend" >
+    insert into YDZ_RENTAL_INVOICE_SEND
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="invoiceKey != null" >
+        INVOICE_KEY,
+      </if>
+      <if test="billNo != null" >
+        BILL_NO,
+      </if>
+      <if test="sendDate != null" >
+        SEND_DATE,
+      </if>
+      <if test="expressCom != null" >
+        EXPRESS_COM,
+      </if>
+      <if test="expressNo != null" >
+        EXPRESS_NO,
+      </if>
+      <if test="cmnt != null" >
+        CMNT,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="invoiceKey != null" >
+        #{invoiceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="billNo != null" >
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        #{sendDate,jdbcType=DATE},
+      </if>
+      <if test="expressCom != null" >
+        #{expressCom,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cmnt != null" >
+        #{cmnt,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.RentalInvoiceSend" >
+    update YDZ_RENTAL_INVOICE_SEND
+    <set >
+      <if test="invoiceKey != null" >
+        INVOICE_KEY = #{invoiceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="billNo != null" >
+        BILL_NO = #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        SEND_DATE = #{sendDate,jdbcType=DATE},
+      </if>
+      <if test="expressCom != null" >
+        EXPRESS_COM = #{expressCom,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null" >
+        EXPRESS_NO = #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cmnt != null" >
+        CMNT = #{cmnt,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.RentalInvoiceSend" >
+    update YDZ_RENTAL_INVOICE_SEND
+    set INVOICE_KEY = #{invoiceKey,jdbcType=VARCHAR},
+      BILL_NO = #{billNo,jdbcType=VARCHAR},
+      SEND_DATE = #{sendDate,jdbcType=DATE},
+      EXPRESS_COM = #{expressCom,jdbcType=VARCHAR},
+      EXPRESS_NO = #{expressNo,jdbcType=VARCHAR},
+      CMNT = #{cmnt,jdbcType=VARCHAR},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

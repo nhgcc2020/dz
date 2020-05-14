@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>我的客户</title>
+		<meta name="format-detection" content="telephone=no" />
+		<meta http-equiv="x-rim-auto-match" content="none">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<link rel="stylesheet" href="/wechat/css/mui.min.css">
+		<link rel="stylesheet" href="/wechat/css/main.css">
+		<link rel="stylesheet" href="/wechat/css/model.css">
+		<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+		<script src="/wechat/js/main.js"></script>
+		<script src="/common/growingio.js"></script>
+		<style>
+			.coustom_list{
+				height:36px;
+				width:90%;
+				line-height: 36px;
+				overflow: hidden;
+				margin:15px auto;
+				background: #fff;
+				border-radius: 18px;
+				font-size: 14px;
+				box-shadow: 0px 2px 5px #e4e4e4;
+			}
+			.coustom_list li{
+				width:50%;
+				float: left;
+				text-align: center;
+			}
+			.coustom_list li.active{
+				background: #2e8ae6;
+				color: #fff;
+				border-radius: 18px;
+			}
+			.coustom_list_center ul{
+				display: none;
+			}
+			.coustom_list_center ul li{
+				height:70px;
+				width:100%;
+				background: #fff;
+				overflow: hidden;
+				padding:10px 0px 10px 15px;
+				position: relative;
+				margin-bottom:10px;
+			}
+			.coustom_list_center ul li div:first-child{
+				height:50px;
+				width:50px;
+				overflow: hidden;
+				border-radius: 25px;
+				float: left;
+			}
+			.coustom_list_center ul li div:first-child img{
+				height:100%;
+				width:100%;
+			}
+			.coustom_list_center ul li div:nth-child(2){
+				float: left;
+				height:50px;
+				overflow: hidden;
+				margin-left: 10px ;
+			}
+			.coustom_list_center ul li div:nth-child(2) h1{
+				font-size:14px;
+				color: #666;
+				height:25px;
+				margin:0px;
+				padding:0px;
+				line-height:25px;
+				font-weight:normal;
+			}
+			.coustom_list_center ul li div:nth-child(2) p{
+				font-size:12px;
+				color: #999;
+				height:25px;
+				margin:0px;
+				padding:0px;
+				line-height:25px;
+			}
+			.coustom_list_center ul li span{
+				display: block;
+				height:30px;
+				width:80px;
+				line-height:30px;
+				color: #FF9900;
+				position: absolute;
+				top:20px;
+				right:15px;
+				font-size:14px;
+				text-align: center;
+			}
+			.coustom_list_center ul li span.active{
+				background: #2e8ae6;
+				border-radius: 3px;
+				color: #fff;
+			}
+			.coustom_list_center ul.active{
+				display: block;
+			}
+			.invent_friend{
+				height:100%;
+				width:100%;
+				position: fixed;
+				top:-100%;
+				left:0px;
+				background: #f8f8f8;
+				overflow: hidden;
+			}
+			.invent_friend_company li{
+				height:70px;
+				width:100%;
+				background: #fff;
+				overflow: hidden;
+				padding:10px 0px 10px 15px;
+				margin-top:10px;
+			}
+			.invent_friend_company li div:first-child{
+				height:50px;
+				width:50px;
+				overflow: hidden;
+				float: left;
+			}
+			.invent_friend_company li div:first-child img{
+				height:100%;
+				width:100%;
+			}
+			.invent_friend_company li div:nth-child(2){
+				float: left;
+				height:50px;
+				overflow: hidden;
+				margin-left: 10px ;
+			}
+			.invent_friend_company li div:nth-child(2) h1{
+				font-size:14px;
+				color: #333;
+				height:25px;
+				margin:0px;
+				padding:0px;
+				line-height:25px;
+				font-weight:normal;
+			}
+			.invent_friend_company li div:nth-child(2) p{
+				font-size:12px;
+				color: #999;
+				height:25px;
+				margin:0px;
+				padding:0px;
+				line-height:25px;
+			}
+			.invent_friend_company,.invent_friend_personal{
+				display: none;
+			}
+			.invent_friend_personal li{
+				height:70px;
+				width:100%;
+				background: #fff;
+				overflow: hidden;
+				padding:10px 0px 10px 15px;
+				margin-top:10px;
+			}
+			.invent_friend_personal li div:first-child{
+				height:50px;
+				width:50px;
+				overflow: hidden;
+				border-radius: 25px;
+				float: left;
+			}
+			.invent_friend_personal li div:first-child img{
+				height:100%;
+				width:100%;
+			}
+			.invent_friend_personal li div:nth-child(2){
+				float: left;
+				height:50px;
+				overflow: hidden;
+				margin-left: 10px ;
+			}
+			.invent_friend_personal li div:nth-child(2) h1{
+				font-size:14px;
+				color: #333;
+				height:25px;
+				margin:0px;
+				padding:0px;
+				line-height:25px;
+				font-weight:normal;
+			}
+			.invent_friend_personal li div:nth-child(2) p{
+				font-size:12px;
+				color: #999;
+				height:25px;
+				margin:0px;
+				padding:0px;
+				line-height:25px;
+			}
+			.invent_friend_set div{
+				height:45px;
+				line-height:45px;
+				background: #fff;
+				margin-top: 10px;
+				font-size: 14px;
+				position: relative;
+				padding-left: 15px;
+				color: #666;
+			}
+			.invent_friend_set div input{
+				position: absolute;
+				right:0px;
+				width:50%;
+				text-align: right;
+				border:none;
+				color: #333;
+				font-size: 14px;
+			}
+			.invent_friend_set p{
+				height:30px;
+				line-height:30px;
+				text-align: right;
+				padding:0px 15px 0px 0px; !important;
+				margin:15px 0px;
+			}
+			.invent_friend_set p span{
+				color: #DA4654;
+			}
+			.invent_friend_set button{
+				width:40%;
+				height:40px;
+				border-radius: 40px;
+				border:1px solid #2e8ae6;
+				background: #2e8ae6;
+				color: #fff;
+				float: left;
+				margin-left: 6.66%;
+			}
+			.add_friend_btn1{
+				background: none !important;
+				color: #666 !important;
+			}
+			.invent_friend_company,.invent_friend_personal{
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--这个是加载框，切勿修改-->
+		<div class="loading_box "><span></span></div>
+		<ul class="coustom_list">
+			<li class="active">非好友</li>
+			<li>好友</li>
+		</ul>
+		<div class="coustom_list_center">
+			<ul class="active" id="unfriend_list"></ul>
+			<ul id="friend_list"></ul>
+		</div>
+
+
+	<div class="invent_friend">
+		<ul class="invent_friend_company">
+			<li>
+				<div>
+					<img src="../../images/default_company.png" alt="头像">
+				</div>
+				<div>
+					<h1 id="inviteCom"></h1>
+					<p id="inviteName"></p>
+				</div>
+			</li>
+		</ul>
+		<ul class="invent_friend_personal">
+			<li>
+				<div>
+					<img src="../../images/default_company.png" alt="头像">
+				</div>
+				<div>
+					<h1 id="invitePerson"></h1>
+					<p>个人用户</p>
+				</div>
+			</li>
+		</ul>
+		<div class="invent_friend_set">
+			<div>手机号码（可编辑）<input type="text" placeholder="请填写手机号码" onchange="checkPhone()" id="invent_friend_phone"></div>
+			<p class="error-detail">请再次确认<span>手机号码</span>，发送后将 <span>无法修改</span></p>
+			<button class="add_friend_btn1">取消</button>
+			<button class="friendBtn" onclick="sureInvite(this)">发送短信邀请</button>
+		</div>
+	</div>
+
+	</body>
+	<script>
+		var comFlag = false;
+		var partnerKey;
+		//获取合作伙伴还是好友
+		var _this =0;
+		$(".coustom_list li").click(function(){
+			_this = $(this).index();
+			$(this).addClass("active").siblings().removeClass("active");
+			$(".coustom_list_center ul").eq(_this).addClass("active").siblings().removeClass("active");
+			if( _this == 0 ){
+				UnFriends();
+			}else if( _this == 1 ){
+				Friends();
+			}
+		});
+
+		//好友状态
+		var partnerStatusConfig = {
+			"0":"非好友",
+			"1":"互为好友",
+			"2":"申请中",
+			"3":"已拒绝",
+			"4":"待申请",
+			"5":"待邀请",
+			"6":"邀请中"
+		};
+
+		var friendOptions = [
+			{"text":"全部","value":"ALL"},
+			{"text":"好友","value":"1"},
+			{"text":"非好友","value":"0"}
+		];
+
+//		非好友  0
+		function UnFriends(){
+			$(".loading_box").addClass("loadingssss");
+			var UnfriendList = document.getElementById("unfriend_list");
+			UnfriendList.innerHTML = '';
+			$.ajax({
+				url:'/wx/partner/customerList',
+				data:{
+					partnerStatus:"0"
+				},
+				type:'POST',
+				async:false,
+				dataType:"json",
+				timeout:"10000",
+				success:function(callback){
+					var data = callback.$data;
+					$(".loading_box").removeClass("loadingssss");
+					if(data.length == 0) {
+						$("<div class='error_tips'>").html("您暂时没有好友").fadeIn(250).appendTo('#unfriend_list');
+					}else{
+						$.each(data,function(key,val){
+							var partnerStatus = val.partnerStatus;
+							var spanStr = "";
+							var pStr = "";
+							switch (partnerStatus){
+								case "5":
+									/*spanStr = '<span class="active" data-partnerKey = "'+val.partnerKey+'" ' +
+											'data-partnerShortname="'+val.partnerShortname+'" data-contacterName="'+val.contacterName+'" ' +
+											'data-partnerAttr="'+val.partnerAttr+'" data-tel1="'+val.tel1+'" onclick=sendInvent(this)>发送邀请</span>';
+									break;*/
+								default:
+									spanStr = '<span>'+partnerStatusConfig[val.partnerStatus]+'</span>';
+									break;
+							}
+
+							switch (val.partnerAttr){
+								case "1":
+									pStr = '<p>'+val.contacterName+'&nbsp;&nbsp;'+val.tel1+'</p>';
+									break;
+								case "2":
+									pStr = '<p>'+val.tel1+'</p>';
+									break;
+							}
+
+							UnfriendList.innerHTML +=
+									'<li>'+
+									'<div>'+
+									'<img src="/images/default_company.png" alt="头像">'+
+									'</div>'+
+									'<div>'+
+									'<h1>'+val.partnerName+'</h1>'+ pStr +
+									'</div>'+ spanStr +
+									'</li>';
+						});
+					}
+				},
+				error:function(){
+					$("<div class='error_tips'>").html("请求数据失败").fadeIn(250).delay(500).fadeOut(250).appendTo('body');
+				}
+			});
+		}
+
+		//		好友
+		function Friends(){
+			$(".loading_box").addClass("loadingssss");
+			$("<div class='error_tips'>").fadeOut(250);
+			var friendList = document.getElementById("friend_list");
+			friendList.innerHTML = '';
+			$.ajax({
+				url:'/wx/partner/customerList',
+				data:{
+					partnerStatus:"1"
+				},
+				type:'POST',
+				async:false,
+				dataType:"json",
+				timeout:"10000",
+				success:function(callback){
+					var data = callback.$data;
+					$(".loading_box").removeClass("loadingssss");
+					if(data.length == 0) {
+						$("<div class='error_tips'>").html("您暂时没有好友").fadeIn(250).appendTo('#friend_list');
+					}else {
+						$.each(data,function(key,val){
+							var partnerStatus = val.partnerStatus;
+							var spanStr = "";
+							var pStr = "";
+							switch (partnerStatus){
+								case "5":
+									/*spanStr = '<span class="active" data-partnerKey = "'+val.partnerKey+'" ' +
+											'data-partnerShortname="'+val.partnerShortname+'" data-contacterName="'+val.contacterName+'" ' +
+											'data-partnerAttr="'+val.partnerAttr+'" data-tel1="'+val.tel1+'" onclick=sendInvent(this)>发送邀请</span>';
+									break;*/
+								default:
+									spanStr = '<span>'+partnerStatusConfig[val.partnerStatus]+'</span>';
+									break;
+							}
+
+							switch (val.partnerAttr){
+								case "1":
+									pStr = '<p>'+val.contacterName+'&nbsp;&nbsp;'+val.tel1+'</p>';
+									break;
+								case "2":
+									pStr = '<p>'+val.tel1+'</p>';
+									break;
+							}
+
+							friendList.innerHTML +=
+									'<li>'+
+									'<div>'+
+									'<img src="/images/default_company.png" alt="头像">'+
+									'</div>'+
+									'<div>'+
+									'<h1>'+val.partnerName+'</h1>'+ pStr +
+									'</div>'+ spanStr +
+									'</li>';
+						});
+					}
+				},
+				error:function(){
+					$("<div class='error_tips'>").html("请求数据失败").fadeIn(250).delay(500).fadeOut(250).appendTo('body');
+				}
+			});
+		}
+
+		function GetRequest() {
+			var url = location.search; //获取url中"?"符后的字串
+			var theRequest = new Object();
+			if (url.indexOf("?") != -1) {
+				var str = url.substr(1);
+				strs = str.split("&");
+				for (var i = 0; i < strs.length; i++) {
+					theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+				}
+			}
+			return theRequest;
+		}
+
+		var params = GetRequest();
+		if(params.type == "2"){
+			Friends();
+			$(".coustom_list li").eq(1).addClass("active").siblings().removeClass("active");
+			$(".coustom_list_center ul").eq(1).addClass("active").siblings().removeClass("active");
+		}else{
+			UnFriends();
+		}
+
+		//点击发送申请
+		function sendInvent(data){
+			var partnerAttr = $(data).data("partnerattr");
+			partnerKey = $(data).data("partnerkey");
+			var tel1 = $(data).data("tel1");
+			if( tel1 != null && $.trim(tel1) != ""){
+				$("#invent_friend_phone").val(tel1);
+			}
+			$(".invent_friend").animate({
+				top:'0px'
+			},300);
+			if( partnerAttr == "1" ){
+				$("#inviteCom").text($(data).data("partnershortname"));
+				$("#inviteName").text($(data).data("contactername"));
+				$(".invent_friend_company").css("display","block");
+			}else{
+				$("#invitePerson").text($(data).data("contactername"));
+				$(".invent_friend_personal").css("display","block");
+			}
+
+
+		};
+		//关闭页面
+		$(".add_friend_btn1").click(function(){
+			$(".invent_friend").animate({
+				top:'-100%'
+			},300);
+			$(".invent_friend_company,.invent_friend_personal").css("display","none");
+			partnerKey = "";
+		});
+
+
+		//手机号码验证 $("#invent_friend_phone")
+
+		function checkPhone(){
+			var _this = $("#invent_friend_phone").val();
+			var regx = /^1[34578]\d{9}$/;
+			if( !regx.test(_this) ){
+				$(".error-detail").html("<span>手机号码格式错误</span>");
+				comFlag = false;
+			}else{
+				$.ajax({
+					url:'/wx/partner/isRegistered',
+					type:'GET',
+					async:false,
+					data:{phone:_this},
+					dataType:"json",
+					success:function(callback){
+						if(callback){
+							$(".error-detail").html("该用户<span>已注册</span>,请通过电脑端<span>搜索添加</span> ");
+							comFlag = false;
+						}else{
+							$(".error-detail").html("请再次确认<span>手机号码</span>，发送后将 <span>无法修改</span>");
+							comFlag = true;
+						}
+					},
+					error:function(){
+						$(".error-detail").html("<span>请求数据失败</span>");
+						comFlag = false;
+					}
+				});
+			}
+		}
+
+		//确认邀请
+		function sureInvite(btn){
+			$(btn).html("邀请中...").attr("disabled",true);
+			$(".add_friend_btn1").attr("disabled",true);
+			checkPhone();
+			if(!comFlag){
+				$(".error-detail").html("<span>手机号校验不通过</span>");
+				$(btn).html("发送短信邀请").removeAttr("disabled");
+				return false;
+			}
+			$.ajax({
+				url:"/wx/partner/sendInviteMsg",
+				type:'POST',
+				async:false,
+				data:{
+					phone:$("#invent_friend_phone").val(),
+					partnerKey:partnerKey
+				},
+				dataType:"json",
+				success:function(callback){
+					if(callback.state){
+						$(btn).html("发送短信邀请");
+						$(".error-detail").html(callback.msg);
+						setTimeout(function(){
+							if(_this == 1){
+								window.location.href = "/wechat/default/workbench-contacts-detail.html?type=2";
+							}else{
+								window.location.href = "/wechat/default/workbench-contacts-detail.html";
+							}
+						},2000);
+					}else{
+						$(".error-detail").html(callback.msg);
+						$(".add_friend_btn1").removeAttr("disabled");
+						$(btn).html("发送短信邀请").removeAttr("disabled");
+					}
+				},
+				error:function(){
+					$(".error-detail").html("请求数据失败");
+				}
+			})
+		}
+
+	</script>
+</html>

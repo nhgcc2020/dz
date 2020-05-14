@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>基础数据</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="/wechat/css/mui.min.css" rel="stylesheet" />
+		<link href="/wechat/css/main.css" rel="stylesheet" />
+		<link href="/wechat/css/model.css" rel="stylesheet" />
+		<script src="/common/growingio.js"></script>
+	</head>
+
+	<body>
+
+		
+		<div class="mui-content">
+			<div class="user_file">
+				<ul>
+					<li class="active">客户档案</li>
+					<li>供应商档案</li>
+				</ul>
+			</div>
+			
+			<div class="all_statements_list">
+				<ul class="tab_list_detail active">
+					<li>
+						<a class="mui-navigate-right">
+							<div class="tab_list_detail_right">
+								<h4>简称/品牌：<span>易对账</span></h4>
+								<p><b>客户分类：<span>重点客户</span></b><b>好友关系：<span>非好友</span></b></p>
+								<p>企业对账号：<span>20150104</span></p>
+								<p><b>联系人：<span>20150404</span></b><b>联系电话：<span>13333333333</span></b></p>
+							</div>
+						</a>
+					</li>
+				</ul>
+				<ul class="tab_list_detail">
+					<li>
+						<a class="mui-navigate-right">
+							<div class="tab_list_detail_right">
+								<h4>简称/品牌：<span>易对账</span></h4>
+								<p><b>客户分类：<span>重点客户</span></b><b>好友关系：<span>非好友</span></b></p>
+								<p>企业对账号：<span>20150104</span></p>
+								<p><b>联系人：<span>20150404</span></b><b>联系电话：<span>13333333333</span></b></p>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+		<script src="/wechat/js/main.js"></script>
+		<script>
+
+			$('.user_file li').click(function(){
+				index = $(this).index();
+				$(this).addClass('active').siblings().removeClass('active');
+				$('.all_statements_list ul').eq(index).addClass('active').siblings().removeClass('active')  //点击隐藏或者显示
+			});
+
+		</script>
+	</body>
+
+</html>

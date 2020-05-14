@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>选择大行业</title>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+    <link href="/wechat/css/main.css" rel="stylesheet"/>
+	<script src="/common/growingio.js"></script>
+</head>
+<body>
+
+	<div class="mui-content">
+		<div class="mui-content-padded related_form_content">
+			<form class="mui-input-group related_form" action="select-detail-industry.html">
+				
+				<div class="mui-input-row mui-radio mui-left related_form_prov_undline">
+					<label>泛广告印刷包装行业上下游企业</label>
+					<input name="radio1" type="radio" checked="checked">
+				</div> 
+				<div class="industry">
+					广告设计/媒体代理/喷绘写真/字牌雕刻/条幅制作/婚庆公司/印
+					刷厂/包装厂/CTP输出/后道加工/器材租赁/会展公司/广告耗材
+					经销/印刷耗材经销/广印设备经销
+				</div>
+				
+				<div class="mui-input-row mui-radio mui-left related_form_prov_undline">
+					<label>现代服务业</label>
+					<input name="radio1" type="radio" disabled="disabled">
+				</div> 
+				<div class="industry">
+					财务代账/公司孵化器/众创空间/互联网软件行业/培训教育行业
+				</div>
+				
+				<div class="mui-input-row mui-radio mui-left related_form_prov_undline">
+					<label>其他行业</label>
+					<input name="radio1" type="radio" disabled="disabled">
+				</div> 
+				<div class="industry">
+					数码3C类/家用电器/五金建材/文体用品/家居装饰/电子电气/汽修汽配/母婴用品
+				</div>
+
+			    <div class="mui-button-row related_form_sub">
+			        <button type="submit" class="mui-btn mui-btn-primary" id="next_tap">下一步</button>
+			    </div>
+			</form>
+		</div>		
+	</div>
+
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+	<script>
+		$("#next_tap").click(function(){
+			window.location = "select-detail-industry.html";
+		})
+	</script>
+
+</body>
+</html>

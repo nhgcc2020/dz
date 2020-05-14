@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>易对账-联系我们</title>
+    <meta name="keywords" content="易对账" />
+    <meta name="description" content="易对账" />
+    <link rel="shortcut icon" href="image/favicon.ico">
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.min.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body style="background-color: #f2f2f2;">
+<div class="pc">
+    <div class="header">
+            <div class="header_child">
+                <img src="image/logo.png" alt="">
+                <ol>
+                    <li><a target="center" href="./index.html">首页</a><span></span></li>
+                  <li><a target="center" href="./product-features.html">产品特性</a><span></span></li>
+                  <li><a target="center" href="./product-func.html">产品功能</a><span></span></li>
+                  <li><a target="center" href="./product-advantage.html">产品优势</a><span></span></li>
+                  <li><a target="center" href="./product-innovation.html">产品创新</a><span></span></li>
+                    <li><a target="center" href="./about.html">关于我们</a><span></span></li>
+                    <li><a target="center" href="./contacts.html">联系我们</a><span></span></li>
+                    <li><a target="center" href="./download.html" id="download">下载客户端</a><span></span></li>
+                </ol>
+                <span id="login">登录</span>
+                <span id="register">注册</span>
+            </div>
+        </div>
+    <!--网站banner-->
+    <div class="insed_ban">
+        <img src="./image/download.png" alt="下载客户端">
+    </div>
+
+    <!--网站内容-->
+    <div class="inset_content contacts_content">
+        <h1 class="title">下载客户端</h1>
+        <ul class="downs">
+            <li>
+                <p>Windows桌面端</p>
+                <img style="width:150px;height:130px;" src="image/windows.png" alt="">
+                <div><a id="download01" onclick="_hmt.push(['_trackEvent', '首页','download01', '64位下载']);" href="https://www.yiduizhang.com/download/file/ydzclient?key1=EA5D2F1C4608232E07D3AA3D998E5135" target="_blank" style="color:#000;">64位系统（推荐）</a><a onclick="_hmt.push(['_trackEvent', '首页','download02', '32位下载']);" id="download02"  href="https://www.yiduizhang.com/download/file/ydzclient?key1=6364D3F0F495B6AB9DCF8D3B5C6E0B01" target="_blank" style="color:#000;">32位系统</a></div>
+            </li>
+            <li>
+                <p>iOS版</p>
+                <img style="width:130px;height:130px;" src="image/ios app.png" alt="">
+                <div style="border:1px solid #ccc;width:180px;height:55px;border-radius: 5px;font-size: 14px;transform:scale(0.8);margin: 20px auto;padding-top:8px;box-sizing: border-box;cursor: default;color:#000;">苹果APP下载<br>适用于iOS9.3以上平台</div>
+            </li>
+            <li>
+                <p>Android版</p>
+                <img style="width:130px;height:130px;" src="image/Android app.png" alt="">
+                <div  style="border:1px solid #ccc;width:180px;height:55px;border-radius: 5px;font-size: 14px;transform:scale(0.8);margin: 20px auto;padding-top:8px;box-sizing: border-box;cursor: default;color:#000;">安卓APP下载<br>适用于Android5.0以上平台</div>
+            </li>
+        </ul>
+    </div>
+    
+</div>
+
+    <footer>
+        <div class="footer_one">
+            <div>
+                        <span>
+                        <p>保密条款</p>
+                        <p><a target="center" href="./privacy.html" target="_blank">用户隐私</a></p>
+						<p><a target="center" href="./service.html" target="_blank">服务条款</a></p>
+                        </span>
+                        <span>
+                        <p>关于我们</p>
+                        <p><a target="center" href="./contacts.html">联系我们</a></p>
+						<p><a target="center" href="./job.html">加入我们</a></p>
+                        </span>
+                        <span>
+                        <p>互动方式</p>
+                        <p><a href="http://weibo.com/u/5938421293" target="_blank">微博&#x3000;&#x3000;</a></p>
+                        </span>
+                    </div>
+                    <div id="floot"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010402002537" style="color:#ccc;" target="_blank"><img style="height:15px;width:15px;margin-top:-5px;" src="./image/beianbgs.png" alt=""> 沪公安网备 31010402002537号</a>                        丨 <a href="http://www.miitbeian.gov.cn/publish/query/indexFirst.action" target="_blank" style="color:#ccc;">沪ICP备16005067</a>                        丨 上海仁石科技有限公司 丨 上海市徐汇区田林路140号越界创意园16栋东2楼</div>
+        </div>
+    </footer>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>
+<script>
+    _hmt.push(['_trackEvent', '首页','softdownload', '下载客户端']);
+     $("#free01").click(function(){
+        window.location.href="/register.jsp";
+    })
+     $(".navigation").click(function(){
+        window.location.href="/register.jsp";
+    })
+</script>

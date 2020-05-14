@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.common.LoginLogMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.common.LoginLog" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="USER_KEY" property="userKey" jdbcType="VARCHAR" />
+    <result column="LOGIN_TIME" property="loginTime" jdbcType="TIMESTAMP" />
+    <result column="LOGIN_IP" property="loginIp" jdbcType="VARCHAR" />
+    <result column="LOGIN_CITY" property="loginCity" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, USER_KEY, LOGIN_TIME, LOGIN_IP, LOGIN_CITY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_LOGIN_LOG
+    where USER_KEY = #{userKey}
+    order by UID DESC LIMIT 2
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_LOGIN_LOG
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.common.LoginLog" >
+    insert into YDZ_LOGIN_LOG (UID, USER_KEY, LOGIN_TIME, 
+      LOGIN_IP, LOGIN_CITY)
+    values (#{uid,jdbcType=BIGINT}, #{userKey,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, 
+      #{loginIp,jdbcType=VARCHAR}, #{loginCity,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.common.LoginLog" >
+    insert into YDZ_LOGIN_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="userKey != null" >
+        USER_KEY,
+      </if>
+      <if test="loginTime != null" >
+        LOGIN_TIME,
+      </if>
+      <if test="loginIp != null" >
+        LOGIN_IP,
+      </if>
+      <if test="loginCity != null" >
+        LOGIN_CITY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="userKey != null" >
+        #{userKey,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginIp != null" >
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginCity != null" >
+        #{loginCity,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="pd" >
+    update YDZ_LOGIN_LOG
+    <set >
+      <if test="userKey != null" >
+        USER_KEY = #{userKey,jdbcType=VARCHAR},
+      </if>
+      <if test="loginTime != null" >
+        LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginIp != null" >
+        LOGIN_IP = #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginCity != null" >
+        LOGIN_CITY = #{loginCity,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_KEY = #{userKey}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pd" >
+    update YDZ_LOGIN_LOG
+    set USER_KEY = #{userKey,jdbcType=VARCHAR},
+      LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      LOGIN_IP = #{loginIp,jdbcType=VARCHAR},
+      LOGIN_CITY = #{loginCity,jdbcType=VARCHAR}
+    where USER_KEY = #{userKey}
+  </update>
+</mapper>

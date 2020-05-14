@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.assignment.AssignWorkingTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.assignment.AssignWorkingTask" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="TASK_NO" property="taskNo" jdbcType="VARCHAR" />
+    <result column="SALES_NO" property="salesNo" jdbcType="VARCHAR" />
+    <result column="ORDER_DATE" property="orderDate" jdbcType="DATE" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="TASK_DATE" property="taskDate" jdbcType="DATE" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_NAME" property="partnerName" jdbcType="VARCHAR" />
+    <result column="PARTNER_SHORTNAME" property="partnerShortname" jdbcType="VARCHAR" />
+    <result column="CONTACT_ID" property="contactId" jdbcType="VARCHAR" />
+    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="FINISH_DATE" property="finishDate" jdbcType="DATE" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, TASK_NO, SALES_NO, ORDER_DATE, COM_KEY, INDUSTRY_ID, TASK_DATE, PARTNER_KEY, 
+    PARTNER_NAME, PARTNER_SHORTNAME, CONTACT_ID, CONTACT_NAME, STATUS, FINISH_DATE, REMARKS, 
+    IS_DEL, CREATE_TIME, CREATOR
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_ASSIGN_WORKING_TASK
+    where 1=1
+    <if test="taskNo != null">
+    	and TASK_NO = #{taskNo}
+    </if>
+    <if test="salesNo != null">
+    	and SALES_NO = #{salesNo}
+    </if>
+    <if test="comKey != null">
+    	and COM_KEY = #{comKey}
+    </if>
+  </select>
+  
+  <select id="listPageAssignWorkingTask" resultMap="BaseResultMap" parameterType="page" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_ASSIGN_WORKING_TASK
+    where IS_DEL = '0' and COM_KEY = #{pd.comKey}
+    <if test="pd.taskNo != null">
+    	and TASK_NO = #{pd.taskNo}
+    </if>
+    <if test="pd.salesNo != null">
+    	and SALES_NO = #{pd.salesNo}
+    </if>
+    <if test="pd.startDate != null and pd.endDate !=null">
+    	AND ORDER_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+    </if>
+    <if test="pd.industryId != null">
+    	and INDUSTRY_ID = #{pd.industryId}
+    </if>
+    <if test="pd.partnerKey != null">
+    	and PARTNER_KEY = #{pd.partnerKey}
+    </if>
+    <if test="pd.status != null">
+    	and STATUS = #{pd.status}
+    </if>
+    order by ORDER_DATE DESC
+  </select>
+  
+  <select id="selectCountWorkingStatus" resultType="com.ydz.entity.workbench.TodoCountVO" parameterType="pd">
+  	SELECT
+		count(TASK_NO) orderCount ,
+		STATUS orderStatus
+	FROM
+		ydz_assign_working_task
+	WHERE
+		IS_DEL = '0'
+	AND STATUS = '5'
+	AND COM_KEY = #{comKey}
+	GROUP BY
+		STATUS
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_ASSIGN_WORKING_TASK
+    where TASK_NO = #{pd.taskNo}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.assignment.AssignWorkingTask" >
+    insert into YDZ_ASSIGN_WORKING_TASK (UID, TASK_NO, SALES_NO, 
+      ORDER_DATE, COM_KEY, INDUSTRY_ID, 
+      TASK_DATE, PARTNER_KEY, PARTNER_NAME, 
+      PARTNER_SHORTNAME, CONTACT_ID, CONTACT_NAME, 
+      STATUS, FINISH_DATE, REMARKS, 
+      IS_DEL, CREATE_TIME, CREATOR
+      )
+    values (#{uid,jdbcType=BIGINT}, #{taskNo,jdbcType=VARCHAR}, #{salesNo,jdbcType=VARCHAR}, 
+      #{orderDate,jdbcType=DATE}, #{comKey,jdbcType=VARCHAR}, #{industryId,jdbcType=VARCHAR}, 
+      #{taskDate,jdbcType=DATE}, #{partnerKey,jdbcType=VARCHAR}, #{partnerName,jdbcType=VARCHAR}, 
+      #{partnerShortname,jdbcType=VARCHAR}, #{contactId,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{finishDate,jdbcType=DATE}, #{remarks,jdbcType=VARCHAR}, 
+      #{isDel,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.assignment.AssignWorkingTask" >
+    insert into YDZ_ASSIGN_WORKING_TASK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskNo != null" >
+        TASK_NO,
+      </if>
+      <if test="salesNo != null" >
+        SALES_NO,
+      </if>
+      <if test="orderDate != null" >
+        ORDER_DATE,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="taskDate != null" >
+        TASK_DATE,
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY,
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME,
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME,
+      </if>
+      <if test="contactId != null" >
+        CONTACT_ID,
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="finishDate != null" >
+        FINISH_DATE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskNo != null" >
+        #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesNo != null" >
+        #{salesNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDate != null" >
+        #{taskDate,jdbcType=DATE},
+      </if>
+      <if test="partnerKey != null" >
+        #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        #{partnerShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactId != null" >
+        #{contactId,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="finishDate != null" >
+        #{finishDate,jdbcType=DATE},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.assignment.AssignWorkingTask" >
+    update YDZ_ASSIGN_WORKING_TASK
+    <set >
+      <if test="taskNo != null" >
+        TASK_NO = #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesNo != null" >
+        SALES_NO = #{salesNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        ORDER_DATE = #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDate != null" >
+        TASK_DATE = #{taskDate,jdbcType=DATE},
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME = #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME = #{partnerShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactId != null" >
+        CONTACT_ID = #{contactId,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="finishDate != null" >
+        FINISH_DATE = #{finishDate,jdbcType=DATE},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+    </set>
+    where TASK_NO = #{taskNo}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.assignment.AssignWorkingTask" >
+    update YDZ_ASSIGN_WORKING_TASK
+    set TASK_NO = #{taskNo,jdbcType=VARCHAR},
+      SALES_NO = #{salesNo,jdbcType=VARCHAR},
+      ORDER_DATE = #{orderDate,jdbcType=DATE},
+      COM_KEY = #{comKey,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      TASK_DATE = #{taskDate,jdbcType=DATE},
+      PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      PARTNER_NAME = #{partnerName,jdbcType=VARCHAR},
+      PARTNER_SHORTNAME = #{partnerShortname,jdbcType=VARCHAR},
+      CONTACT_ID = #{contactId,jdbcType=VARCHAR},
+      CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      FINISH_DATE = #{finishDate,jdbcType=DATE},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      IS_DEL = #{isDel,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

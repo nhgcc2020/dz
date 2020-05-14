@@ -1,0 +1,83 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>创建成功</title>
+    <script src="/wechat/js/mui.min.js"></script>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+    <link href="/wechat/css/main.css" rel="stylesheet"/>
+    <script type="text/javascript" src="/wechat/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="/resources/cola-ui/china_city.js"></script>
+    <style>
+        .shark_contant{
+            background: #fff;
+            height:100%;
+            max-width:640px;
+            margin: 0px auto;
+        }
+        .create_success{
+            text-align: center;
+            padding-top: 50px ;
+        }
+        .create_success img{
+            height:60px;
+            width: 60px;
+        }
+        .create_success p{
+            font-size: 30px;
+            margin-top: 30px;
+            color: #3DCC74;
+        }
+        .create_link{
+            width:90%;
+            margin:0px auto;
+            background: #e4e4e4;
+            border-radius: 5px;
+            margin-top: 50px;
+            text-align: center;
+            padding:10px 0px;
+            line-height: 36px;
+        }
+        .create_link h1{
+            font-size: 16px;
+            line-height:36px;
+            color: #666;
+        }
+        .create_link p{
+            margin:0px;
+            padding:0px !important;
+        }
+        .star-tansuo{
+            width:90%;
+            margin:50px 5% 0px;
+            background: #2e8ae6;
+            border-radius: 5px;
+            text-align: center;
+            color: #fff;
+            border:none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="shark_contant">
+    <div class="create_success">
+        <img src="/wechat/image/u8087.png" alt="">
+        <p>创建成功</p>
+    </div>
+    <div class="create_link">
+        <h1 id="comName"></h1>
+        <p id="realName"></p>
+        <p id="userId"></p>
+    </div>
+    <button class="star-tansuo" onclick="window.location.href='/wechat/home/index.html'">开始探索之旅！</button>
+</div>
+<script>
+    $.post("/wx/reg/create_succ",{},function(data){
+        $("#comName").text(data.comName);
+        $("#realName").text(data.realName);
+        $("#userId").text(data.userId);
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+[
+  {
+    "columns": [
+      "orderDate",
+      "purchaseNo",
+      "businessDesc",
+      "requirements",
+      "specification",
+      "quantity",
+      "totalArea",
+      "unit",
+      "unitPrice",
+      "totalPrice",
+      "purchaseOrderPrice"
+    ],
+    "label": "通用类",
+    "modelName": "model01",
+    "type": "01"
+  }
+]

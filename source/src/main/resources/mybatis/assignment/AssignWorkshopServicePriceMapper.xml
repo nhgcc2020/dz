@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.assignment.AssignWorkshopServicePriceMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.assignment.AssignWorkshopServicePrice" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="WORKSHOP" property="workshop" jdbcType="VARCHAR" />
+    <result column="WORKING_PROCEDURE" property="workingProcedure" jdbcType="VARCHAR" />
+    <result column="IS_CHECKED" property="isChecked" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, COM_KEY, INDUSTRY_ID, CATEGORY_ID, WORKSHOP, WORKING_PROCEDURE, IS_CHECKED, CREATE_TIME
+  </sql>
+  <select id="selectOneByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_ASSIGN_WORKSHOP_SERVICEPRICE
+    where COM_KEY = #{comKey}
+    <if test="categoryId != null">
+    	and CATEGORY_ID = #{categoryId}
+    </if>
+    <if test="industryId != null">
+    	and INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="workshop != null">
+    	and WORKSHOP = #{workshop}
+    </if>
+    <if test="workingProcedure != null">
+    	and WORKING_PROCEDURE like '%${workingProcedure}%'
+    </if>
+  </select>
+  <select id="selectListByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_ASSIGN_WORKSHOP_SERVICEPRICE
+    where COM_KEY = #{comKey}
+    <if test="categoryId != null">
+    	and CATEGORY_ID = #{categoryId}
+    </if>
+    <if test="industryId != null">
+    	and INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="workshop != null">
+    	and WORKSHOP = #{workshop}
+    </if>
+    <if test="workingProcedure != null">
+    	and WORKING_PROCEDURE like '%${workingProcedure}%'
+    </if>
+    <if test="categoryIdIns != null">
+    	and CATEGORY_ID IN ${categoryIdIns}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_ASSIGN_WORKSHOP_SERVICEPRICE
+    where COM_KEY = #{comKey} and CATEGORY_ID = #{categoryId}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.assignment.AssignWorkshopServicePrice" >
+    insert into YDZ_ASSIGN_WORKSHOP_SERVICEPRICE (UID, COM_KEY, INDUSTRY_ID, 
+      CATEGORY_ID, WORKSHOP, WORKING_PROCEDURE, IS_CHECKED
+      CREATE_TIME)
+    values (#{uid,jdbcType=BIGINT}, #{comKey,jdbcType=VARCHAR}, #{industryId,jdbcType=VARCHAR}, 
+      #{categoryId,jdbcType=VARCHAR}, #{workshop,jdbcType=VARCHAR}, #{workingProcedure,jdbcType=VARCHAR}, #{isChecked,jdbcType=CHAR},
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.assignment.AssignWorkshopServicePrice" >
+    insert into YDZ_ASSIGN_WORKSHOP_SERVICEPRICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="workshop != null" >
+        WORKSHOP,
+      </if>
+      <if test="workingProcedure != null" >
+        WORKING_PROCEDURE,
+      </if>
+      <if test="isChecked != null" >
+        IS_CHECKED,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="workshop != null" >
+        #{workshop,jdbcType=VARCHAR},
+      </if>
+      <if test="workingProcedure != null" >
+        #{workingProcedure,jdbcType=VARCHAR},
+      </if>
+      <if test="isChecked != null">
+      	 #{isChecked,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.assignment.AssignWorkshopServicePrice" >
+    update YDZ_ASSIGN_WORKSHOP_SERVICEPRICE
+    <set >
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="workshop != null" >
+        WORKSHOP = #{workshop,jdbcType=VARCHAR},
+      </if>
+      <if test="workingProcedure != null" >
+        WORKING_PROCEDURE = #{workingProcedure,jdbcType=VARCHAR},
+      </if>
+      <if test="isChecked != null" >
+        IS_CHECKED = #{isChecked,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where COM_KEY = #{comKey} and CATEGORY_ID = #{categoryId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.assignment.AssignWorkshopServicePrice" >
+    update YDZ_ASSIGN_WORKSHOP_SERVICEPRICE
+    set COM_KEY = #{comKey,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      WORKSHOP = #{workshop,jdbcType=VARCHAR},
+      WORKING_PROCEDURE = #{workingProcedure,jdbcType=VARCHAR},
+      IS_CHECKED = #{isChecked,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

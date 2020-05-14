@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>选择属性</title>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+    <link href="/wechat/css/main.css" rel="stylesheet"/>
+	<script src="/common/growingio.js"></script>
+</head>
+<body>
+
+	<div class="mui-content">
+		<div class="mui-content-padded related_form_content">
+			<p>选择身份类型</p>
+			<form class="mui-input-group related_form">
+				
+				<div class="mui-input-row mui-radio mui-left related_form_prov_undline">
+					<label>我是个人用户</label>
+					<input name="radio1" type="radio" value="1">
+				</div> 
+				<div class="mui-input-row mui-radio mui-left related_form_prov_undline">
+					<label>创建一个企业或者团队</label>
+					<input name="radio1" type="radio" value="2" checked>
+				</div> 
+				
+				<div class="mui-input-row mui-radio mui-left related_form_prov_undline">
+					<label>加入一个企业或者团队</label>
+					<input name="radio1" type="radio" value="3">
+				</div> 
+
+			    <div class="mui-button-row related_form_sub">
+			        <button type="button" class="mui-btn mui-btn-primary" id="next_tap">下一步</button>
+			    </div>
+			    
+			</form>
+		</div>
+	</div>
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript">
+			//判断用户选择，跳转到对应页面
+			$('#next_tap').click(function(){
+				var chose_list =  $('input[name="radio1"]:checked').val();
+				if(chose_list==1){
+					location.href = "../home/index.html";
+				}else if(chose_list==2){
+					location.href = "select-main-industry.html";
+				}else if(chose_list==3){
+					location.href = "join-company.html";
+				}
+			})
+	</script>
+</body>
+</html>

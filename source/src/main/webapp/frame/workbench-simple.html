@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+    <meta HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
+    <meta HTTP-EQUIV="expires" CONTENT="0">
+    <title>工作台</title>
+    <base href="/">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" type="text/css" href="/resources/business/global.css?v=76321dbcfe">
+    <link rel="stylesheet" type="text/css" href="/resources/new/base_new.css?v=da63245499">
+    <!--整体修改-->
+    <style>
+        /*@media only screen and (max-width:1766px){*/
+        /*.mainduizhang img,.mainshoukuan img{*/
+        /*width:650px !important;*/
+        /*}  }*/
+        /*@media only screen and (max-width:1600px){*/
+        /*.mainduizhang img,.mainshoukuan img{*/
+        /*width:600px !important;*/
+        /*}  }*/
+        /*@media only screen and (max-width:1366px){*/
+        /*.mainduizhang img,.mainshoukuan img{*/
+        /*width:520px !important;*/
+        /*}  }*/
+
+        @media only screen and (max-width: 1280px) {
+            .mainshoukuan img {
+
+                width: 216px !important;
+            }
+        }
+
+        @media only screen and (min-width: 1281px) {
+            body,
+            html {
+                min-width: 1784px;
+            }
+        }
+
+        body,
+        html {
+            overflow-x: auto;;
+        }
+
+        .table_list {
+            max-width: 1780px;
+            margin: auto;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        .balanceQry_arrow {
+            height: 30px;
+            cursor: pointer;
+            line-height: 29px;
+            border-radius: 3px;
+            background-color: #fff;
+            color: #27283c;
+            display: inline-block;
+            padding: 0 15px;
+            text-indent: 0;
+            margin: 0 10px 0 10px;
+            border: 1px solid #27283c
+        }
+
+        .balanceQry_arrow:hover {
+            background-color: #3dcc74;
+            color: #fff;
+            border: 1px solid #3dcc74
+        }
+
+        .balanceQry_arrow:hover .iconfont {
+            color: #fff
+        }
+
+        .arrow_code_img {
+            display: none;
+        }
+
+        /*.left_tips_center_fir{width:50%}*/
+
+        .table_list_right {
+            float: right;
+            width: 20%;
+            /* margin-right: 1%; */
+            margin-top: 10px;
+        }
+
+        .left_tips_list .left_tips_center_sec {
+        }
+
+        .table_list_right .table_list_right_lis {
+            background: #fff;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            /*box-shadow: -1px 1px 5px 0px rgba(0,0,0,.2);*/
+        }
+
+        .table_list_right > div:last-child {
+        }
+
+        .table_list_right_title {
+            height: 36px;
+            line-height: 36px;
+            padding: 0px;
+            margin: 10px 0px 0px;
+            text-indent: 1em;
+        }
+
+        .table_list_todo {
+            padding: 0 0 20px 0px !important;
+            overflow: hidden;
+        }
+
+        .table_list_todo li {
+            text-align: center;
+            color: #666;
+            height: 180px;
+            opacity: 0;
+            position: relative;
+            cursor: pointer;
+            transition: margin-top 0.3s 0s linear;
+            cursor: pointer;
+            overflow: hidden;
+            background: #fff;
+            float: left;
+            width: 19%;
+            margin-right: 0;
+            margin-left: 1%;
+        }
+
+        .table_list_todo li:last-child {
+            margin-right: 0;
+        }
+
+        .table_list_todo li:hover {
+            margin-top: -10px;
+        }
+
+        .table_list_todo li a {
+            /*display: block;*/
+            margin-top: 20px;
+        }
+
+        .table_list_todo li p {
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .table_list_todo li span {
+            display: block;
+            width: 26px;
+            height: 26px;
+            position: absolute;
+            top: 0px;
+            opacity: 0;
+            right: 30px;
+        }
+
+        .table_list_todo li i {
+            display: block;
+            width: 26px;
+            height: 26px;
+            position: absolute;
+            top: 0px;
+            right: 30px;
+            line-height: 26px;
+            text-align: center;
+            color: #fff;
+            font-size: 12px;
+            font-style: normal;
+            opacity: 0;
+        }
+
+        .new-tips li {
+            height: 48px;
+            position: relative;
+            cursor: pointer;
+            /*border-bottom:1px dashed #e4e4e4;*/
+        }
+
+        .new-tips li a {
+            color: #000;
+        }
+
+        .new-tips li span {
+            display: inline-block;
+            height: 22px;
+            line-height: 22px;
+            width: calc(100% - 90px);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .new-tips li i {
+            position: absolute;
+            right: 0px;
+            top: 0;
+            font-style: normal;
+            width: 90px;
+            overflow: hidden;
+        }
+
+        .new-tips li p {
+            overflow: hidden;
+            color: #ccc;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 12px;
+        }
+
+        .new-tips li:hover {
+        }
+
+        .tips_contants {
+            height: 80px;
+            line-height: 80px;
+            width: auto;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            /*margin-top:-150px;*/
+            left: 46.5%;
+            /*margin-left: -150px;*/
+            border-radius: 5px;
+            display: none;
+            padding: 0 15px;
+        }
+
+        .new-tips {
+            padding: 10px 10px 10px 30px;
+        }
+
+        .table_list_left {
+            width: 79%;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .table_list_tips {
+            height: 15px;
+        }
+
+        .mainshoukuan > span:hover {
+            animation: top-panel .1s ease-out 0.1s forwards;
+            -webkit-animation: top-panel .1s ease-out 0.1s forwards;
+        }
+
+        @keyframes top-panel {
+            0% {
+                -webkit-transform: translatey(0);
+                transform: translatey(0);
+            }
+            100% {
+                -webkit-transform: translatey(-1px);
+                transform: translatey(-1px);
+                box-shadow: 0px 0px 10px #ccc;
+            }
+        }
+
+        .antion {
+            animation: top-pnel .5s ease-out 0s forwards;
+            -webkit-animation: top-pnel .5s ease-out 0s forwards;
+        }
+
+        @keyframes top-pnel {
+            0% {
+                -webkit-transform: translatey(24px);
+                transform: translatey(24px);
+                opacity: 0;
+            }
+            100% {
+                -webkit-transform: translatey(0);
+                transform: translatey(0);
+                opacity: 1;
+            }
+        }
+
+        /*@keyframes animation-panel {
+            0% {
+                -webkit-transform: scale(0.1);
+                transform: scale(0.1);
+                opacity: 0;
+            }
+            100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                opacity: 1;
+            }
+        }*/
+
+        .guidance {
+            width: 100%;
+            height: 70px;
+            overflow: hidden;
+        }
+
+        .guidance > ul {
+            margin-left: 20px;
+            margin-top: 8px;
+            height: 48px;
+        }
+
+        .guidance > ul > li {
+            width: 88px;
+            display: inline-block;
+            font-size: 12px;
+            text-align: center;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .guidance > ul > li > span {
+            display: inline-block;
+            height: 26px;
+            width: 26px;
+            border-radius: 50%;
+            line-height: 26px;
+            color: #fff;
+            margin-bottom: 3px;
+            font-size: 14px;
+        }
+
+        .guidance > ul > #state {
+            position: relative;
+            width: 210px;
+            height: 48px;
+            text-align: center;
+            color: #fff;
+            margin-left: 10px;
+        }
+
+        .guidance > ul > li:hover {
+            color: #1e88e5;
+        }
+
+        #state:hover > span {
+            background: #fff !important;
+            color: #1e88e5 !important;
+        }
+
+        .cover {
+            display: none;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            opacity: 0.7;
+            z-index: 1000;
+        }
+
+        .alart_one {
+            display: none;
+            position: fixed;
+            top: 50%;
+            z-index: 2000;
+            width: 1100px;
+            margin-top: -270px;
+            left: 50%;
+            margin-left: -550px;
+        }
+
+        .alart > img {
+            display: block;
+            margin: 0px auto 20px;
+            width: 680px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .alart_one > img {
+            display: none;
+            margin: auto;
+            /*width: 1100px;*/
+            /*height: 540px;*/
+        }
+
+        .callback {
+            font-size: 45px;
+            right: -60px;
+            top: 25px;
+            position: absolute;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /*@media only screen and (min-width: 1920px) {*/
+        /*.callback,.alart_callback{*/
+        /*font-size: 45px;*/
+        /*right: 15%;*/
+        /*top: 21%;*/
+        /*position: absolute;*/
+        /*color: #fff;*/
+        /*cursor: pointer;*/
+        /*}*/
+        /*.alart_callback{*/
+        /*right: 20%;*/
+        /*top:8%;*/
+        /*}*/
+        /*}*/
+        /*@media only screen and (max-width: 1919px) {*/
+        /*.callback,.alart_callback{*/
+        /*font-size: 45px;*/
+        /*right: 5%;*/
+        /*top: 17%;*/
+        /*position: absolute;*/
+        /*color: #fff;*/
+        /*cursor: pointer;*/
+        /*}*/
+        /*.alart_callback{*/
+        /*right: 20%;*/
+        /*top:8%;*/
+        /*}*/
+        /*}*/
+
+        .mainshoukuan {
+            float: left;
+            position: relative;
+            text-align: left;
+            margin-left: 12px;
+        }
+
+        .mainshoukuan span {
+            margin: 20px 12px 0 0;
+            display: inline-block;
+            position: relative;
+        }
+
+        .mainshoukuan span > span {
+            display: inline-block;
+            width: 100%;
+            height: 52px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            background: #4396e9;
+            color: #fff;
+            text-align: center;
+            line-height: 52px;
+            font-size: 13px;
+            opacity: 0.9;
+            display: none;
+        }
+
+        .mainshoukuan img {
+            border-radius: 4px;
+            cursor: pointer;
+            max-width: 680px;
+        }
+
+        #mainshoukuanInner {
+            height: 200px;
+            width: 680px;
+        }
+
+        #mainduizhangInner {
+            height: 200px;
+            width: 680px;
+        }
+
+        /*.left_tips_center_sec li {
+            background: #fff;
+            padding: 30px 30px;
+        }*/
+        /*.left_tips_center_sec li:hover {
+            box-shadow: 0px 5px 9px 0px rgba(0, 0, 0, .2);
+            
+        }*/
+        .left_tips_center_sec .antionA:hover {
+            cursor: pointer;
+            box-shadow: 0px 0px 10px #ccc;
+        }
+
+        .chartTitle {
+            height: 40px;
+            line-height: 40px;
+            padding: 0 0 0 20px;
+            font-size: 16px;
+            position: relative;
+        }
+
+        .chartTitle span {
+            font-size: 12px;
+            background: #e9dfdf;
+            color: #b89a9a;
+            border-radius: 3px;
+            display: inline-block;
+            height: 20px;
+            margin-left: 10px;
+            line-height: 20px;
+            padding: 0 5px;
+        }
+
+        .last_two {
+            float: left;
+            height: 100%;
+            width: 306px;
+        }
+
+        .last_two > p {
+            margin-bottom: 25px;
+        }
+
+        .last_two > img {
+            width: 120px;
+            height: 120px;
+        }
+
+        .last_two > span {
+            display: inline-block;
+            width: 130px;
+            height: 42px;
+            font-size: 12px;
+            border: 1px solid #e4e4e4;
+            border-radius: 5px;
+            color: #7e7e7e;
+            line-height: 30px;
+            margin-top: 15px;
+            margin-right: 15px;
+            text-align: center;
+        }
+
+        .reminder {
+            position: relative;
+        }
+
+        .reminder > p:nth-child(1) {
+            position: absolute;
+            width: 180px;
+            height: 36px;
+            font-size: 14px;
+            text-align: center;
+            line-height: 36px;
+            border: 1px solid #fff;
+            border-radius: 36px;
+            color: #fff;
+            cursor: pointer;
+            right: 0px;
+            bottom: 3px;
+            font-weight: 900;
+        }
+
+        .reminder > p:nth-child(2) {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 17px;
+        }
+
+        .intro {
+            display: flex;
+            justify-content: center;
+        }
+
+        .intro li {
+            display: inline-block;
+            width: 20%;
+            margin: 0 26.5px;
+        }
+
+        /**/
+    </style>
+</head>
+
+<body>
+<script src="/resources/jquery/jquery-2.1.3.min.js?v=a03e4bc153"></script>
+<script type="text/javascript" src="/resources/bootstrap/js/bootstrap.min.js?v=9e25e8e29e"></script>
+<div class="cover"></div>
+<div class="table_list">
+    <div class="alart_one">
+        <div class="callback iconfont_new">&#xe6a0;</div>
+        <div class="reminder">
+            <p class="reminder_one">下一步</p>
+            <p class="reminder_two">开单前准备，第一步，录入员工信息，让他们一起使用易对账（此流程非必要流程）</p>
+        </div>
+        <img style="width: 1100px;height: 481px;" src="/images/01_1.png" alt="">
+        <img style="width: 1100px;height: 481px;" src="/images/02_2.png" alt="">
+        <img style="width: 1100px;height: 481px;" src="/images/03_3.png" alt="">
+        <img style="width: 1100px;height: 481px;" src="/images/04_4.png" alt="">
+        <img style="width: 1100px;height: 481px;" src="/images/05_5.png" alt="">
+        <img src="/images/06_6.png" alt="">
+        <img style="width: 1100px;height: 481px;" src="/images/07_7.png" alt="">
+    </div>
+    <div class="table_list_contant">
+        <div class="table_list_left">
+            <div class="left_tips_list">
+                <div class="left_tips_center_sec" style="width: 100%;background: none">
+                    <P style="font-size:14px; font-weight: 900;text-align:left;color:#000;margin:16px;">10大功能简介</P>
+                    <ul class="intro" style="margin-bottom:20px;">
+                        <li><img src="/images/intro1.png" alt=""></li>
+                        <li><img src="/images/intro2.png" alt=""></li>
+                        <li><img src="/images/intro3.png" alt=""></li>
+                        <li><img src="/images/intro4.png" alt=""></li>
+                        <li><img src="/images/intro5.png" alt=""></li>
+                    </ul>
+                    <ul class="intro">
+                        <li><img src="/images/intro6.png" alt=""></li>
+                        <li><img src="/images/intro7.png" alt=""></li>
+                        <li><img src="/images/intro8.png" alt=""></li>
+                        <li><img src="/images/intro9.png" alt=""></li>
+                        <li><img src="/images/intro10.png" alt=""></li>
+                    </ul>
+                    <P style="font-size:14px; font-weight: 900;text-align:left;color:#000;margin:22px 0 16px 16px;">
+                        快速了解销售开单流程</P>
+                    <div class="antion antionA"
+                         style="background:#fff;height:264px;line-height:264px;margin:0 12px;border-radius: 5px;"><img
+                            title="可以点击下方七大内容，查看对应功能截图" src="/images/flow.png" alt=""></div>
+                    <div class="mainshoukuan antion">
+                        <span><img title="点击查看功能截图" src="/images/01.png" alt=""><span>查看功能截图</span></span>
+                        <span><img title="点击查看功能截图" src="/images/02.png" alt=""><span>查看功能截图</span></span>
+                        <span><img title="点击查看功能截图" src="/images/03.png" alt=""><span>查看功能截图</span></span>
+                        <span><img title="点击查看功能截图" src="/images/04.png" alt=""><span>查看功能截图</span></span>
+                        <span><img title="点击查看功能截图" src="/images/05.png" alt=""><span>查看功能截图</span></span>
+                        <span><img title="点击查看功能截图" src="/images/06.png" alt=""><span>查看功能截图</span></span>
+                        <span><img title="点击查看功能截图" src="/images/08.png" alt=""><span>查看功能截图</span></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="table_list_right" style="margin-top: 20px;">
+            <div class="table_list_right_lis " style="height: 260px;">
+
+                <div class="table_list_title" style="font-size: 14px;">
+                    新的好友
+                </div>
+                <div id="table_list_right_lis" class="table-con hide" style="padding: 20px 30px;">
+                    <p style="text-align: center;"><span class="iconfont_new" style="font-size: 80px;color:#ccc;">&#xe6c8;</span>
+                    </p>
+                    <p style="    font-size: 14px;color:#ccc;padding: 10px 0 10px 0;text-align: center;">你的伙伴已在使用易对账</p>
+                    <p style="    font-size: 14px;color:#ccc;text-align: center;">通过顶部+按钮，加好友互相对账</p>
+                </div>
+                <ul id="new-tips" class="new-tips hide" style="height:200px;position:relative;overflow: hidden;">
+
+                </ul>
+            </div>
+            <div id="inviteDiv" class="table_list_right_lis "
+                 style="cursor:pointer;padding:50px;background: url('/resources/images/invitejl.png') center center no-repeat #fff">
+
+            </div>
+            <div class="balanceQry" style="position: relative;">
+                <!--<div class="table_list_right_lis " style="">-->
+                <div class="table_list_right_lis " style="    padding: 30px 40px;
+    height: 240px;
+    background: #fff;">
+                    <!--<div class="table_list_right_lis " style="padding:40px 50px;background:url('/resources/images/vxfollow.png') center center no-repeat #fff;">-->
+                    <!--<span style="position:relative;display:inline-block;background:#fff;top:-10px;left:58px;font-size:19px;width:190px;">立即下载易对账APP</span>-->
+
+                    <span class="last_two" style="background: #fff;">
+                            <img src="/images/Android app.png" alt="" style="margin-right: 30px;">
+                            <img src="/images/ios app.png" alt="">
+                            <span>
+                                安卓APP下载
+                                <span style="display:block;font-size:10px;color:#a0a0a0;transform:scale(0.8);width:170px;margin-left:-20px;margin-top:-15px;">适用于Android 5.0以上平台</span>
+                        </span>
+                        <span style="margin:0;">
+                                苹果APP下载
+                                <span style="display:block;font-size:10px;color:#a0a0a0;transform:scale(0.8);width:150px;margin-left:-10px;margin-top:-15px;">适用于IOS 9.3以上平台</span>
+                        </span>
+                        </span>
+
+                </div>
+                <!--<div class="arrow_code_img" style="width:400px;height:230px; position: absolute;top: -60px;left: -400px;background:url('/images/blank.png') no-repeat;background-size: 100% 100%;">-->
+                <!--<span class="last_two">-->
+                <!--<img src="/images/Android app.png" alt="" style="margin-right: 30px;">-->
+                <!--<img src="/images/ios app.png" alt="">-->
+                <!--<span>-->
+                <!--安卓APP下载-->
+                <!--<span style="display:block;font-size:10px;color:#a0a0a0;transform:scale(0.8);width:170px;margin-left:-20px;margin-top:-15px;">适用于Android 5.0以上平台</span>-->
+                <!--</span>-->
+                <!--<span style="margin:0;">-->
+                <!--苹果APP下载-->
+                <!--<span style="display:block;font-size:10px;color:#a0a0a0;transform:scale(0.8);width:150px;margin-left:-10px;margin-top:-15px;">适用于IOS 9.3以上平台</span>-->
+                <!--</span>-->
+                <!--</span>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    "use strict";
+    var workbenchPageFun = {
+        friendFun: function (callfriendcount, callfriend) {
+            $('#table_list_title_num').html(callfriendcount);
+            callfriendcount = Number(callfriendcount);
+            if (callfriendcount < 12) {
+                $(".table_list_more").css("display", "none");
+            }
+            if (callfriendcount == 0) {
+                $(".table_contant_list_box").css("display", "none");
+                $(".table_list_title button").css("display", "none");
+            }
+            if (callfriend.length == 0) {
+                $('#table_list_right_lis').removeClass("hide");
+                $('#new-tips').html("");
+            } else {
+                $('#new-tips').removeClass("hide");
+            }
+            var tips = "";
+            for (var kk = 0; kk < callfriend.length; kk++) {
+                var val = callfriend[kk];
+                tips +=
+                    "<li >" +
+                    "<a><span>" + val.comName + "</span><i >" + val.sendTime + "</i>" + "</a>"
+                    + "<p>" + val.adminName + "&nbsp;&nbsp;&nbsp;&nbsp;" + val.adminPhone + "</p>" +
+                    "</li>";
+            }
+            $("#new-tips").html(tips);
+        },
+        todoFun: function (todo) {
+            //遍历代办事项
+            $.each(todo, function (key, val) {
+                if (val.orderType === "P") {
+                    if (val.orderStatus === "04") {
+                        $("#table_list_todo_ionic1").html(val.orderCount);
+                    }
+                    if (val.orderStatus === "09") {
+                        $("#table_list_todo_ionic2").html(val.orderCount);
+                    }
+                }
+                if (val.orderType === "S") {
+                    if (val.orderStatus === "01") {
+                        $("#table_list_todo_ionic3").html(val.orderCount);
+                    }
+                    if (val.orderStatus === "04") {
+                        $("#table_list_todo_ionic4").html(val.orderCount);
+                    }
+                    if (val.orderStatus === "07") {
+                        $("#table_list_todo_ionic5").html(val.orderCount);
+                    }
+                }
+
+                if (val.orderCount > 99) {
+                    $(".todo-list").html("99+");
+                }
+
+            });
+        },
+        request_data: function () {
+            $.ajax({
+                url: '/common/workbench/info',
+                type: 'GET',
+                dataType: "json",
+                timeout: "10000",
+                cache: false,
+                success: function (data) {
+                    workbenchPageFun.friendFun(data.callfriendcount, data.callfriend);
+                    if(data.todo){
+                        workbenchPageFun.todoFun(data.todo);
+                    }
+
+                },
+                error: function () {
+                    $("<div class='tips_contants'>").fadeIn(250).html("请求失败").delay(500).fadeOut(250).appendTo('body');
+                }
+            });
+        },
+        showDaishouhuo: function () {
+            // 待对账订单
+            var App = window.parent.App;
+            var config = {
+                closeable: "true",
+                icon: "icon dashboard",
+                label: "协同订单处理",
+                path: "/openPage?pageName=advert_purchase-order-list",
+                type: "icon-ydz-menu-synchro-order"
+            };
+            App.clickMenu(config.type);
+            App.open(config.path, config);
+        },
+
+        showDaifukuan: function () {
+            //                待付款对账单
+            var App = window.parent.App;
+            var config = {
+                closeable: "true",
+                icon: "icon dashboard",
+                label: "协同对账结算",
+                path: "/openPage?pageName=advert_purchasechecking-order-list",
+                type: "icon-ydz-menu-synchro-order"
+            };
+            App.clickMenu(config.type);
+            App.open(config.path, config);
+        },
+
+
+        showDaijijia: function () {
+            //                待提交订单
+            var App = window.parent.App;
+            var time = new Date().getTime();
+            var config = {
+                closeable: "true",
+                icon: "icon dashboard",
+                label: "销售订单管理",
+                path: "/openPage?pageName=advert_sales-order-list",
+                type: "icon-ydz-menu-cash-sale"
+            };
+            App.clickMenu(config.type);
+            App.open(config.path, config);
+        },
+
+        showDaiduizhang: function () {
+            //                待对账订单
+            var App = window.parent.App;
+            var time = new Date().getTime();
+            var config = {
+                closeable: "true",
+                icon: "icon dashboard",
+                label: "销售订单管理",
+                path: "/openPage?pageName=advert_sales-order-list&type=order4",
+                type: "icon-ydz-menu-cash-sale"
+            };
+            App.clickMenu(config.type);
+            App.open(config.path, config);
+        },
+
+        showDaishoukuan: function () {
+            //                待收款对账单
+            var App = window.parent.App;
+            var time = new Date().getTime();
+            var config = {
+                closeable: "true",
+                icon: "icon dashboard",
+                label: "销售对账结算",
+                path: "/openPage?pageName=advert_saleschecking-order-list",
+                type: "icon-ydz-menu-cash-sale"
+            };
+            App.clickMenu(config.type);
+            App.open(config.path, config);
+        },
+
+    };
+    $(function () {
+        workbenchPageFun.request_data();
+        var timeCtrl;
+        $(".balanceQry").hover(function () {
+            timeCtrl = setTimeout(function () {
+                    $(".arrow_code_img").fadeIn()
+                },
+                200);
+        }, function () {
+            clearTimeout(timeCtrl);
+            $(".arrow_code_img").fadeOut()
+        })
+
+
+        $("#inviteDiv").click(function () {
+            $("<div class='tips_contants'>").fadeIn(250).html("请通过 左上角下拉选项切换至个人版，通过个人版开始邀请好友").delay(2000).fadeOut(250).appendTo('body');
+        });
+
+        $("#new-tips").on("click", "li", function () {
+            window.parent.xiaoxiliebiao();
+        });
+        $(".reminder_one").click(function () {
+
+            if ($(".reminder_two").text().indexOf("一") > 0) {
+                $(".mainshoukuan>span").eq(1).click();
+            } else if ($(".reminder_two").text().indexOf("二") > 0) {
+                $(".mainshoukuan>span").eq(2).click();
+            } else {
+                $(".mainshoukuan>span").eq(3).click();
+            }
+        })
+        $(".mainshoukuan>span").mouseover(function () {
+            var ind = $(this).index();
+            $(".mainshoukuan>span>span").eq(ind).slideDown(100);
+        })
+        $(".mainshoukuan>span").mouseleave(function () {
+            var ind = $(this).index();
+            $(".mainshoukuan>span>span").eq(ind).slideUp(100);
+        })
+        $(".mainshoukuan span").click(function () {
+            $(".cover").show();
+            $(".alart").hide();
+            var i = $(this).index();
+            $(".alart_one").show();
+            $(".alart_one>img").eq(i).css("display", "block").siblings("img").css("display", "none");
+            switch (i) {
+                case 0:
+                    $(".reminder_two").text("01 开单前准备，第一步，将提供给客户的服务与报价录入到系统中，销售开单时就能直接选用了~");
+                    $(".reminder_one").show().text("下一步，录入客户信息");
+                    break;
+                case 1:
+                    $(".reminder_two").text("02 开单前准备，第二步，将客户或供应商资料录入到系统中，为开单记账做好准备~");
+                    $(".reminder_one").show().text("下一步，录入员工信息");
+                    break;
+                case 2:
+                    $(".reminder_two").text("03 开单前准备，第三步，录入员工信息，让他们一起使用易对账（此流程非必要流程）");
+                    $(".reminder_one").show().text("下一步，销售开单");
+                    break;
+                case 3:
+                    $(".reminder_two").text("开单前准备工作完成，可以开始销售开单了~");
+                    $(".reminder_one").hide();
+                    break;
+                case 4:
+                    $(".reminder_two").text("可以在销售开单时，派活给设计师~");
+                    $(".reminder_one").hide();
+                    break;
+                case 5:
+                    $(".reminder_two").text("可以在销售开单时，派活给制作工~");
+                    $(".reminder_one").hide();
+                    break;
+                case 6:
+                    $(".reminder_two").text('销售开单完成后，可以通过"安装分派"菜单给安装工派活，并结算工钱');
+                    $(".reminder_one").hide();
+                    break;
+            }
+            ;
+        })
+        $(".alart_callback").click(function () {
+            $(".cover").hide();
+            $(".alart").hide();
+        })
+        $(".callback").click(function () {
+            $(".alart_one").hide();
+            $(".alart").show();
+            $(".cover").hide();
+        })
+    })
+</script>
+</body>
+
+</html>

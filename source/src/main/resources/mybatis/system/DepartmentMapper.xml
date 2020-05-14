@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.DepartmentMapper" >
+
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.Department" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="DEPT_NAME" property="deptName" jdbcType="VARCHAR" />
+    <result column="P_DEPT_ID" property="pDeptId" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="INTEGER" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    UID, DEPT_ID, DEPT_NAME, P_DEPT_ID, SORT_ITEM, COM_KEY, IS_VALID, CREATE_TIME
+  </sql>
+
+  <select id="selectByPrimaryKeyForVo" resultType="com.ydz.vo.SelectVo" parameterType="pd" >
+    select
+    DEPT_ID AS `value`,
+    DEPT_NAME AS text
+    from YDZ_DEPARTMENT
+    where IS_VALID = '1'
+    <if test="comKey != null" >
+      and COM_KEY = #{comKey}
+    </if>
+    <if test="deptId != null" >
+      and DEPT_ID = #{deptId}
+    </if>
+  </select>
+  
+  <select id="selectOneByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select
+    <include refid="Base_Column_List" />
+    from YDZ_DEPARTMENT
+    where IS_VALID = '1' and COM_KEY = #{comKey} and DEPT_ID = #{deptId}
+  </select>
+
+  <select id="listPageByPrimaryKeyData" resultMap="BaseResultMap" parameterType="page"  >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_DEPARTMENT
+    where IS_VALID = '1'
+    <if test="pd.comKey != null" >
+      and COM_KEY = #{pd.comKey}
+    </if>
+    <if test="pd.deptId != null" >
+      and DEPT_ID = #{pd.deptId}
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey"  parameterType="pd" >
+    delete from YDZ_DEPARTMENT
+    where COM_KEY = #{comKey}
+    <if test=" deptId != null">
+    	and DEPT_ID = #{deptId}
+    </if>
+  </delete>
+
+  <select id="getMaxDeptId" resultType="java.lang.String" parameterType="pd">
+    SELECT max(DEPT_ID+0) from YDZ_DEPARTMENT  where COM_KEY = #{comKey}
+  </select>
+
+  <select id="getMaxSortItem" resultType="java.lang.Integer" parameterType="pd">
+    SELECT max(SORT_ITEM) from YDZ_DEPARTMENT  where COM_KEY = #{comKey}
+  </select>
+
+  <insert id="insertList" parameterType="java.util.List" >
+    insert into YDZ_DEPARTMENT (DEPT_ID, DEPT_NAME,
+    P_DEPT_ID, SORT_ITEM, COM_KEY,
+    IS_VALID, CREATE_TIME)
+    values
+    <foreach collection="list" item="item" index="index"  
+        separator=",">  
+	    (#{item.deptId,jdbcType=VARCHAR}, #{item.deptName,jdbcType=VARCHAR},
+	    #{item.pDeptId,jdbcType=VARCHAR}, #{item.sortItem,jdbcType=INTEGER}, #{item.comKey,jdbcType=VARCHAR},
+	    #{item.isValid,jdbcType=CHAR}, #{item.createTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.Department" >
+    insert into YDZ_DEPARTMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID,
+      </if>
+      <if test="deptName != null" >
+        DEPT_NAME,
+      </if>
+      <if test="pDeptId != null" >
+        P_DEPT_ID,
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="pDeptId != null" >
+        #{pDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.Department" >
+    update YDZ_DEPARTMENT
+    <set >
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null" >
+        DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="pDeptId != null" >
+        P_DEPT_ID = #{pDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByUnionKey" parameterType="com.ydz.entity.system.Department">
+    update YDZ_DEPARTMENT
+    <set >
+
+      <if test="deptName != null" >
+        DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      </if>
+
+      <if test="sortItem != null" >
+        SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DEPT_ID = #{deptId} and COM_KEY = #{comKey}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.Department" >
+    update YDZ_DEPARTMENT
+    set DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      DEPT_NAME = #{deptName,jdbcType=VARCHAR},
+      P_DEPT_ID = #{pDeptId,jdbcType=VARCHAR},
+      SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      COM_KEY = #{comKey,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

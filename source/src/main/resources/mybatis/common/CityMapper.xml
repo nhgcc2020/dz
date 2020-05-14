@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.common.CityMapper" >
+<cache eviction="FIFO"     
+    size="10240"     
+    readOnly="true" />
+  <resultMap id="BaseResultMap" type="com.ydz.entity.common.City" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CITY_ID" property="cityId" jdbcType="VARCHAR" />
+    <result column="CITY_NAME" property="cityName" jdbcType="VARCHAR" />
+    <result column="PROVINCE_ID" property="provinceId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CITY_ID, CITY_NAME, PROVINCE_ID
+  </sql>
+  
+  <select id="listAllCityByProvince" resultMap="BaseResultMap" parameterType="pd" >
+    select CITY_ID, CITY_NAME, PROVINCE_ID from YDZ_CITY
+    where 1=1
+    <if test=" provinceId!=null ">
+    	and PROVINCE_ID = #{provinceId}
+    </if>
+  </select>
+
+<!--   <select id="listAllCityByProvinceAsVo" resultType="com.ydz.vo.SelectVo">
+    select CITY_ID AS `value`, CITY_NAME AS `text` from YDZ_CITY
+    where PROVINCE_ID = #{provinceId}
+  </select> -->
+  
+  <select id="selectByCity" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_CITY
+    where 1 = 1
+    <if test="cityId != null">
+    	and CITY_ID = #{cityId}
+    </if>
+    <if test="cityName != null">
+    	and CITY_NAME LIKE '%${cityName}%'
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from YDZ_CITY
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.common.City" >
+    insert into YDZ_CITY (ID, CITY_ID, CITY_NAME, 
+      PROVINCE_ID)
+    values (#{id,jdbcType=INTEGER}, #{cityId,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, 
+      #{provinceId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.common.City" >
+    insert into YDZ_CITY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="cityId != null" >
+        CITY_ID,
+      </if>
+      <if test="cityName != null" >
+        CITY_NAME,
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.common.City" >
+    update YDZ_CITY
+    <set >
+      <if test="cityId != null" >
+        CITY_ID = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        CITY_NAME = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        PROVINCE_ID = #{provinceId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.common.City" >
+    update YDZ_CITY
+    set CITY_ID = #{cityId,jdbcType=VARCHAR},
+      CITY_NAME = #{cityName,jdbcType=VARCHAR},
+      PROVINCE_ID = #{provinceId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

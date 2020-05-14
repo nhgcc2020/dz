@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>待对账订单</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="/wechat/css/mui.min.css" rel="stylesheet" />
+		<link href="/wechat/css/main.css" rel="stylesheet" />
+		<link href="/wechat/css/model.css" rel="stylesheet" />
+		<script src="/common/growingio.js"></script>
+		<style>
+			.listRight{
+				padding-left: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--这个是加载框，切勿修改-->
+		<div class="loadingssss loading_box"><span></span></div>
+
+		<div class="mui-content">
+		    <ul class="listCenter" id="daiduizhang"></ul>
+			<!--<div class="billing">-->
+				<!--<div class="billing_left">-->
+					<!--<div class="mui-input-row mui-checkbox mui-left">-->
+						 <!--<label>全选</label>-->
+						 <!--<input name="checkbox1" value="Item 1" type="checkbox">-->
+					<!--</div>-->
+					<!--合计：￥10000.00-->
+				<!--</div>-->
+				<!--<div class="billing_right">-->
+					<!--对账（<span>0</span>）-->
+				<!--</div>-->
+			<!--</div>-->
+		</div>
+
+	</body>
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+	<script src="/wechat/js/main.js"></script>
+	<script>
+		var pageSize = 20; //每页条数
+		var pageNo = 1;    //需要数据的页数
+		function daiduizhang(){
+			$(".loading_box").addClass("loadingssss");
+			document.getElementById('daiduizhang').innerHTML = "";
+			$.ajax({
+				url:'../../../wx/menu/listSalesOrder',
+				type:'GET',
+				async:true,
+				data:{pageSize:pageSize,pageNo:pageNo,orderStatus:"04",isSynchro:1}, //传递参数
+				dataType:"json",
+				timeout:"10000",
+				success:function(data){
+					$(".loading_box").removeClass("loadingssss");
+					$.each(data.orders,function(key,val){
+						document.getElementById('daiduizhang').innerHTML +=
+//								"<li>"
+//								+"<a class='mui-navigate-right' href='salesOrder/order-detail.html?salesNo="+val.salesNo+"&&orderStatus="+val.orderStatus+"'>"
+//								+"<div class='tab_list_detail_right'>"
+//								+"<h4>"+"项目名称："
+//								+"<span>"+val.caseDesc+"</span>"
+//								+"</h4>"
+//								+"<p>"+"供应商："+val.contactName+"</p>"
+//								+"<p>"+"<b>"+"订单日期："+"<span>"+val.orderDate+"</span>"+"</b>"+"<b>"+"订单号："+"<span>"+val.salesNo+"</span>"+"</b>"+"</p>"
+//								+"<p>"+"订单金额："+"<i>"+val.totalPrice+"</i>"+"</p>"
+//								+"</div>"
+//								+"</a>"
+//								+"</li>";
+								'<li>'+
+								'<a href="salesOrder/order-detail.html?salesNo='+val.salesNo+'&&orderStatus='+val.orderStatus+'">'+
+								'<div class="listTOP"><span class="listTitle">订单日期：'+val.orderDate+'</span><span>订单号：'+val.salesNo+'</span></div>'+
+								'<div class="listBottom">'+
+//								'<div class="listCheck">'+
+//								'<input type="checkbox" value="'+val.salesNo+'" class="listCheckbox" id="'+val.salesNo+'">'+
+//								'<label for="'+val.salesNo+'"></label>'+
+//								'</div>'+
+								'<div class="listRight iconfont">'+
+								'<h4>项目名称：'+val.caseDesc+'</h4>'+
+								'<p>客户：'+val.partnerShortname+'</p>'+
+								'<p>订单金额：'+(val.totalPrice).toFixed(2)+'</p>'+
+								'</div>'+
+								'</div>'+
+								'</a>'+
+								'</li>';
+					})
+					if(data.orders == ""){
+						$("<div class='error_tips'>").fadeIn(250).html("没有数据").appendTo("#daiduizhang");
+					}
+				},
+				error:function(){
+					$("<div class='error_tips'>").fadeIn(250).html("没有更多数据").delay(500).fadeOut(250).appendTo("body");
+				}
+			});
+		};
+		daiduizhang();
+	</script>
+
+</html>

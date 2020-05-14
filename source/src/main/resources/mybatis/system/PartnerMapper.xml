@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.PartnerMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.Partner" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_COM_KEY" property="partnerComKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_NAME" property="partnerName" jdbcType="VARCHAR" />
+    <result column="PARTNER_SHORTNAME" property="partnerShortname" jdbcType="VARCHAR" />
+    <result column="MNEMONIC_CODE" property="mnemonicCode" jdbcType="VARCHAR" />
+    <result column="TAX_NO" property="taxNo" jdbcType="VARCHAR" />
+    <result column="PARTNER_LEVEL" property="partnerLevel" jdbcType="CHAR" />
+    <result column="PARTNER_ATTR" property="partnerAttr" jdbcType="CHAR" />
+    <result column="PARTNER_TYPE" property="partnerType" jdbcType="CHAR" />
+    <result column="PARTNER_QQ" property="partnerQQ" jdbcType="VARCHAR" />
+    <result column="PARTNER_TEL" property="partnerTel" jdbcType="VARCHAR" />
+    <result column="PARTNER_PROVINCE" property="partnerProvince" jdbcType="VARCHAR" />
+    <result column="PARTNER_CITY" property="partnerCity" jdbcType="VARCHAR" />
+    <result column="PARTNER_COUNTRY" property="partnerCountry" jdbcType="VARCHAR" />
+    <result column="PARTNER_ADDRESS" property="partnerAddress" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CHANGER" property="changer" jdbcType="VARCHAR" />
+    <result column="CHANGE_TIME" property="changeTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+    <sql id="Base_Column_List" >
+    UID, PARTNER_KEY, PARTNER_COM_KEY, PARTNER_NAME, PARTNER_SHORTNAME, MNEMONIC_CODE, TAX_NO, PARTNER_LEVEL, 
+    PARTNER_ATTR, PARTNER_TYPE, PARTNER_QQ, PARTNER_TEL, PARTNER_PROVINCE, PARTNER_CITY, PARTNER_COUNTRY, PARTNER_ADDRESS, IS_VALID, REMARKS,
+    CREATOR, CREATE_TIME, CHANGER, CHANGE_TIME
+  </sql>
+  
+  <resultMap id="PartnerVO" type="com.ydz.entity.system.PartnerVO" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_COM_KEY" property="partnerComKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_NAME" property="partnerName" jdbcType="VARCHAR" />
+    <result column="PARTNER_SHORTNAME" property="partnerShortname" jdbcType="VARCHAR" />
+    <result column="MNEMONIC_CODE" property="mnemonicCode" jdbcType="VARCHAR" />
+    <result column="TAX_NO" property="taxNo" jdbcType="VARCHAR" />
+    <result column="PARTNER_LEVEL" property="partnerLevel" jdbcType="CHAR" />
+    <result column="PARTNER_ATTR" property="partnerAttr" jdbcType="CHAR" />
+    <result column="PARTNER_TYPE" property="partnerType" jdbcType="CHAR" />
+    <result column="PARTNER_QQ" property="partnerQQ" jdbcType="VARCHAR" />
+    <result column="PARTNER_TEL" property="partnerTel" jdbcType="VARCHAR" />
+    <result column="PARTNER_PROVINCE" property="partnerProvince" jdbcType="VARCHAR" />
+    <result column="PARTNER_CITY" property="partnerCity" jdbcType="VARCHAR" />
+    <result column="PARTNER_COUNTRY" property="partnerCountry" jdbcType="VARCHAR" />
+    <result column="PARTNER_ADDRESS" property="partnerAddress" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CONTACTER_ID" property="contacterId" jdbcType="VARCHAR" />
+    <result column="CONTACTER_NAME" property="contacterName" jdbcType="VARCHAR" />
+    <result column="TEL1" property="tel1" jdbcType="VARCHAR" />
+    <result column="TEL2" property="tel2" jdbcType="VARCHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="STATUS" property="partnerStatus" jdbcType="CHAR" />
+    <result column="COM_ID" property="comId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_PartnerVO" >
+    YP.UID,
+    YCP.COM_KEY,
+	YP.PARTNER_KEY,
+	YP.PARTNER_COM_KEY,
+	YP.PARTNER_NAME,
+	YP.PARTNER_SHORTNAME,
+	YP.MNEMONIC_CODE,
+	YP.TAX_NO,
+	YP.PARTNER_LEVEL,
+	YP.PARTNER_ATTR,
+	YP.PARTNER_TYPE,
+	YP.PARTNER_QQ,
+	YP.PARTNER_TEL,
+	YP.PARTNER_PROVINCE,
+	YP.PARTNER_CITY,
+	YP.PARTNER_COUNTRY,
+	YP.PARTNER_ADDRESS,
+	YP.IS_VALID,
+	YP.REMARKS,
+	YP.CREATOR,
+	YP.CREATE_TIME,
+	YPC.UID as pcUid,
+	YPC.CONTACTER_ID,
+	YPC.CONTACTER_NAME,
+	YPC.TEL1,
+	YPC.TEL2,
+	YCP.STATUS,
+	YCP.UID as cUid
+  </sql>
+
+  <sql id="Base_PartnerVO4WX">
+    YP.UID,
+    YCP.COM_KEY,
+	YP.PARTNER_KEY,
+	YP.PARTNER_COM_KEY,
+	YP.PARTNER_NAME,
+	YP.PARTNER_SHORTNAME,
+	YP.MNEMONIC_CODE,
+	YP.TAX_NO,
+	YP.PARTNER_LEVEL,
+	YP.PARTNER_ATTR,
+	YP.PARTNER_TYPE,
+	YP.PARTNER_QQ,
+	YP.PARTNER_TEL,
+	YP.PARTNER_PROVINCE,
+	YP.PARTNER_CITY,
+	YP.PARTNER_COUNTRY,
+	YP.PARTNER_ADDRESS,
+	YP.IS_VALID,
+	YP.REMARKS,
+	YP.CREATOR,
+	YP.CREATE_TIME,
+	YPC.UID as pcUid,
+	YPC.CONTACTER_ID,
+	YPC.CONTACTER_NAME,
+	YPC.TEL1,
+	YPC.TEL2,
+	YCP.STATUS,
+	YCP.UID as cUid,
+	YC.COM_ID as comId,
+	YC.COM_LOGO_PATH as comLogoPath,
+	YC.AREA_CODE as areaCode,
+	YC.COM_TEL as comTel
+  </sql>
+
+
+  <sql id="Base_PartnerVOForCheck" >
+    YP.UID,
+    YCP.COM_KEY,
+    YP.PARTNER_KEY,
+    YP.PARTNER_COM_KEY,
+    YP.PARTNER_NAME,
+    YP.PARTNER_SHORTNAME,
+    YP.MNEMONIC_CODE,
+    YP.TAX_NO,
+    YP.PARTNER_LEVEL,
+    YP.PARTNER_ATTR,
+    YP.PARTNER_TYPE,
+    YP.PARTNER_QQ,
+    YP.PARTNER_TEL,
+    YP.PARTNER_PROVINCE,
+    YP.PARTNER_CITY,
+    YP.PARTNER_COUNTRY,
+    YP.PARTNER_ADDRESS,
+    YP.IS_VALID,
+    YP.REMARKS,
+    YP.CREATOR,
+    YP.CREATE_TIME,
+    YCP.STATUS,
+    C.COM_NAME AS myComName,
+    C.COM_SHORTNAME AS myComShortname
+  </sql>
+
+    <sql id="Base_PartnerVOForCheck2" >
+        YP.UID,
+        YCP.COM_KEY,
+        YP.PARTNER_KEY,
+        YP.PARTNER_COM_KEY,
+        YP.PARTNER_NAME,
+        YP.PARTNER_SHORTNAME,
+        YP.MNEMONIC_CODE,
+        YP.TAX_NO,
+        YP.PARTNER_LEVEL,
+        YP.PARTNER_ATTR,
+        YP.PARTNER_TYPE,
+        YP.PARTNER_QQ,
+        YP.PARTNER_TEL,
+        YP.PARTNER_PROVINCE,
+        YP.PARTNER_CITY,
+        YP.PARTNER_COUNTRY,
+        YP.PARTNER_ADDRESS,
+        YP.IS_VALID,
+        YP.REMARKS,
+        YP.CREATOR,
+        YP.CREATE_TIME,
+        YCP.STATUS
+    </sql>
+
+    <!--YCP.STATUS ="0"-->
+    <select id="listByPhone" parameterType="pd" resultMap="PartnerVO" >
+    select
+      <include refid="Base_PartnerVO" />
+    from YDZ_COM_PARTNER YCP
+    JOIN YDZ_PARTNER YP ON YCP.partner_key = YP.PARTNER_KEY
+    JOIN YDZ_PARTNER_CONTACTER YPC on YCP.PARTNER_KEY = YPC.PARTNER_KEY
+    where
+      YCP.IS_VALID = "1"
+      AND YP.IS_VALID = "1"
+      AND YPC.IS_VALID = "1"
+      AND YPC.TEL1 = #{phone}
+    <if test="partnerAttr != null">
+      and YP.PARTNER_ATTR = #{partnerAttr}
+    </if>
+    <if test="comKey != null">
+      and YCP.COM_KEY = #{comKey}
+    </if>
+    <if test="partnerName != null">
+       and YP.PARTNER_NAME = #{partnerName}
+    </if>
+  </select>
+
+  <select id="getPartnerAndContacterByPartnerKey" resultMap="PartnerVO" parameterType="pd" >
+    select
+    <include refid="Base_PartnerVO4WX" />
+	FROM YDZ_PARTNER YP
+	LEFT JOIN YDZ_PARTNER_CONTACTER YPC ON YPC.PARTNER_KEY = YP.PARTNER_KEY
+	LEFT JOIN YDZ_COM_PARTNER YCP ON YCP.PARTNER_KEY = YP.PARTNER_KEY
+	LEFT JOIN YDZ_COMPANY YC ON YC.COM_KEY = YP.PARTNER_COM_KEY
+	WHERE YCP.IS_VALID = '1' AND YP.IS_VALID = '1' AND
+	YP.PARTNER_KEY = #{partnerKey}
+	<if test="contacterId != null">
+		and	YPC.CONTACTER_ID = #{contacterId}
+	</if>
+	<if test="tel1 != null">
+		and YPC.tel1 = #{tel1}
+	</if>
+	ORDER BY YPC.UID
+	LIMIT 1
+  </select>
+  
+  <select id="getComPartnerAndPartnerInfo" resultType="com.ydz.entity.system.PartnerVO" parameterType="pd">
+  	select 
+  		yp.uid,
+        ycp.com_key,
+        yp.partner_key,
+        yp.partner_com_key,
+        yp.partner_name,
+        yp.partner_shortname,
+        yp.mnemonic_code,
+        yp.tax_no,
+        yp.partner_level,
+        yp.partner_attr,
+        yp.partner_type,
+        yp.partner_qq,
+        yp.partner_tel,
+        yp.partner_province,
+        yp.partner_city,
+        yp.partner_country,
+        yp.partner_address,
+        yp.is_valid,
+        yp.remarks,
+        yp.creator,
+        yp.create_time,
+        ycp.status
+  	from ydz_partner yp
+  	left join ydz_com_partner ycp on ycp.partner_key = yp.partner_key
+	where ycp.com_key = #{comKey}
+	and ycp.partner_key = #{partnerKey}
+  </select>
+
+  <select id="listPageRartnerByComKey" resultMap="PartnerVO" parameterType="page">
+  	select 
+  	<include refid="Base_PartnerVO4WX" />
+  	FROM YDZ_PARTNER YP
+  	LEFT JOIN  YDZ_PARTNER_CONTACTER YPC ON YPC.PARTNER_KEY = YP.PARTNER_KEY 
+  			and YPC.UID = (select MIN(UID) from YDZ_PARTNER_CONTACTER where PARTNER_KEY = YPC.PARTNER_KEY)
+  	LEFT JOIN YDZ_COM_PARTNER YCP ON YCP.PARTNER_KEY = YP.PARTNER_KEY
+    LEFT JOIN YDZ_COMPANY YC ON YC.COM_KEY = YP.PARTNER_COM_KEY
+  	WHERE YPC.IS_VALID = '1' AND YCP.IS_VALID = '1' AND YP.IS_VALID = '1' AND YCP.COM_KEY = #{pd.comKey}
+  	<if test="pd.partnerName != null">
+  		and YP.PARTNER_NAME LIKE '%${pd.partnerName}%'
+  	</if>
+  	<if test="pd.partnerShortname != null">
+  		and YP.PARTNER_SHORTNAME LIKE '%${pd.partnerShortname}%'
+  	</if>
+  	<if test="pd.mnemonicCode != null">
+  		and YP.MNEMONIC_CODE LIKE '%${pd.mnemonicCode}%'
+  	</if>
+    <if test="pd.searchKey != null">
+      and CONCAT(YP.PARTNER_SHORTNAME,YP.MNEMONIC_CODE) LIKE '%${pd.searchKey}%'
+    </if>
+  	<if test="pd.partnerLevel != null">
+  		and YP.PARTNER_LEVEL LIKE #{pd.partnerLevel}
+  	</if>
+  	<if test="pd.partnerAttr != null">
+  		and YP.PARTNER_ATTR = #{pd.partnerAttr}
+  	</if>
+    <if test="pd.partnerStatus != null">
+      and YCP.STATUS = #{pd.partnerStatus}
+    </if>
+    <if test="pd.notFriend != null">
+      and YCP.STATUS != "1"
+    </if>
+    <if test="pd.partnerType != null">
+  		and YP.PARTNER_TYPE in (&apos;${pd.partnerType}&apos;,&apos;A&apos;)
+  	</if>
+  	GROUP BY YP.PARTNER_KEY
+    ORDER BY CONVERT( YP.PARTNER_SHORTNAME USING gbk ) COLLATE gbk_chinese_ci ASC
+
+  </select>
+
+  <select id="checkPartner" resultMap="PartnerVO" parameterType="pd" >
+    select
+    <include refid="Base_PartnerVOForCheck" />
+    FROM YDZ_PARTNER YP
+    LEFT JOIN YDZ_COM_PARTNER YCP ON YCP.PARTNER_KEY = YP.PARTNER_KEY
+    LEFT JOIN YDZ_COMPANY C ON C.COM_KEY = YCP.COM_KEY
+    WHERE YCP.IS_VALID = '1' AND YP.IS_VALID = '1'
+    AND YCP.COM_KEY = #{myComKey}
+    AND YP.PARTNER_COM_KEY = #{partnerComKey}
+
+  </select>
+
+  <!--根据我的公司key和对方的partnerKey查询合作伙伴关系和详情-->
+  <select id="findPartnerByCPKey" resultMap="PartnerVO" parameterType="pd" >
+    select
+    <include refid="Base_PartnerVOForCheck2" />
+    FROM YDZ_PARTNER YP
+    LEFT JOIN YDZ_COM_PARTNER YCP ON YCP.PARTNER_KEY = YP.PARTNER_KEY
+    WHERE YCP.IS_VALID = '1' AND YP.IS_VALID = '1'
+    AND YCP.COM_KEY = #{myComKey}
+    AND YCP.PARTNER_KEY = #{partnerKey}
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_PARTNER
+    where IS_VALID = '1' and PARTNER_KEY = #{partnerKey}
+    <if test="partnerName != null">
+    	and PARTNER_NAME LIKE '%${partnerName}%'
+    </if>
+    <if test="partnerShortname != null">
+    	and PARTNER_SHORTNAME LIKE '%${partnerShortname}%'
+    </if>
+    <if test="mnemonicCode != null">
+    	and MNEMONIC_CODE LIKE '%${mnemonicCode}%'
+    </if>
+    <if test="partnerLevel != null">
+    	and PARTNER_LEVEL = #{partnerLevel}
+    </if>
+    <if test="partnerAttr != null">
+    	and PARTNER_ATTR = #{partnerAttr}
+    </if>
+    <if test="partnerType != null">
+    	and PARTNER_TYPE = #{partnerType}
+    </if>
+  </select>
+  
+  <select id="listPartners" resultType="com.ydz.entity.system.Partner" parameterType="pd" >
+  	select
+  		<include refid="Base_Column_List" />
+  	from ydz_partner
+  	where IS_VALID = '1'
+  	and PARTNER_KEY IN ${partnerKeyIns}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_PARTNER
+    where PARTNER_KEY = #{partnerKey}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.system.Partner" >
+    insert into YDZ_PARTNER (UID, PARTNER_KEY, PARTNER_COM_KEY, PARTNER_NAME, 
+      PARTNER_SHORTNAME, MNEMONIC_CODE, TAX_NO, PARTNER_LEVEL, 
+      PARTNER_ATTR, PARTNER_TYPE, PARTNER_QQ, 
+      PARTNER_TEL, PARTNER_PROVINCE, PARTNER_CITY, PARTNER_COUNTRY, PARTNER_ADDRESS,
+      IS_VALID, REMARKS, CREATOR, CREATE_TIME
+      )
+    values (#{uid,jdbcType=BIGINT}, #{partnerKey,jdbcType=VARCHAR}, #{partnerComKey,jdbcType=VARCHAR}, #{partnerName,jdbcType=VARCHAR}, 
+      #{partnerShortname,jdbcType=VARCHAR}, #{mnemonicCode,jdbcType=VARCHAR}, #{taxNo,jdbcType=VARCHAR}, #{partnerLevel,jdbcType=CHAR}, 
+      #{partnerAttr,jdbcType=CHAR}, #{partnerType,jdbcType=CHAR}, #{partnerQQ,jdbcType=VARCHAR},
+      #{partnerTel,jdbcType=VARCHAR}, #{partnerProvince,jdbcType=VARCHAR}, #{partnerCity,jdbcType=VARCHAR}, #{partnerCountry,jdbcType=VARCHAR},
+      #{partnerAddress,jdbcType=VARCHAR}, #{isValid,jdbcType=CHAR}, #{remarks,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+
+  
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.Partner" >
+    insert into YDZ_PARTNER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="partnerKey != null" >
+        PARTNER_KEY,
+      </if>
+      <if test="partnerComKey != null" >
+        PARTNER_COM_KEY,
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME,
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME,
+      </if>
+      <if test="mnemonicCode != null" >
+        MNEMONIC_CODE,
+      </if>
+      <if test="taxNo != null" >
+        TAX_NO,
+      </if>
+      <if test="partnerLevel != null" >
+        PARTNER_LEVEL,
+      </if>
+      <if test="partnerAttr != null" >
+        PARTNER_ATTR,
+      </if>
+      <if test="partnerType != null" >
+        PARTNER_TYPE,
+      </if>
+      <if test="partnerQQ != null" >
+        PARTNER_QQ,
+      </if>
+      <if test="partnerTel != null" >
+        PARTNER_TEL,
+      </if>
+      <if test="partnerProvince != null" >
+        PARTNER_PROVINCE,
+      </if>
+      <if test="partnerCity != null" >
+        PARTNER_CITY,
+      </if>
+      <if test="partnerCountry != null" >
+        PARTNER_COUNTRY,
+      </if>
+      <if test="partnerAddress != null" >
+        PARTNER_ADDRESS,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="changer != null" >
+        CHANGER,
+      </if>
+      <if test="changeTime != null" >
+        CHANGE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="partnerKey != null" >
+        #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerComKey != null" >
+        #{partnerComKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        #{partnerShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="mnemonicCode != null" >
+        #{mnemonicCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNo != null" >
+        #{taxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerLevel != null" >
+        #{partnerLevel,jdbcType=CHAR},
+      </if>
+      <if test="partnerAttr != null" >
+        #{partnerAttr,jdbcType=CHAR},
+      </if>
+      <if test="partnerType != null" >
+        #{partnerType,jdbcType=CHAR},
+      </if>
+      <if test="partnerQQ != null" >
+        #{partnerQQ,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerTel != null" >
+        #{partnerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerProvince != null" >
+        #{partnerProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerCity != null" >
+        #{partnerCity,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerCountry != null" >
+        #{partnerCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerAddress != null" >
+        #{partnerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changer != null" >
+        #{changer,jdbcType=VARCHAR},
+      </if>
+      <if test="changeTime != null" >
+        #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.Partner" >
+    update YDZ_PARTNER
+    <set >
+      <if test="partnerComKey != null" >
+        PARTNER_COM_KEY = #{partnerComKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME = #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME = #{partnerShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="mnemonicCode != null" >
+        MNEMONIC_CODE = #{mnemonicCode,jdbcType=VARCHAR},
+      </if>
+      <if test="taxNo != null" >
+        TAX_NO = #{taxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerLevel != null" >
+        PARTNER_LEVEL = #{partnerLevel,jdbcType=CHAR},
+      </if>
+      <if test="partnerAttr != null" >
+        PARTNER_ATTR = #{partnerAttr,jdbcType=CHAR},
+      </if>
+      <if test="partnerType != null" >
+        PARTNER_TYPE = #{partnerType,jdbcType=CHAR},
+      </if>
+      <if test="partnerQQ != null" >
+        PARTNER_QQ = #{partnerQQ,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerTel != null" >
+        PARTNER_TEL = #{partnerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerProvince != null" >
+        PARTNER_PROVINCE = #{partnerProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerCity != null" >
+        PARTNER_CITY = #{partnerCity,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerCountry != null" >
+        PARTNER_COUNTRY = #{partnerCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerAddress != null" >
+        PARTNER_ADDRESS = #{partnerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="changer != null" >
+        CHANGER = #{changer,jdbcType=VARCHAR},
+      </if>
+      <if test="changeTime != null" >
+        CHANGE_TIME = #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PARTNER_KEY = #{partnerKey}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.Partner" >
+    update YDZ_PARTNER
+    set PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      PARTNER_COM_KEY = #{partnerComKey,jdbcType=VARCHAR},
+      PARTNER_NAME = #{partnerName,jdbcType=VARCHAR},
+      PARTNER_SHORTNAME = #{partnerShortname,jdbcType=VARCHAR},
+      MNEMONIC_CODE = #{mnemonicCode,jdbcType=VARCHAR},
+      TAX_NO = #{taxNo,jdbcType=VARCHAR},
+      PARTNER_LEVEL = #{partnerLevel,jdbcType=CHAR},
+      PARTNER_ATTR = #{partnerAttr,jdbcType=CHAR},
+      PARTNER_TYPE = #{partnerType,jdbcType=CHAR},
+      PARTNER_QQ = #{partnerQQ,jdbcType=VARCHAR},
+      PARTNER_TEL = #{partnerTel,jdbcType=VARCHAR},
+      PARTNER_PROVINCE = #{partnerProvince,jdbcType=VARCHAR},
+      PARTNER_CITY = #{partnerCity,jdbcType=VARCHAR},
+      PARTNER_COUNTRY = #{partnerCountry,jdbcType=VARCHAR},
+      PARTNER_ADDRESS = #{partnerAddress,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CHANGER = #{changer,jdbcType=VARCHAR},
+      CHANGE_TIME = #{changeTime,jdbcType=TIMESTAMP}
+    where PARTNER_KEY = #{partnerKey}
+  </update>
+</mapper>

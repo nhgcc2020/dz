@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.report.ReportSalesOrderYMDAmountMapper" >
+  <resultMap id="salesOrderYMD" type="com.ydz.entity.report.ReportSalesOrderYMDAmount" >
+    <result column="YEARS" property="years" jdbcType="VARCHAR" />
+    <result column="MONTHS" property="months" jdbcType="VARCHAR" />
+    <result column="DAYS" property="days" jdbcType="VARCHAR" />
+    <result column="TOTAL_PRICE" property="totalPrice" jdbcType="VARCHAR" />
+    <result column="ORDER_NUM" property="orderNum" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <select id="getSalesOrderMonthsAmounts" resultMap="salesOrderYMD" parameterType="pd" >
+    SELECT
+		DATE_FORMAT(ORDER_DATE , '%m') MONTHS ,
+		COUNT(SALES_NO) ORDER_NUM,
+		ROUND(SUM(TOTAL_PRICE) , 2) TOTAL_PRICE
+	FROM
+		YDZ_SALES_ORDER
+	WHERE
+		IS_VALID = '1'
+	AND ORDER_STATUS <![CDATA[<>]]> 'CC'
+	AND COM_KEY = #{comKey}
+	AND DATE_FORMAT(ORDER_DATE , '%Y') = #{year}
+	GROUP BY
+		MONTHS
+  </select>
+  
+  <select id="getSalesOrderDaysAmounts" resultMap="salesOrderYMD" parameterType="pd" >
+  	SELECT
+		DATE_FORMAT(ORDER_DATE , '%d') DAYS ,
+		COUNT(SALES_NO) ORDER_NUM,
+		ROUND(SUM(TOTAL_PRICE) , 2) TOTAL_PRICE
+	FROM
+		YDZ_SALES_ORDER
+	WHERE
+		IS_VALID = '1'
+	AND ORDER_STATUS <![CDATA[<>]]> 'CC'
+	AND COM_KEY = #{comKey}
+	AND DATE_FORMAT(ORDER_DATE , '%Y-%m') = #{yearMonth}
+	GROUP BY
+		DAYS
+  </select>
+  
+  <select id="listPageReportPartnerAmountFromSalesOrder" resultType="com.ydz.entity.report.ReportPartnerAmount" parameterType="page" >
+	SELECT
+		so.COM_KEY comKey ,
+		so.PARTNER_KEY partnerKey ,
+		p.PARTNER_NAME partnerName ,
+		p.PARTNER_SHORTNAME partnerShortname ,
+		sum(so.TOTAL_PRICE) totalPrice04 ,
+		count(so.SALES_NO) orderCount
+	FROM
+		YDZ_SALES_ORDER so ,
+		YDZ_PARTNER p,
+		YDZ_COM_PARTNER cp
+	WHERE
+		so.IS_VALID = '1'
+	AND so.IS_DEL = '0'
+	AND p.IS_VALID = '1'
+	AND so.ORDER_STATUS <![CDATA[<>]]> 'CC'
+	AND so.PARTNER_KEY = p.PARTNER_KEY
+	AND so.PARTNER_KEY = cp.PARTNER_KEY
+	AND so.ORDER_STATUS = '04'
+	AND so.COM_KEY = #{pd.comKey}
+	<if test="pd.startDate != null and pd.endDate !=null">
+		and so.ORDER_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+	</if>
+	<if test="pd.partnerKey != null">
+		AND so.PARTNER_KEY = #{pd.partnerKey}
+	</if>
+	<if test="pd.friend != null">
+		AND cp.STATUS = '1'
+	</if>
+	<if test="pd.friendnot != null">
+		AND cp.STATUS &lt;&gt; '1'
+	</if>
+	<if test="pd.group != null">
+		GROUP BY so.PARTNER_KEY
+	</if>
+	<if test="pd.sortAsc != null">
+		order by totalPrice04 ASC
+	</if>
+	<if test="pd.sortDesc != null">
+		order by totalPrice04 DESC
+	</if>
+  </select>
+  
+  <select id="listPagePartnerAmountFromSalesCheckingOrder" resultType="com.ydz.entity.report.ReportPartnerAmount" parameterType="page" >
+	SELECT
+		sco.COM_KEY comKey ,
+		sco.PARTNER_KEY partnerKey ,
+		p.PARTNER_NAME partnerName ,
+		p.PARTNER_SHORTNAME partnerShortname ,
+		sum(sco.TOTAL_PRICE) totalPrice07,
+		count(sco.SALESCHECKING_NO) orderCount
+	FROM
+		YDZ_SALESCHECKING_ORDER sco ,
+		YDZ_PARTNER p,
+		YDZ_COM_PARTNER cp
+	WHERE
+		sco.IS_VALID = '1'
+	AND sco.IS_DEL = '0'
+	AND p.IS_VALID = '1'
+	AND sco.PARTNER_KEY = p.PARTNER_KEY
+	AND sco.PARTNER_KEY = cp.PARTNER_KEY
+	AND sco.ORDER_STATUS = '07'
+	AND sco.COM_KEY = #{pd.comKey}
+	<if test="pd.startDate != null and pd.endDate !=null">
+		and sco.ORDER_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+	</if>
+	<if test="pd.partnerKey != null">
+		AND sco.PARTNER_KEY = #{pd.partnerKey}
+	</if>
+	<if test="pd.friend != null">
+		AND cp.STATUS = '1'
+	</if>
+	<if test="pd.friendnot != null">
+		AND cp.STATUS &lt;&gt; '1'
+	</if>
+	<if test="pd.group != null">
+		GROUP BY sco.PARTNER_KEY
+	</if>
+	<if test="pd.sortAsc != null">
+		order by totalPrice07 ASC
+	</if>
+	<if test="pd.sortDesc != null">
+		order by totalPrice07 DESC
+	</if>
+  </select>
+  <select id="listPageSalesOrderPartnerAmount" resultType="com.ydz.entity.report.ReportSalesOrderPartnerAmount" parameterType="page" >
+  	SELECT DISTINCT
+		(PARTNER_KEY) partnerKey ,
+		PARTNER_NAME partnerName ,
+		COUNT(SALES_NO) orderNum ,
+		sum(TOTAL_PRICE) sumTotalPrice
+	FROM
+		ydz_sales_order
+	WHERE
+		IS_VALID = '1'
+	AND IS_DEL = '0'
+	AND ORDER_STATUS IN('01' , '04' , '05')
+	AND COM_KEY = #{pd.comKey}
+	AND ORDER_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+	<if test="pd.partnerKey != null">
+		and PARTNER_KEY = #{pd.partnerKey}
+	</if>
+	GROUP BY
+		PARTNER_KEY
+	<if test="pd.orderNumSortAsc != null">
+		ORDER BY orderNum ASC
+	</if>
+	<if test="pd.orderNumSortDesc != null">
+		ORDER BY orderNum DESC
+	</if>
+	<if test="pd.sumTotalPriceSortAsc != null">
+		ORDER BY sumTotalPrice ASC
+	</if>
+	<if test="pd.sumTotalPriceSortDesc != null">
+		ORDER BY sumTotalPrice DESC
+	</if>
+  </select>
+  <select id="getSumSalesOrderPartner" resultType="com.ydz.entity.report.ReportSalesOrderPartnerAmount" parameterType="pd" >
+  	SELECT sum(TOTAL_PRICE) sumTotalPrice,count(SALES_NO) orderNum
+	FROM
+		ydz_sales_order
+	WHERE
+		IS_VALID = '1'
+	AND IS_DEL = '0'
+	AND ORDER_STATUS IN('01' , '04' , '05')
+	AND COM_KEY = #{comKey}
+	AND ORDER_DATE BETWEEN #{startDate} AND #{endDate}
+	<if test="partnerKey != null">
+		and PARTNER_KEY = #{partnerKey}
+	</if>
+  </select>
+  
+  <select id="getRangeCompanyRecPayAmounts" resultType="com.ydz.entity.report.ReportCompanyRecPayAmount" parameterType="pd" >
+  	SELECT
+		rp.ACCOUNT_TYPE accountType ,
+		rp.ACCOUNT_PAYEE accountPayee ,
+		ROUND(SUM(sco.TOTAL_PRICE) , 2) sumTotalPrice,
+		ROUND(SUM(rp.RECPAY_MONEY) , 2) sumRecpayMoney
+	FROM
+		ydz_receipt_payment rp ,
+		ydz_saleschecking_order sco
+	WHERE
+		rp.IS_VALID = '1'
+	AND sco.IS_VALID = '1'
+	AND sco.IS_DEL = '0'
+	AND rp.CHECKING_NO = sco.SALESCHECKING_NO
+	AND rp.RECPAY_TYPE = '1'
+	AND rp.COM_KEY = #{comKey}
+	and rp.RECPAY_DATE BETWEEN #{startDate} and #{endDate}
+	GROUP BY
+		rp.ACCOUNT_TYPE
+  </select>
+  <select id="getCompanyRecPayAmounts" resultType="com.ydz.entity.report.ReportCompanyRecPayAmount" parameterType="pd" >
+	SELECT
+		rp.ACCOUNT_TYPE accountType ,
+		rp.ACCOUNT_PAYEE accountPayee ,
+		ROUND(SUM(rp.RECPAY_MONEY) , 2) sumAllRecpayMoney
+	FROM
+		ydz_receipt_payment rp
+	WHERE
+		rp.IS_VALID = '1'
+	AND rp.RECPAY_TYPE = '1'
+	AND rp.COM_KEY = #{comKey}
+	GROUP BY
+		rp.ACCOUNT_TYPE
+  </select>
+</mapper>

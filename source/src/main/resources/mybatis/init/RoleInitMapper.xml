@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.RoleInitMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.init.RoleInit" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="ROLE_KEY" property="roleKey" jdbcType="VARCHAR" />
+    <result column="ROLE_VALUE" property="roleValue" jdbcType="VARCHAR" />
+    <result column="ROLE_DESC" property="roleDesc" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="INTEGER" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, ROLE_KEY, ROLE_VALUE, ROLE_DESC, SORT_ITEM, IS_VALID, INDUSTRY_ID, REMARKS, 
+    CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_ROLE_INIT
+    where IS_VALID = "1" AND INDUSTRY_ID = #{industryId} 
+    group by SORT_ITEM
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_ROLE_INIT
+    where INDUSTRY_ID = #{industryId}
+    <if test="roleKey != null">
+    	and ROLE_KEY = #{roleKey}
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.init.RoleInit" >
+    insert into YDZ_ROLE_INIT (UID, ROLE_KEY, ROLE_VALUE, 
+      ROLE_DESC, SORT_ITEM, IS_VALID, 
+      INDUSTRY_ID, REMARKS, CREATE_TIME
+      )
+    values (#{uid,jdbcType=BIGINT}, #{roleKey,jdbcType=VARCHAR}, #{roleValue,jdbcType=VARCHAR}, 
+      #{roleDesc,jdbcType=VARCHAR}, #{sortItem,jdbcType=INTEGER}, #{isValid,jdbcType=CHAR}, 
+      #{industryId,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.init.RoleInit" >
+    insert into YDZ_ROLE_INIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="roleKey != null" >
+        ROLE_KEY,
+      </if>
+      <if test="roleValue != null" >
+        ROLE_VALUE,
+      </if>
+      <if test="roleDesc != null" >
+        ROLE_DESC,
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="roleKey != null" >
+        #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="roleValue != null" >
+        #{roleValue,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDesc != null" >
+        #{roleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.init.RoleInit" >
+    update YDZ_ROLE_INIT
+    <set >
+      <if test="roleKey != null" >
+        ROLE_KEY = #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="roleValue != null" >
+        ROLE_VALUE = #{roleValue,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDesc != null" >
+        ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where INDUSTRY_ID = #{industryId} and ROLE_KEY = #{roleKey}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.init.RoleInit" >
+    update YDZ_ROLE_INIT
+    set ROLE_KEY = #{roleKey,jdbcType=VARCHAR},
+      ROLE_VALUE = #{roleValue,jdbcType=VARCHAR},
+      ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
+      SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where INDUSTRY_ID = #{industryId} and ROLE_KEY = #{roleKey}
+  </update>
+</mapper>

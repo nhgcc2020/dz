@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.advert.CheckingInvoiceMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.advert.CheckingInvoice" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="CHECKING_NO" property="checkingNo" jdbcType="VARCHAR" />
+    <result column="CHECKING_TYPE" property="checkingType" jdbcType="CHAR" />
+    <result column="INVOICE_NO" property="invoiceNo" jdbcType="VARCHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="COM_NAME" property="comName" jdbcType="VARCHAR" />
+    <result column="COM_SHORTNAME" property="comShortname" jdbcType="VARCHAR" />
+    <result column="INVOICE_TYPE" property="invoiceType" jdbcType="CHAR" />
+    <result column="INVOICE_CONTENT" property="invoiceContent" jdbcType="VARCHAR" />
+    <result column="INVOICE_AMOUNT" property="invoiceAmount" jdbcType="DECIMAL" />
+    <result column="TAX_RATE" property="taxRate" jdbcType="DECIMAL" />
+    <result column="INVOICE_DATE" property="invoiceDate" jdbcType="DATE" />
+    <result column="RECEIVED_MONEY" property="receivedMoney" jdbcType="DECIMAL" />
+    <result column="RECEIVED_DATE" property="receivedDate" jdbcType="DATE" />
+    <result column="RECIPIENT" property="recipient" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, CHECKING_NO, CHECKING_TYPE, INVOICE_NO, COM_KEY, COM_NAME, COM_SHORTNAME, INVOICE_TYPE, 
+    INVOICE_CONTENT, INVOICE_AMOUNT, TAX_RATE, INVOICE_DATE, RECEIVED_MONEY, RECEIVED_DATE, 
+    RECIPIENT, REMARKS, IS_VALID, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_CHECKING_INVOICE
+    where IS_VALID = '1'
+    <if test="checkingNo != null">
+    	and CHECKING_NO LIKE '%${checkingNo}%';
+    </if>
+    <if test="comKey != null">
+    	and COM_KEY = #{comKey};
+    </if>
+    <if test="checkingType != null">
+    	and CHECKING_TYPE = #{checkingType};
+    </if>
+    <if test="invoiceType != null">
+    	and INVOICE_TYPE = #{invoiceType};
+    </if>
+    <if test="comShortname != null">
+    	and COM_SHORTNAME LIKE '%${comShortname}%';
+    </if>  
+    <if test="startDate != null and endDate != null">
+    	and INVOICE_DATE BETWEEN #{startDate} AND #{endDate};
+    </if>     
+    order by INVOICE_DATE
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_CHECKING_INVOICE
+    where CHECKING_NO = #{checkingNo} and INVOICE_NO = #{invoiceNo}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.advert.CheckingInvoice" >
+    insert into YDZ_CHECKING_INVOICE (UID, CHECKING_NO, CHECKING_TYPE, 
+      INVOICE_NO, COM_KEY, COM_NAME, 
+      COM_SHORTNAME, INVOICE_TYPE, INVOICE_CONTENT, 
+      INVOICE_AMOUNT, TAX_RATE, INVOICE_DATE, 
+      RECEIVED_MONEY, RECEIVED_DATE, RECIPIENT, 
+      REMARKS, IS_VALID, CREATE_TIME
+      )
+    values (#{uid,jdbcType=BIGINT}, #{checkingNo,jdbcType=VARCHAR}, #{checkingType,jdbcType=CHAR}, 
+      #{invoiceNo,jdbcType=VARCHAR}, #{comKey,jdbcType=VARCHAR}, #{comName,jdbcType=VARCHAR}, 
+      #{comShortname,jdbcType=VARCHAR}, #{invoiceType,jdbcType=CHAR}, #{invoiceContent,jdbcType=VARCHAR}, 
+      #{invoiceAmount,jdbcType=DECIMAL}, #{taxRate,jdbcType=DECIMAL}, #{invoiceDate,jdbcType=DATE}, 
+      #{receivedMoney,jdbcType=DECIMAL}, #{receivedDate,jdbcType=DATE}, #{recipient,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{isValid,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.advert.CheckingInvoice" >
+    insert into YDZ_CHECKING_INVOICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="checkingNo != null" >
+        CHECKING_NO,
+      </if>
+      <if test="checkingType != null" >
+        CHECKING_TYPE,
+      </if>
+      <if test="invoiceNo != null" >
+        INVOICE_NO,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="comName != null" >
+        COM_NAME,
+      </if>
+      <if test="comShortname != null" >
+        COM_SHORTNAME,
+      </if>
+      <if test="invoiceType != null" >
+        INVOICE_TYPE,
+      </if>
+      <if test="invoiceContent != null" >
+        INVOICE_CONTENT,
+      </if>
+      <if test="invoiceAmount != null" >
+        INVOICE_AMOUNT,
+      </if>
+      <if test="taxRate != null" >
+        TAX_RATE,
+      </if>
+      <if test="invoiceDate != null" >
+        INVOICE_DATE,
+      </if>
+      <if test="receivedMoney != null" >
+        RECEIVED_MONEY,
+      </if>
+      <if test="receivedDate != null" >
+        RECEIVED_DATE,
+      </if>
+      <if test="recipient != null" >
+        RECIPIENT,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="checkingNo != null" >
+        #{checkingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="checkingType != null" >
+        #{checkingType,jdbcType=CHAR},
+      </if>
+      <if test="invoiceNo != null" >
+        #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="comName != null" >
+        #{comName,jdbcType=VARCHAR},
+      </if>
+      <if test="comShortname != null" >
+        #{comShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null" >
+        #{invoiceType,jdbcType=CHAR},
+      </if>
+      <if test="invoiceContent != null" >
+        #{invoiceContent,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceAmount != null" >
+        #{invoiceAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRate != null" >
+        #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceDate != null" >
+        #{invoiceDate,jdbcType=DATE},
+      </if>
+      <if test="receivedMoney != null" >
+        #{receivedMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="receivedDate != null" >
+        #{receivedDate,jdbcType=DATE},
+      </if>
+      <if test="recipient != null" >
+        #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.advert.CheckingInvoice" >
+    update YDZ_CHECKING_INVOICE
+    <set >
+      <if test="checkingNo != null" >
+        CHECKING_NO = #{checkingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="checkingType != null" >
+        CHECKING_TYPE = #{checkingType,jdbcType=CHAR},
+      </if>
+      <if test="invoiceNo != null" >
+        INVOICE_NO = #{invoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="comName != null" >
+        COM_NAME = #{comName,jdbcType=VARCHAR},
+      </if>
+      <if test="comShortname != null" >
+        COM_SHORTNAME = #{comShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceType != null" >
+        INVOICE_TYPE = #{invoiceType,jdbcType=CHAR},
+      </if>
+      <if test="invoiceContent != null" >
+        INVOICE_CONTENT = #{invoiceContent,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceAmount != null" >
+        INVOICE_AMOUNT = #{invoiceAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRate != null" >
+        TAX_RATE = #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceDate != null" >
+        INVOICE_DATE = #{invoiceDate,jdbcType=DATE},
+      </if>
+      <if test="receivedMoney != null" >
+        RECEIVED_MONEY = #{receivedMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="receivedDate != null" >
+        RECEIVED_DATE = #{receivedDate,jdbcType=DATE},
+      </if>
+      <if test="recipient != null" >
+        RECIPIENT = #{recipient,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where CHECKING_NO = #{checkingNo} and INVOICE_NO = #{invoiceNo}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.advert.CheckingInvoice" >
+    update YDZ_CHECKING_INVOICE
+    set CHECKING_NO = #{checkingNo,jdbcType=VARCHAR},
+      CHECKING_TYPE = #{checkingType,jdbcType=CHAR},
+      INVOICE_NO = #{invoiceNo,jdbcType=VARCHAR},
+      COM_KEY = #{comKey,jdbcType=VARCHAR},
+      COM_NAME = #{comName,jdbcType=VARCHAR},
+      COM_SHORTNAME = #{comShortname,jdbcType=VARCHAR},
+      INVOICE_TYPE = #{invoiceType,jdbcType=CHAR},
+      INVOICE_CONTENT = #{invoiceContent,jdbcType=VARCHAR},
+      INVOICE_AMOUNT = #{invoiceAmount,jdbcType=DECIMAL},
+      TAX_RATE = #{taxRate,jdbcType=DECIMAL},
+      INVOICE_DATE = #{invoiceDate,jdbcType=DATE},
+      RECEIVED_MONEY = #{receivedMoney,jdbcType=DECIMAL},
+      RECEIVED_DATE = #{receivedDate,jdbcType=DATE},
+      RECIPIENT = #{recipient,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where CHECKING_NO = #{checkingNo} and INVOICE_NO = #{invoiceNo}
+  </update>
+</mapper>

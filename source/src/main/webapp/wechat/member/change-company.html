@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>切换企业</title>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+    <link href="/wechat/css/main.css" rel="stylesheet"/>
+	<script src="/wechat/js/mui.min.js"></script>
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+	<script src="/common/growingio.js"></script>
+	<style>
+		#change_company li{
+			height:70px;
+			width:100%;
+			background: #fff;
+			overflow: hidden;
+			padding:10px 0px 10px 15px;
+			margin-top:10px;
+			position: relative;
+		}
+		#change_company li span{
+			position: absolute;
+			right:15px;
+			color: #DA4654;
+			font-size:14px;
+			top:25px;
+			display: none;
+		}
+		.chang-company-com div:first-child{
+			height:50px;
+			width:50px;
+			overflow: hidden;
+			float: left;
+			border-radius: 25px;
+		}
+		.chang-company-com div:first-child img{
+			height:100%;
+			width:100%;
+		}
+		.chang-company-com div:nth-child(2){
+			float: left;
+			height:50px;
+			overflow: hidden;
+			margin-left: 10px ;
+		}
+		.chang-company-com div:nth-child(2) h1{
+			font-size:14px;
+			color: #333;
+			height:25px;
+			margin:0px;
+			padding:0px;
+			line-height:25px;
+			font-weight:normal;
+		}
+		.chang-company-com div:nth-child(2) p{
+			font-size:12px;
+			color: #999;
+			height:25px;
+			margin:0px;
+			padding:0px;
+			line-height:25px;
+		}
+
+		.chang-company-per div:first-child{
+			height:50px;
+			width:50px;
+			overflow: hidden;
+			border-radius: 25px;
+			float: left;
+		}
+		.chang-company-per div:first-child img{
+			height:100%;
+			width:100%;
+		}
+		.chang-company-per div:nth-child(2){
+			float: left;
+			height:50px;
+			overflow: hidden;
+			margin-left: 10px ;
+		}
+		.chang-company-per div:nth-child(2) h1{
+			font-size:14px;
+			color: #333;
+			height:25px;
+			margin:0px;
+			padding:0px;
+			line-height:25px;
+			font-weight:normal;
+		}
+		.chang-company-per div:nth-child(2) p{
+			font-size:12px;
+			color: #333;
+			height:25px;
+			margin:0px;
+			padding:0px;
+			line-height:25px;
+			font-weight:normal;
+			color: #999;
+		}
+	</style>
+</head>
+<body>
+
+<!--这个是加载框，切勿修改-->
+<div class="loadingssss loading_box"><span></span></div>
+
+	
+	<div class="mui-content lazyloding">
+		<u id="change_company"></u>
+	</div>
+
+	<script>
+		function QueryCom(){
+			$.ajax({
+				url:'/wx/company/companies',
+				type:'GET',
+				async:true,
+				dataType:"json",
+				timeout:"10000",
+				success:function(data){
+					$(".loading_box").removeClass("loadingssss");
+					$.each(data.companies,function(key,val){
+						//1是企业  2个人
+						if(val.comType == 2 ){
+							document.getElementById("change_company").innerHTML +=
+								'<li onclick=changeCom("'+val.comKey+'","'+val.comType+'") class="chang-company-per">'+
+								'<div><img onerror="defaultImg(this)" src="'+val.comLogoPath+'" /></div>'+
+								'<div>'+
+								'<h1>'+val.comName+'</h1>'+
+								'<p>个人用户</p>'+
+								'</div>'+
+								'<span class="'+val.comKey+'">当前企业</span>'+
+								'</li>'
+
+						}
+						if( val.comType == 1){
+							document.getElementById("change_company").innerHTML +=
+								'<li onclick=changeCom("'+val.comKey+'","'+val.comType+'") class="chang-company-com">'+
+								'<div><img onerror="defaultImg(this)" src="'+val.comLogoPath+'" /></div>'+
+								'<div>'+
+								'<h1>'+val.comName+'</h1>'+
+								'<p>'+val.comShortname+'</p>'+
+								'</div>'+
+								'<span class="'+val.comKey+'">当前企业</span>'+
+								'</li>'
+						}
+						//判断当前企业
+						$("#change_company span").each(function(){
+							if( $(this).attr("class") == data.currentCom ){
+								$(this).css("display","block");
+								$(this).parent().attr("onclick","javascript:void(0);");
+							}
+						})
+
+					})
+				},
+				error:function(){
+					$("<div class='error_tips'>").html("请求数据失败").fadeIn(250).delay(500).fadeOut(250).appendTo('.mui-content');
+				}
+			});
+		}
+		QueryCom();
+
+		//切换公司
+		function changeCom(value,type){
+			$.ajax({
+				url:'/wx/company/changeCurrentCompany',
+				type:'GET',
+				async:true,
+				data:{comKey:value},
+				dataType:"json",
+				timeout:"10000",
+				success:function(data){
+					$("<div class='error_tips'>").fadeIn(250).html("正在切换公司").delay(500).fadeOut(250).appendTo('body');
+					setTimeout(function(){
+						if(type == 1){
+							
+							window.location="/wechat/home/index.html";
+						}else{
+							window.location="/wechat/home/person_index.html";
+						}
+						
+					},500);
+				},
+				error:function(){
+					$("<div class='error_tips'>").fadeIn(250).html("修改失败").delay(500).fadeOut(250).appendTo('body');
+				}
+			});
+		}
+
+		function defaultImg(img) {
+			$(img).attr("src","/upload/logo/default_company.png");
+		}
+	</script>
+</body>
+</html>

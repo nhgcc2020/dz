@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.BusiPriceComMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.BusiPriceComVO" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="COM_ID" property="comId" jdbcType="VARCHAR" />
+    <result column="BUSINESS_CODE" property="businessCode" jdbcType="VARCHAR" />
+    <result column="BUSINESS_NAME" property="businessName" jdbcType="VARCHAR" />
+    <result column="BUSINESS_DESC" property="businessDesc" jdbcType="VARCHAR" />
+    <result column="P_BUSINESS_CODE" property="pBusinessCode" jdbcType="VARCHAR" />
+    <result column="BUSINESS_PRICE" property="businessPrice" jdbcType="DECIMAL"/>
+    <result column="BUSINESS_UNIT" property="businessUnit" jdbcType="VARCHAR" />
+    <result column="IS_CHECKED" property="isChecked" jdbcType="CHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="INTEGER" />
+    <result column="FUNC_TYPE" property="funcType" jdbcType="CHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, COM_KEY, COM_ID, BUSINESS_CODE, BUSINESS_NAME, BUSINESS_DESC, P_BUSINESS_CODE, 
+    BUSINESS_PRICE, BUSINESS_UNIT, IS_CHECKED, IS_VALID, REMARKS, SORT_ITEM, FUNC_TYPE, 
+    INDUSTRY_ID, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_BUSIPRICE_COM
+    where IS_VALID = '1' and COM_KEY = #{comKey}
+    <if test="pBusinessCode != null">
+    	and P_BUSINESS_CODE = #{pBusinessCode}
+    </if>
+  </select>
+  <select id="selectBusinessPricesForMenu" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_BUSIPRICE_COM
+    where IS_VALID = '1' and COM_KEY = #{comKey}
+    <if test="pBusinessCode != null">
+    	and P_BUSINESS_CODE = #{pBusinessCode}
+    </if>
+    <if test="businessCodeNotIN != null">
+    	and BUSINESS_CODE not in
+    	<foreach item="item" index="index" collection="businessCodeNotIN" open="(" separator="," close=")">  
+		  #{item}  
+	    </foreach>
+    </if>
+    order by SORT_ITEM
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_BUSIPRICE_COM
+    where COM_KEY = #{comKey}
+    <if test="businessCode != null">
+    	and BUSINESS_CODE = #{businessCode}
+    </if>
+  </delete>
+  <insert id="insertBatch" parameterType="java.util.List" >
+    insert into YDZ_BUSIPRICE_COM 
+    (COM_KEY, COM_ID, BUSINESS_CODE, BUSINESS_NAME, BUSINESS_DESC, 
+      P_BUSINESS_CODE, BUSINESS_PRICE, BUSINESS_UNIT, IS_CHECKED, IS_VALID, 
+      REMARKS, SORT_ITEM, FUNC_TYPE, INDUSTRY_ID, CREATE_TIME)
+    values
+    <foreach collection="list" item="item" index="index"  
+        separator=",">  
+	     (#{item.comKey,jdbcType=VARCHAR}, #{item.comId,jdbcType=VARCHAR}, #{item.businessCode,jdbcType=VARCHAR}, #{item.businessName,jdbcType=VARCHAR}, #{item.businessDesc,jdbcType=VARCHAR}, 
+	      #{item.pBusinessCode,jdbcType=VARCHAR}, #{item.businessPrice,jdbcType=DECIMAL}, #{item.businessUnit,jdbcType=VARCHAR}, #{item.isChecked,jdbcType=CHAR}, #{item.isValid,jdbcType=CHAR}, 
+	      #{item.remarks,jdbcType=VARCHAR}, #{item.sortItem,jdbcType=INTEGER}, #{item.funcType,jdbcType=CHAR}, #{item.industryId,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP})
+      </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.BusiPriceCom" >
+    insert into YDZ_BUSIPRICE_COM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="comId != null" >
+        COM_ID,
+      </if>
+      <if test="businessCode != null" >
+        BUSINESS_CODE,
+      </if>
+      <if test="businessName != null" >
+        BUSINESS_NAME,
+      </if>
+      <if test="businessDesc != null" >
+        BUSINESS_DESC,
+      </if>
+      <if test="pBusinessCode != null" >
+        P_BUSINESS_CODE,
+      </if>
+      <if test="businessPrice != null" >
+        BUSINESS_PRICE,
+      </if>
+      <if test="businessUnit != null" >
+        BUSINESS_UNIT,
+      </if>
+      <if test="isChecked != null" >
+        IS_CHECKED,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM,
+      </if>
+      <if test="funcType != null" >
+        FUNC_TYPE,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCode != null" >
+        #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null" >
+        #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessDesc != null" >
+        #{businessDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pBusinessCode != null" >
+        #{pBusinessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPrice != null" >
+        #{businessPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="businessUnit != null" >
+        #{businessUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="isChecked != null" >
+        #{isChecked,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="funcType != null" >
+        #{funcType,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.BusiPriceCom" >
+    update YDZ_BUSIPRICE_COM
+    <set >
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="comId != null" >
+        COM_ID = #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCode != null" >
+        BUSINESS_CODE = #{businessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null" >
+        BUSINESS_NAME = #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessDesc != null" >
+        BUSINESS_DESC = #{businessDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pBusinessCode != null" >
+        P_BUSINESS_CODE = #{pBusinessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPrice != null" >
+        BUSINESS_PRICE = #{businessPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="businessUnit != null" >
+        BUSINESS_UNIT = #{businessUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="isChecked != null" >
+        IS_CHECKED = #{isChecked,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="funcType != null" >
+        FUNC_TYPE = #{funcType,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.BusiPriceCom" >
+    update YDZ_BUSIPRICE_COM
+    set COM_KEY = #{comKey,jdbcType=VARCHAR},
+      COM_ID = #{comId,jdbcType=VARCHAR},
+      BUSINESS_CODE = #{businessCode,jdbcType=VARCHAR},
+      BUSINESS_NAME = #{businessName,jdbcType=VARCHAR},
+      BUSINESS_DESC = #{businessDesc,jdbcType=VARCHAR},
+      P_BUSINESS_CODE = #{pBusinessCode,jdbcType=VARCHAR},
+      BUSINESS_PRICE = #{businessPrice,jdbcType=DECIMAL},
+      BUSINESS_UNIT = #{businessUnit,jdbcType=VARCHAR},
+      IS_CHECKED = #{isChecked,jdbcType=CHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      FUNC_TYPE = #{funcType,jdbcType=CHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

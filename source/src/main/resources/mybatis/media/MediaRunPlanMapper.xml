@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.media.MediaRunPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.media.MediaRunPlan" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="PLAN_NO" property="planNo" jdbcType="VARCHAR" />
+    <result column="AD_NAME" property="adName" jdbcType="VARCHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_NAME" property="partnerName" jdbcType="VARCHAR" />
+    <result column="PARTNER_SHORTNAME" property="partnerShortname" jdbcType="VARCHAR" />
+    <result column="PLAN_STATUS" property="planStatus" jdbcType="CHAR" />
+    <result column="POINT_NUM" property="pointNum" jdbcType="INTEGER" />
+    <result column="START_DATE" property="startDate" jdbcType="DATE" />
+    <result column="END_DATE" property="endDate" jdbcType="DATE" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, PLAN_NO, AD_NAME, COM_KEY, INDUSTRY_ID, PARTNER_KEY, PARTNER_NAME, PARTNER_SHORTNAME, 
+    PLAN_STATUS, POINT_NUM, START_DATE, END_DATE, IS_DEL, REMARKS, CREATE_TIME, CREATOR
+  </sql>
+  <select id="selectByPrimaryKey" resultType="com.ydz.entity.media.MediaRunPlan" parameterType="pd" >
+    select 
+	    mrp.UID, mrp.PLAN_NO, mrp.AD_NAME, mrp.COM_KEY, mrp.INDUSTRY_ID, 
+	    mrp.PARTNER_KEY, mrp.PARTNER_NAME, mrp.PARTNER_SHORTNAME, mrp.PLAN_STATUS, mrp.POINT_NUM, 
+	    mrp.START_DATE, mrp.END_DATE, mrp.IS_DEL, mrp.REMARKS, mrp.CREATE_TIME, mrp.CREATOR, u.real_name viewCreatorName
+    from ydz_media_run_plan mrp
+    left join ydz_user u on u.user_key = mrp.creator
+    where mrp.is_del = '0' and mrp.com_key = #{comKey} and mrp.plan_no = #{planNo}
+    <if test="adName != null">
+    	and mrp.ad_name like '%${adName}%'
+    </if>
+    <if test="industryId != null">
+    	and mrp.industry_id = #{industryId}
+    </if>
+    <if test="partnerKey != null">
+    	and mrp.partner_key = #{partnerKey}
+    </if>
+    <if test="planStatus != null">
+    	and mrp.plan_status = #{planStatus}
+    </if>
+  </select>
+  <select id="listPageMediaRunPlans" resultType="com.ydz.entity.media.MediaRunPlan" parameterType="page" >
+   select 
+    <include refid="Base_Column_List" />
+    from ydz_media_run_plan
+    where is_del = '0' and com_key = #{pd.comKey}
+    <if test="pd.planNo != null">
+    	and plan_no = #{pd.planNo}
+    </if>
+    <if test="pd.adName != null">
+    	and ad_name like '%${pd.adName}%'
+    </if>
+    <if test="pd.industryId != null">
+    	and industry_id = #{pd.industryId}
+    </if>
+    <if test="pd.partnerKey != null">
+    	and partner_key = #{pd.partnerKey}
+    </if>
+    <if test="pd.planStatus != null">
+    	and plan_status = #{pd.planStatus}
+    </if>
+    <if test="pd.startDate != null">
+    	and start_date <![CDATA[>=]]> #{pd.startDate} 
+    </if>
+    <if test="pd.endDate != null">
+    	and end_date <![CDATA[<=]]> #{pd.endDate} 
+    </if>
+    order by uid desc
+  </select>
+  <select id="selectMinStartMaxEnd" resultType="com.ydz.entity.media.MediaRunPlan" parameterType="pd">
+  	SELECT
+		min(start_date) START_DATE ,
+		max(end_date) END_DATE
+	FROM
+		ydz_media_run_plan_detail
+	WHERE
+		PLAN_NO = #{planNo}
+  </select>
+  <select id="selectMediaRunPlanNotify" resultType="com.ydz.entity.media.MediaRunPlan" parameterType="pd">
+  	select 
+  		ad_name,
+  		start_date,
+  		end_date,
+  		plan_no
+  	from ydz_media_run_plan
+  	where is_del = '0'
+  	and com_key = #{comKey}
+  	<if test="start != null">
+  		and start_date <![CDATA[>]]> #{nowDate}
+  	</if>
+  	<if test="end != null">
+  		and end_date <![CDATA[>]]> #{nowDate}
+  	</if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from ydz_media_run_plan
+    where com_key = #{comKey} and plan_no = #{planNo}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.media.MediaRunPlan" >
+    insert into ydz_media_run_plan (UID, PLAN_NO, AD_NAME, 
+      COM_KEY, INDUSTRY_ID, PARTNER_KEY, 
+      PARTNER_NAME, PARTNER_SHORTNAME, PLAN_STATUS, 
+      IS_DEL, REMARKS, CREATE_TIME, 
+      CREATOR)
+    values (#{uid,jdbcType=BIGINT}, #{planNo,jdbcType=VARCHAR}, #{adName,jdbcType=VARCHAR}, 
+      #{comKey,jdbcType=VARCHAR}, #{industryId,jdbcType=VARCHAR}, #{partnerKey,jdbcType=VARCHAR}, 
+      #{partnerName,jdbcType=VARCHAR}, #{partnerShortname,jdbcType=VARCHAR}, #{planStatus,jdbcType=CHAR}, 
+      #{isDel,jdbcType=CHAR}, #{remarks,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.media.MediaRunPlan" >
+    insert into ydz_media_run_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="planNo != null" >
+        PLAN_NO,
+      </if>
+      <if test="adName != null" >
+        AD_NAME,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY,
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME,
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME,
+      </if>
+      <if test="planStatus != null" >
+        PLAN_STATUS,
+      </if>
+      <if test="pointNum != null" >
+        POINT_NUM,
+      </if>
+      <if test="startDate != null" >
+        START_DATE,
+      </if>
+      <if test="endDate != null" >
+        END_DATE,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="planNo != null" >
+        #{planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="adName != null" >
+        #{adName,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        #{partnerShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="planStatus != null" >
+        #{planStatus,jdbcType=CHAR},
+      </if>
+      <if test="pointNum != null" >
+        #{pointNum,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.media.MediaRunPlan" >
+    update ydz_media_run_plan
+    <set >
+      <if test="planNo != null" >
+        PLAN_NO = #{planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="adName != null" >
+        AD_NAME = #{adName,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME = #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME = #{partnerShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="planStatus != null" >
+        PLAN_STATUS = #{planStatus,jdbcType=CHAR},
+      </if>
+      <if test="pointNum != null" >
+      	POINT_NUM = #{pointNum,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null" >
+      	START_DATE = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+      	END_DATE = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where com_key = #{comKey} and plan_no = #{planNo}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.media.MediaRunPlan" >
+    update ydz_media_run_plan
+    set PLAN_NO = #{planNo,jdbcType=VARCHAR},
+      AD_NAME = #{adName,jdbcType=VARCHAR},
+      COM_KEY = #{comKey,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      PARTNER_NAME = #{partnerName,jdbcType=VARCHAR},
+      PARTNER_SHORTNAME = #{partnerShortname,jdbcType=VARCHAR},
+      PLAN_STATUS = #{planStatus,jdbcType=CHAR},
+      POINT_NUM = #{pointNum,jdbcType=INTEGER},
+      IS_DEL = #{isDel,jdbcType=CHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

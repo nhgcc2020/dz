@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="IndustryComMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.IndustryCom" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_NAME" property="industryName" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_DESC" property="industryDesc" jdbcType="VARCHAR" />
+    <result column="P_INDUSTRY_ID" property="pIndustryId" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="INTEGER" />
+    <result column="COM_ID" property="comId" jdbcType="VARCHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="IS_CHECK" property="isCheck" jdbcType="CHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, INDUSTRY_ID, INDUSTRY_NAME, INDUSTRY_DESC, P_INDUSTRY_ID, SORT_ITEM, COM_ID, 
+    COM_KEY, IS_CHECK, IS_VALID, CREATE_TIME
+  </sql>
+
+  <select id="getByComKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> FROM YDZ_INDUSTRY_COM
+    where
+    COM_KEY = #{comKey,jdbcType=VARCHAR}
+    AND
+      P_INDUSTRY_ID = '0'
+    AND
+    IS_VALID = "1"
+  </select>
+
+  <!--获取小行业-->
+  <select id="getDetailId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> FROM YDZ_INDUSTRY_COM
+    where
+    COM_KEY = #{comKey,jdbcType=VARCHAR}
+    AND
+    P_INDUSTRY_ID = '1'
+    AND
+    IS_VALID = "1"
+  </select>
+
+  <!--删除对应所有的小行业-->
+  <update id="deleteSIndustry" parameterType="java.lang.String">
+
+    update YDZ_INDUSTRY_COM
+    SET IS_VALID = "0"
+    WHERE COM_KEY = #{comKey,jdbcType=VARCHAR}
+
+  </update>
+
+
+
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_INDUSTRY_COM
+    where UID = #{uid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_INDUSTRY_COM
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.system.IndustryCom" >
+    insert into YDZ_INDUSTRY_COM (UID, INDUSTRY_ID, INDUSTRY_NAME, 
+      INDUSTRY_DESC, P_INDUSTRY_ID, SORT_ITEM, 
+      COM_ID, COM_KEY, IS_CHECK, 
+      IS_VALID, CREATE_TIME)
+    values (#{uid,jdbcType=BIGINT}, #{industryId,jdbcType=VARCHAR}, #{industryName,jdbcType=VARCHAR}, 
+      #{industryDesc,jdbcType=VARCHAR}, #{pIndustryId,jdbcType=VARCHAR}, #{sortItem,jdbcType=INTEGER}, 
+      #{comId,jdbcType=VARCHAR}, #{comKey,jdbcType=VARCHAR}, #{isCheck,jdbcType=CHAR}, 
+      #{isValid,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.IndustryCom" >
+    insert into YDZ_INDUSTRY_COM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="industryName != null" >
+        INDUSTRY_NAME,
+      </if>
+      <if test="industryDesc != null" >
+        INDUSTRY_DESC,
+      </if>
+      <if test="pIndustryId != null" >
+        P_INDUSTRY_ID,
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM,
+      </if>
+      <if test="comId != null" >
+        COM_ID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="isCheck != null" >
+        IS_CHECK,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="industryName != null" >
+        #{industryName,jdbcType=VARCHAR},
+      </if>
+      <if test="industryDesc != null" >
+        #{industryDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pIndustryId != null" >
+        #{pIndustryId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="isCheck != null" >
+        #{isCheck,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.IndustryCom" >
+    update YDZ_INDUSTRY_COM
+    <set >
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="industryName != null" >
+        INDUSTRY_NAME = #{industryName,jdbcType=VARCHAR},
+      </if>
+      <if test="industryDesc != null" >
+        INDUSTRY_DESC = #{industryDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pIndustryId != null" >
+        P_INDUSTRY_ID = #{pIndustryId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="comId != null" >
+        COM_ID = #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="isCheck != null" >
+        IS_CHECK = #{isCheck,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.IndustryCom" >
+    update YDZ_INDUSTRY_COM
+    set INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      INDUSTRY_NAME = #{industryName,jdbcType=VARCHAR},
+      INDUSTRY_DESC = #{industryDesc,jdbcType=VARCHAR},
+      P_INDUSTRY_ID = #{pIndustryId,jdbcType=VARCHAR},
+      SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      COM_ID = #{comId,jdbcType=VARCHAR},
+      COM_KEY = #{comKey,jdbcType=VARCHAR},
+      IS_CHECK = #{isCheck,jdbcType=CHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

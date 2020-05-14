@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.ComPartnerProPriceMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.ComPartnerProPrice" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_LEVEL" property="partnerLevel" jdbcType="CHAR" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="PRICING_TYPE" property="pricingType" jdbcType="CHAR" />
+    <result column="IS_CHECKED" property="isChecked" jdbcType="CHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="PARTNER_NAME" property="partnerName" jdbcType="VARCHAR" />
+    <result column="PARTNER_SHORTNAME" property="partnerShortname" jdbcType="VARCHAR" />
+    <result column="MNEMONIC_CODE" property="mnemonicCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, COM_KEY, PARTNER_KEY, PARTNER_LEVEL, CATEGORY_ID, UNIT_PRICE, PRICING_TYPE, 
+    IS_CHECKED, REMARKS, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_COM_PARTNER_PROPRICE
+    where COM_KEY = #{comKey}
+    AND PARTNER_KEY = #{partnerKey} 
+    AND CATEGORY_ID = #{categoryId}
+    <if test="pricingType !=null ">
+    	AND PRICING_TYPE = #{pricingType}
+    </if>
+  </select>
+  
+  <select id="selectComParnter" resultMap="BaseResultMap" parameterType="pd" >
+  	SELECT DISTINCT
+		cpp.PARTNER_KEY,
+		cpp.COM_KEY,
+		cpp.PARTNER_LEVEL,
+		p.PARTNER_SHORTNAME
+	FROM
+		YDZ_COM_PARTNER_PROPRICE cpp ,
+		YDZ_PARTNER p
+	WHERE
+		p.IS_VALID = '1'
+	AND cpp.PARTNER_KEY = p.PARTNER_KEY
+	AND cpp.PARTNER_KEY &lt;&gt; 'temp-customer'
+	AND cpp.COM_KEY = #{comKey}
+	<if test="partnerKey != null">
+		AND cpp.PARTNER_KEY = #{partnerKey}
+	</if>
+	order by CONVERT( p.PARTNER_SHORTNAME USING gbk ) COLLATE gbk_chinese_ci ASC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_COM_PARTNER_PROPRICE
+    where COM_KEY = #{comKey}
+    <if test="partnerKey != null">
+    	AND PARTNER_KEY = #{partnerKey}
+    </if>
+    <if test="categoryId !=null ">
+    	AND CATEGORY_ID = #{categoryId}
+    </if>
+    <if test="categoryIdIns !=null ">
+    	AND CATEGORY_ID in ${categoryIdIns}
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.system.ComPartnerProPrice" >
+    insert into YDZ_COM_PARTNER_PROPRICE (UID, COM_KEY, PARTNER_KEY, 
+      PARTNER_LEVEL, CATEGORY_ID, UNIT_PRICE, 
+      PRICING_TYPE, IS_CHECKED, REMARKS, 
+      CREATE_TIME)
+    values (#{uid,jdbcType=BIGINT}, #{comKey,jdbcType=VARCHAR}, #{partnerKey,jdbcType=VARCHAR}, 
+      #{partnerLevel,jdbcType=CHAR}, #{categoryId,jdbcType=VARCHAR}, #{unitPrice,jdbcType=DECIMAL}, 
+      #{pricingType,jdbcType=CHAR}, #{isChecked,jdbcType=CHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertList" parameterType="java.util.List" >
+    insert into YDZ_COM_PARTNER_PROPRICE (COM_KEY, PARTNER_KEY, 
+      PARTNER_LEVEL, CATEGORY_ID, UNIT_PRICE, 
+      PRICING_TYPE, IS_CHECKED, REMARKS)
+    values 
+     <foreach collection="list" item="item" index="index"  
+        separator=",">  
+	    (#{item.comKey,jdbcType=VARCHAR}, #{item.partnerKey,jdbcType=VARCHAR}, 
+	      #{item.partnerLevel,jdbcType=CHAR}, #{item.categoryId,jdbcType=VARCHAR}, #{item.unitPrice,jdbcType=DECIMAL}, 
+	      #{item.pricingType,jdbcType=CHAR}, #{item.isChecked,jdbcType=CHAR}, #{item.remarks,jdbcType=VARCHAR})
+     </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.ComPartnerProPrice" >
+    insert into YDZ_COM_PARTNER_PROPRICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY,
+      </if>
+      <if test="partnerLevel != null" >
+        PARTNER_LEVEL,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE,
+      </if>
+      <if test="pricingType != null" >
+        PRICING_TYPE,
+      </if>
+      <if test="isChecked != null" >
+        IS_CHECKED,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerLevel != null" >
+        #{partnerLevel,jdbcType=CHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="pricingType != null" >
+        #{pricingType,jdbcType=CHAR},
+      </if>
+      <if test="isChecked != null" >
+        #{isChecked,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.ComPartnerProPrice" >
+    update YDZ_COM_PARTNER_PROPRICE
+    <set >
+      <if test="unitPrice != null" >
+        UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="partnerLevel != null" >
+        PARTNER_LEVEL = #{partnerLevel,jdbcType=CHAR},
+      </if>
+      <if test="isChecked != null" >
+        IS_CHECKED = #{isChecked,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COM_KEY = #{comKey}
+    AND PARTNER_KEY = #{partnerKey} 
+    <if test="categoryId != null">
+    	AND CATEGORY_ID = #{categoryId}
+    </if>
+    <if test="pricingType !=null ">
+    	AND PRICING_TYPE = #{pricingType}
+    </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pd" >
+    update YDZ_COM_PARTNER_PROPRICE
+    <set >
+      <if test="isChecked != null" >
+        IS_CHECKED = #{isChecked,jdbcType=CHAR},
+      </if>
+    </set>
+    where COM_KEY = #{comKey}
+    AND PARTNER_KEY = #{partnerKey} 
+    <if test="categoryId != null">
+    	AND CATEGORY_ID = #{categoryId}
+    </if>
+    <if test="categoryIdIns != null">
+    	AND CATEGORY_ID IN ${categoryIdIns}
+    </if>
+  </update>
+</mapper>

@@ -1,0 +1,658 @@
+ <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>销售提成结算单分享</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="/resources/new/base_new.css?v=da63245499">
+
+        <style>
+            html,
+            body {
+                color: #000;
+            }
+
+            .Customer-address {
+                color: #000;
+            }
+
+            .talRight {
+                text-align: right;
+            }
+
+            .talCenter {
+                text-align: center;
+            }
+
+            .order {
+                position: absolute;
+                right: 25px;
+                top: 20px;
+                font-size: 12px;
+            }
+
+            .header {
+                text-align: center;
+                font-size: 18px;
+                color: #000;
+            }
+
+            html,
+            body {
+                font-size: 16px;
+            }
+
+            th {
+                font-weight: normal;
+            }
+
+            .Customer-address {
+                font-size: 12px;
+            }
+
+            table,
+            th,
+            td {
+                vertical-align: top;
+            }
+
+            .datagrid-body tr>td:last-child,
+            .datagrid-header tr>td:last-child {
+                border-right: none !important;
+            }
+
+            .ui.items-view table tbody tr:nth-child(even) {
+                background: none !important;
+            }
+
+            .ui.items-view .item {
+                cursor: default;
+            }
+
+            #order .table-wrapper>table thead th:nth-child(11),
+            #order .table-wrapper>table thead th:nth-child(1),
+            #order .table-wrapper>table thead th:nth-child(12),
+            #order .table-wrapper>table thead th:nth-child(2) {
+                font-weight: 700;
+            }
+
+            .pagination table {
+                height: 50px;
+                line-height: 50px;
+                float: right;
+            }
+
+            .datagrid-row-over,
+            .datagrid-header td.datagrid-header-over {
+                background: none !important;
+                color: #000;
+                cursor: default;
+            }
+
+            .datagrid-header td,
+            .datagrid-body td,
+            .datagrid-footer td {
+                border-style: solid;
+                border-color: #e4e4e4;
+            }
+
+            .datagrid-header-row,
+            .datagrid-row {
+                height: 30px;
+                line-height: 30px;
+            }
+
+            table,
+            th,
+            td {
+                vertical-align: middle;
+            }
+
+            .datagrid-header .datagrid-cell {
+                text-align: center !important;
+            }
+
+            .datagrid-body td {
+                position: relative;
+            }
+
+            .datagrid-cell a:hover,
+            .datagrid-cell a:visited,
+            .datagrid-cell a:link {
+                color: #4284d9;
+                text-decoration: none;
+            }
+
+
+            .line{
+                border-bottom:1px solid #000;
+                box-sizing: border-box;
+                padding: 0 20px 10px;
+            }
+
+            #print {
+                border: none;
+                /*padding: 10px 20px;*/
+                border-radius: 5px;
+            }
+
+            .sales {
+                margin: 5px;
+            }
+
+            .list_one {
+                text-align: center;
+                /*margin: 20px;*/
+                font-size: 14px;
+            }
+
+            .code {
+                /*display: none;*/
+                position: absolute;
+                top: 0px;
+                background-color: #fff;
+            }
+
+            .codeone {
+                display: none;
+                position: absolute;
+                top: 0;
+            }
+
+            .total-preson {
+                position: absolute;
+                width: 70%;
+                left: 0;
+                bottom: 12px;
+                margin-left: 300px;
+            }
+
+            .total-preson p {
+                line-height: normal;
+                margin-bottom: 8px;
+            }
+
+            /*.money {
+                margin-left: 100px;
+            }*/
+
+            .empoy {
+                margin-bottom: 8px;
+                border-bottom: 1px solid #000;
+            }
+
+            .division,.divider {
+                border-bottom: 1px solid #000;
+                margin: 10px 0;
+            }
+
+            .sales #print {
+                display: block;
+                width: 120px;
+                background: #2e8ae6;
+                margin: 50px auto;
+                color: #fff;
+                height: 30px;
+            }
+
+            .clear {
+                clear: both;
+            }
+
+            .total_right li {
+                margin-top: 10px;
+            }
+
+            .total_beizhu {
+                position: absolute;
+                width: 100%;
+                height: auto;
+                top: 10px;
+                text-decoration: none;
+                float: left;
+            }
+
+            b {
+                margin-left: 5px;
+            }
+
+            .datagrid .panel-body {
+                border-bottom: none;
+            }
+
+            .datagrid-header,
+            .datagrid-td-rownumber {
+                background: none !important;
+            }
+
+            .datagrid-header,
+            .datagrid-toolbar,
+            .datagrid-pager,
+            .datagrid-footer-inner,
+            .datagrid-header td,
+            .datagrid-body td,
+            .datagrid-footer td,
+            .panel-header,
+            .panel-body {
+                border-color: #000;
+            }
+
+            .ding {
+                padding-bottom: 7px;
+            }
+
+            table,
+            table td,
+            table th {
+                border-collapse: collapse;
+                border: 1px solid #000;
+            }
+
+            table td,
+            table th {
+                color: #000;
+                height: 30px;
+                padding: 0 3px;
+                line-height: 30px;
+            }
+
+
+
+            *,
+            *:before,
+            *:after {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+
+            html {
+                /*font-size: 62.5%;*/
+                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            }
+
+            .alipayCls {
+                width: 120px;
+                height: 100px;
+                display: inline-block;
+            }
+
+            .wechatCls {
+                width: 120px;
+                height: 100px;
+                display: inline-block;
+            }
+        </style>
+        <style media="print">
+            .sales #print,
+            #plugin {
+                display: none;
+            }
+        </style>
+
+
+        <script src="/resources/cola-ui/jquery-2.2.3.min.js?v=33cabfa15c"></script>
+        <script src="/resources/cola-ui/china_city.js?v=bef170068c"></script>
+        <script src="/resources/easyui/pace.min.js?v=cdbdd88ddf"></script>
+        <script src="/resources/business/base_new.js?v=9ac481258d"></script>
+    </head>
+<body style="border:none !important;padding:10px 25px 0px 25px;width:1100px;margin:0 auto;position:relative;">
+<div id="datagrid-mask-msg" class="frame_box datagrid-mask-msg" style="display:block;left:50%"><span></span></div>
+
+<div style="height: 1px ;background: #fff;"></div>
+<div id="tableContainer" class="hide"
+     style="">
+</div>
+
+<script id="tpl-detail" type="text/html">
+
+    <div class="ui form" style="position:relative;">
+        <div style="position: absolute;top:10px;right: 20px;font-size:12px !important;">
+            <input type="hidden" value="{{order.salesNo}}"  id="saleNumCc">
+            <p class="hide salescheckingNoCls" >结算单号：<span id="salesCheck"
+            >{{order.commissionsCheckingNo}}</span></p>
+
+        </div>
+        <div class="inline fields" style="text-align: center; display: block;">
+            <div class="field" style="margin-left: 20px;display: inline-block;font-size: 20px;">
+                <label>提成结算单</label>
+                <div style="margin-left:-40px;margin-right:-40px;" class="ui divider"></div>
+            </div>
+        </div>
+
+        <div class="list_one" style="text-align:center;">
+            <div style="display: inline-block">
+                销售代表 : <span style="font-weight:400" >
+                {{order.salesName}}</span></div>
+            &#x3000;
+            <div style="display: inline-block">手机 : <span style="font-weight:400" >{{order.salesTel}}</span>
+            </div>
+            &#x3000;
+            {{if payment}}
+            <div style="display: inline-block">结算账户 : <span style="font-weight:400"
+            >{{payment.accountPayee}}</span></div>
+            {{/if}}
+        </div>
+        <div class="ui divider" style="border-bottom: none;"></div>
+        <div class="ui form" style="position:relative;">
+
+            <table class="tbWk" style="width:100%;">
+                <col width="10%"/>
+                <col width="10%"/>
+                <col width="14%"/>
+                <col width="8%"/>
+                <col width="15%"/>
+                <col width="11%"/>
+                <col width="7.5%"/>
+                <col width="7.5%"/>
+                <col width="7.5%"/>
+                <col width="11%"/>
+                <thead>
+                <th>收款日期</th>
+                <th>结算单号</th>
+                <th>订单周期</th>
+                <th>客户</th>
+                <th>项目名称</th>
+                <th>订单（明细）</th>
+                <th>预收金额</th>
+                <th>实收金额</th>
+                <th>提成金额</th>
+                <th>制单时间</th>
+                </thead>
+                <tbody>
+                {{each details as item i}}
+                <tr>
+                    <td>{{item.recpayDate}}</td>
+                    <td>{{item.commissionsCheckingNo}}</td>
+                    <td>{{item.orderCycle}}</td>
+                    <td>{{item.partnerShortname}}</td>
+                    <td >{{item.caseDesc}}</td>
+                    <td>{{item.salesOrderNum}}({{item.detailNum}})</td>
+                    <td class="talRight">{{item.depositRequested | formatNumber}}</td>
+                    <td class="talRight">{{item.paidUp | formatNumber}}</td>
+                    <td class="talRight">{{item.commissionsMoney | formatNumber}}</td>
+                    <td>{{item.createTime}}</td>
+                </tr>
+                {{/each}}
+                </tbody>
+
+            </table>
+
+            <div class="total-drive">
+                 <div>
+                  <ul class="total_right">
+                        <li style="margin-bottom:8px;">预&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收：<span
+                        > - <i>{{order.depositRequested | formatNumber}}</i></span></li>
+                        <li class="zhe">实&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收：<span><i
+                                >{{order.paidUp | formatNumber}}</i> </span></li>
+                       
+                        <div class="ui divider"></div>
+                    </ul>
+                    <div style="clear:both;"></div>
+                </div>
+                <div style="position:relative;">
+                    <ul class="total_right total_only">
+                        <li style="margin-bottom:8px;" class=" paidUpCls">提&#x3000;&#x3000;&#x3000;成：<span
+                        >{{order.commissionsMoney | formatNumber}}</span></li>
+                            <li style="margin-bottom:8px;">结算总金额：<span
+                            >{{order.settlementMoney | formatNumber}}</span></li>
+                    </ul>
+
+
+
+                    <div style="clear:both;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui divider"></div>
+        <div class="Customer-address">
+            <div style="float:left;">
+                电话 : <span >{{bottomComInfo.comTel}}</span>
+                QQ : <span >{{bottomComInfo.comQQ}}</span>
+                联系人 : <span >{{bottomComInfo.realName}} ({{bottomComInfo.userId}})</span>
+                地址 : <span>
+                            <b c-bind="bottomComInfo.comAddress">{{bottomComInfo.comAddress}}</b>
+                        </span></div>
+                <span style="float:right;margin:0;">制单人 ：<span style="margin:0;">{{order.creatorName}} ({{order.createTime}})</span></span>
+        </div>
+    </div>
+    <h4 class="sales">
+        <button onclick="window.print()" id="print">打印</button>
+    </h4>
+</script>
+<script type="text/javascript">
+    Date.prototype.Format = function (fmt) {
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    };
+
+
+    var pageshareUrl = "/ydz/commission/shareUrl?orderNo=${commissionsCheckingNo}";
+    var salesCheckingFun={
+        initTbData: function (orderNo) {
+            $.ajax({
+                url:  "/ordershare/commissioncheckingorderdetail/" + orderNo,
+                dataType: "json",
+                success: function (bothData) {
+                    template.defaults.imports.formatNumber = function (value) {
+                        return accounting.formatNumber(value, 2);
+                    };
+
+
+
+                    var html = template('tpl-detail', bothData);
+                    document.getElementById("tableContainer").innerHTML += html;
+                    $("#tableContainer").removeClass("hide");
+
+                    if(bothData.order.purchasecheckingNo!=''){
+                        $(".purchasecheckingNoCls").removeClass("hide");
+                    }
+                    if(bothData.order.salescheckingNo!=''){
+                        $(".salescheckingNoCls").removeClass("hide");
+                    }
+                    $(".tbWk tbody").rowspan(1);
+                    $(".tbWk tbody").rowspan2(0);
+                    salesCheckingCity();
+                }
+            })
+
+        },
+
+        resetOrder2: function () {
+            $.ajax({
+                type: "POST",
+                url: "/ydz/salescheck/cancelreceivable",
+                data: {checkingNo: $("#salesCheck").text()},
+                dataType: "json",
+                success: function (callback) {
+                    $("<div class='tips_contants'>").fadeIn(250).html(callback.msg).delay(2000).fadeOut(250).appendTo('body');
+                    setTimeout(function () {
+                        window.parent.location.reload();
+                    }, 2000);
+                },
+                error: function () {
+                    $("<div class='tips_contants'>").fadeIn(250).html("撤销收款失败").delay(2000).fadeOut(250).appendTo('body');
+
+                }
+            })
+        },
+        resetOrder:function () {
+            $.ajax({
+                type: "POST",
+                url: "/ydz/salescheck/cancelDelorder",
+                data: {checkingNo: $("#salesCheck").text()},
+                dataType: "json",
+                success: function (callback) {
+                    $("<div class='tips_contants'>").fadeIn(250).html("撤销并删除成功").delay(2000).fadeOut(250).appendTo('body');
+                    setTimeout(function () {
+                        window.parent.location.reload();
+                    }, 2000);
+                },
+                error: function () {
+                    $("<div class='tips_contants'>").fadeIn(250).html("撤销并删除失败").delay(2000).fadeOut(250).appendTo('body');
+
+                }
+            })
+        },
+        closeTaxPoint:function () {
+            $(".window-mask").hide();
+            $("#taxPointWin,#receivablesBar").css({display: 'none'});
+        },
+        closeRightWin: function () {
+            parent.hideMsg();
+        },
+        resetCheckOrder: function (bt) {
+            if(bt=="07"){
+                $("#taxPointWin").css({display: 'block'});
+            }else if(bt=="08"){
+                if($("#receivablesBarTextArea").val()!=""){
+                    $("body").append($("#receivablesBarTextArea").val());
+                    $("#receivablesBarTextArea").val("");
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/ydz/salescheck/getReceivableInfo",
+                    data: {checkingNo: $("#salesCheck").text()},
+                    dataType: "json",
+                    success: function (callback) {
+                        $("#recpayName").val(callback.recpayName);
+                        $("#recpayAccount").val(callback.accountPayee);
+                        $("#recpayDate").val(new Date(callback.recpayDate).Format("yyyy-MM-dd"));
+                        $("#remarks").val(callback.remarks);
+                    }
+                })
+                $("#receivablesBar").show();
+            }
+        }
+    };
+    function salesCheckingCity(){
+        var a = $(".zhe i").text();
+        var b = $(".jian i").text();
+        if (a == "0.00") {
+            $(".zhe").hide();
+        }
+        if (b == "0.00") {
+            $(".jian").hide();
+        }
+        var sheng = $("#sheng").val();
+        var shi = $("#shi").val();
+        var xian = $("#xian").val();
+
+        $.each(ProvinceJson, function (key, val) {
+            if (val.provinceId == sheng) {
+                $("#sheng1").html(val.provinceName);
+                return false ;
+            }
+        });
+
+        $.each(CityJson, function (key, val) {
+            if (val.provinceId == sheng && val.cityId == shi) {
+                $("#shi1").html(val.cityName);return false;
+            }
+        });
+
+        $.each(CountryJson, function (key, val) {
+            if (val.cityId == shi && val.countryId == xian) {
+                $("#xian2").html(val.countryName);return false;
+            }
+        });
+    }
+    ;(function ($) {
+        $.fn.extend({
+            //表格合并单元格，colIdx要合并的列序号，从0开始
+            "rowspan": function (colIdx) {
+                return this.each(function () {
+                    var that;
+                    $('tr', this).each(function (row) {
+                        $('td:eq(' + colIdx + ')', this).filter(':visible').each(function (col) {
+                            if (that != null && $(this).text() == $(that).text()) {
+
+                                rowspan = $(that).attr("rowSpan");
+                                if (rowspan == undefined) {
+                                    $(that).attr("rowSpan", 1);
+                                    rowspan = $(that).attr("rowSpan");
+                                }
+                                rowspan = Number(rowspan) + 1;
+                                $(that).attr("rowSpan", rowspan);
+                                $(this).hide();
+
+                            } else {
+                                that = this;
+                            }
+                        });
+                    });
+                });
+            },
+            "rowspan2": function (colIdx) {
+                return this.each(function () {
+                    var that;
+                    var thatVal;
+                    var valT2;
+                    $('tr', this).each(function (row) {
+
+
+                        $(this).attr("data-id","1");
+                        var $tdVal=$('td:eq(1)',this).text();
+                        $('td:eq(' + colIdx + ')', this).filter(':visible').each(function (col) {
+
+                            var valT1=$(this).text()+$tdVal;
+
+                            var valT2=$(that).text()+thatVal;
+                            if (that != null && valT1 == valT2) {
+                                rowspan = $(that).attr("rowSpan");
+                                if (rowspan == undefined) {
+                                    $(that).attr("rowSpan", 1);
+                                    rowspan = $(that).attr("rowSpan");
+                                }
+                                rowspan = Number(rowspan) + 1;
+                                $(that).attr("rowSpan", rowspan);
+//                                $(this).remove();
+                                $(this).hide();
+//                                $(this).html("");
+
+                            } else {
+                                that = this;
+                                thatVal=$tdVal;
+                            }
+                        });
+                    });
+                });
+            }
+
+        });
+
+    })(jQuery);
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    $(function () {
+        salesCheckingFun.initTbData(escape(GetRequest().key1));
+        if ($("#saleNumCc").val()) {
+            var num = $("#saleNumCc").val().split(",").length;
+            $("#numIndex").text(num);
+        }
+
+    })
+</script>
+</body>
+</html>

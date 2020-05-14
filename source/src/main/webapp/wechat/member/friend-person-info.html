@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>个人信息</title>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+    <link href="/wechat/css/main.css" rel="stylesheet"/>
+	<script src="/wechat/js/mui.min.js"></script>
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+	<script src="/wechat/js/main.js"></script>
+	<script src="/common/growingio.js"></script>
+</head>
+<body>
+
+	
+	<div class="mui-content">
+		<div class="mui-content-padded related_form_content">
+			<form class="mui-input-group related_form">
+			    <p><span>负责人姓名：</span><span id="bossName"></span></p>
+				<p><span>联系电话：</span><span id="bossPhone"></span></p>
+				<p><span>企业全称：</span><span id="comName"></span></p>
+				<p><span>企业简称：</span><span id="comShortname"></span></p>
+				<p><span>助记代码：</span><span id="mnemonicCode"></span></p>
+				<p><span>伙伴分类：</span><span id="partenstyle"></span></p>
+				<p><span>价格级别：</span><span id="partenHeight"></span></p>
+				<p><span>企业电话：</span><span id="comTel"></span></p>
+				<p><span>企业QQ：</span><span id="qq"></span></p>
+			    <p>通讯地址</p>
+				<div class="mui-input-row related_form_prov related_form_prov_undline">
+					<span id="comProvince"></span>
+					<span id="comCity"></span>
+					<span id="comCountry"></span>
+				</div>
+				<div class="mui-input-row related_form_row related_form_row_undline">
+					<input type="text" id="comAddress" readonly>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="/resources/cola-ui/china_city.js"></script>
+	<script>
+		var comProvince = "" , comCity = "" , comCountry = "";
+		var comID = GetRequest().comID;		//获取上级传过来的ID
+		//个人信息
+		$.ajax({
+			url:'../json/wechat.json',
+			type:'GET',
+			async:false,
+			data:{comID:comID},
+			dataType:"json",
+			timeout:"10000",
+			success:function(data){
+				$("#bossName").html(data[0].bossName);
+				$("#bossPhone").html(data[0].bossPhone);
+				$("#comName").html(data[0].comName);
+				$("#comShortname").html(data[0].comShortname);
+				$("#mnemonicCode").html(data[0].mnemonicCode);
+				$("#partenstyle").html(data[0].partenstyle);
+				$("#partenHeight").html(data[0].partenHeight);
+				$("#comTel").html(data[0].comTel);
+				$("#qq").html(data[0].qq);
+				$("#comAddress").html(data[0].comAddress);
+				comProvince = data[0].comProvince;
+				comCity = data[0].comCity;
+				comCountry = data[0].comCountry;
+			},
+			error:function(){
+				$("<div class='error_tips'>").html("请求数据失败").fadeIn(250).delay(500).fadeOut(250).appendTo('.mui-content');
+			}
+		});
+		function cityQuery(){
+			$.each(ProvinceJson,function(key,val){
+				if(val.provinceId == comProvince){
+					$("#comProvince").html(val.provinceName);
+				}
+			});
+
+			$.each(CityJson,function(key,val){
+				if( val.provinceId == comProvince && val.cityId == comCity ){
+					$("#comCity").html(val.cityName);
+				}
+			});
+			$.each(CountryJson,function(key,val){
+				if( val.cityId == comCity && val.countryId == comCountry ){
+					$("#comCountry").html(val.countryName);
+				}
+			});
+		}
+		cityQuery();
+
+
+	</script>
+</body>
+</html>

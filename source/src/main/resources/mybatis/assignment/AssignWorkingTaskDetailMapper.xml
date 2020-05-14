@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.assignment.AssignWorkingTaskDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.assignment.AssignWorkingTaskDetail" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="ITEM_NO" property="itemNo" jdbcType="TINYINT" />
+    <result column="TASK_NO" property="taskNo" jdbcType="VARCHAR" />
+    <result column="BUSINESS_TYPE" property="businessType" jdbcType="CHAR" />
+    <result column="BUSINESS_DESC" property="businessDesc" jdbcType="VARCHAR" />
+    <result column="REQUIREMENTS" property="requirements" jdbcType="VARCHAR" />
+    <result column="LENGTH" property="length" jdbcType="DECIMAL" />
+    <result column="WIDTH" property="width" jdbcType="DECIMAL" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+    <result column="SALES_ORDER_ITEM" property="salesOrderItem" jdbcType="TINYINT" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="WORKING_PROCEDURE" property="workingProcedure" jdbcType="VARCHAR" />
+    <result column="IS_URGENT" property="isUrgent" jdbcType="CHAR" />
+    <result column="FINISH_DATE" property="finishDate" jdbcType="DATE" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, ITEM_NO, TASK_NO, BUSINESS_TYPE, BUSINESS_DESC, REQUIREMENTS, LENGTH, WIDTH, 
+    QUANTITY, SALES_ORDER_ITEM, STATUS, WORKING_PROCEDURE, IS_URGENT, FINISH_DATE, REMARKS, IS_DEL, 
+    CREATE_TIME, CREATOR
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />, concat(length,'m * ',width,'m') specification
+    from YDZ_ASSIGN_WORKING_TASK_DETAIL
+    where 1=1
+    <if test="taskNo != null">
+    	and TASK_NO = #{taskNo}
+    </if>
+    <if test="status != null">
+    	and STATUS = #{status}
+    </if>
+    <if test="uid != null">
+    	and UID = #{uid}
+    </if>
+    <if test="uidIns != null">
+    	and UID in ${uidIns}
+    </if>
+    <if test="itemNo">
+    	and ITEM_NO = #{itemNo}
+    </if>
+    <if test="statusNo != null">
+    	and status &lt;&gt; 'C'
+    </if>
+  </select>
+  <select id="selectListByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_ASSIGN_WORKING_TASK_DETAIL
+    where TASK_NO = #{taskNo} and STATUS &lt;&gt; 'C'
+    <if test="salesOrderItem != null">
+    	and SALES_ORDER_ITEM = #{salesOrderItem}
+    </if>
+    <if test="isUrgent != null">
+    	and IS_URGENT = ${isUrgent}
+    </if>
+    <if test="status!= null">
+    	and STATUS = #{status}
+    </if>
+    <if test="workingProcedure != null">
+    	and WORKING_PROCEDURE LIKE '%${workingProcedure}%'
+    </if>
+  </select>
+  
+  <sql id="Base_Column_List_VO" >
+    awtd.UID uid, awtd.ITEM_NO itemNo, awtd.TASK_NO taskNo, awtd.BUSINESS_TYPE businessType, awtd.BUSINESS_DESC businessDesc, awtd.REQUIREMENTS requirements, awtd.LENGTH length, awtd.WIDTH width, 
+    awtd.QUANTITY quantity, awtd.SALES_ORDER_ITEM salesOrderItem, awtd.STATUS status, awtd.WORKING_PROCEDURE workingProcedure, awtd.IS_URGENT isUrgent, awtd.FINISH_DATE finishDate, awtd.REMARKS remarks, awtd.IS_DEL isDel, 
+    awtd.CREATE_TIME, awtd.CREATOR
+  </sql>
+  <select id="listPageAssignWorkingTaskDetailVO" resultType="com.ydz.entity.assignment.AssignWorkingTaskDetailVO" parameterType="page" >
+    select 
+    <include refid="Base_Column_List_VO" />, awt.SALES_NO salesNo, awt.ORDER_DATE orderDate, awt.COM_KEY comKey, awt.INDUSTRY_ID industryId, awt.TASK_DATE taskDate, awt.PARTNER_KEY partnerKey, 
+    awt.PARTNER_NAME partnerName, awt.PARTNER_SHORTNAME partnerShortname, awt.CONTACT_ID contactId, awt.CONTACT_NAME contactName
+    from YDZ_ASSIGN_WORKING_TASK_DETAIL awtd, YDZ_ASSIGN_WORKING_TASK awt
+    where awtd.TASK_NO = awt.TASK_NO 
+    AND awtd.IS_DEL = '0' AND awt.IS_DEL = '0'
+    <if test="pd.comKey != null">
+    	and awt.COM_KEY = #{pd.comKey}
+    </if>
+    <if test="pd.partnerKey != null">
+   		AND awt.PARTNER_KEY = #{pd.partnerKey}
+   	</if>
+    <if test="pd.salesOrderItem != null">
+    	and awtd.SALES_ORDER_ITEM = #{pd.salesOrderItem}
+    </if>
+    <if test="pd.status!= null">
+    	and awtd.STATUS = #{pd.status}
+    </if>
+    <if test="pd.startDate != null and pd.endDate !=null">
+    	AND awt.ORDER_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+    </if>
+    <if test="pd.workingProcedureIns != null">
+    	and WORKING_PROCEDURE LIKE '%${pd.workingProcedureIns}%'
+    </if>
+    <if test="pd.workingProcedure != null">
+    	and WORKING_PROCEDURE = #{pd.workingProcedure}
+    </if>
+    <if test="pd.isUrgent != null">
+    	and IS_URGENT = #{pd.isUrgent}
+    </if>
+    <if test="pd.taskNoIns != null">
+    	and awt.TASK_NO in ${pd.taskNoIns}
+    </if>
+    <if test="pd.salesNo != null">
+    	and awt.SALES_NO = #{pd.salesNo}
+    </if>
+    <if test="pd.searchKey != null">
+    	AND CONCAT(awt.SALES_NO,awtd.BUSINESS_DESC) LIKE '%${pd.searchKey}%'
+    </if>
+    order by 
+    <if test="pd.detail == 0">
+	 	 awtd.IS_URGENT DESC, awt.ORDER_DATE ASC
+	 </if>
+	 <if test="pd.detail == 1">
+	 	 awtd.BUSINESS_DESC
+	 </if>
+  </select>
+  <select id="listPageSalesNoIns" resultType="com.ydz.entity.assignment.AssignWorkingTaskDetailVO" parameterType="page" >
+    SELECT
+		DISTINCT awt.SALES_NO salesNo
+	FROM
+		YDZ_ASSIGN_WORKING_TASK_DETAIL awtd ,
+		YDZ_ASSIGN_WORKING_TASK awt
+    where awtd.TASK_NO = awt.TASK_NO 
+    AND awtd.IS_DEL = '0' AND awt.IS_DEL = '0' and awtd.STATUS &lt;&gt; 'C' and awt.COM_KEY = #{pd.comKey}
+    <if test="pd.partnerKey != null">
+   		AND awt.PARTNER_KEY = #{pd.partnerKey}
+   	</if>
+    <if test="pd.status!= null">
+    	and awtd.STATUS = #{pd.status}
+    </if>
+    <if test="pd.startDate != null and pd.endDate !=null">
+    	AND awt.ORDER_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+    </if>
+    <if test="pd.workingProcedure != null">
+    	and awtd.WORKING_PROCEDURE
+    </if>
+    <!-- <if test="pd.workingProcedureNO != null">
+		AND awtd.WORKING_PROCEDURE = '00'
+    </if>
+    <if test="pd.workingProcedureYES != null">
+		AND awtd.WORKING_PROCEDURE &lt;&gt; '00'
+    </if> -->
+    <if test="pd.searchKey != null">
+    	AND CONCAT(awt.SALES_NO,awtd.BUSINESS_DESC) LIKE '%${pd.searchKey}%'
+    </if>
+    order by awt.CREATE_TIME DESC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_ASSIGN_WORKING_TASK_DETAIL
+    where TASK_NO = #{taskNo}
+    <if test="itemNo != null">
+    	and ITEM_NO = #{itemNo}
+    </if>
+  </delete>
+  <insert id="insertList" parameterType="java.util.List" >
+    insert into YDZ_ASSIGN_WORKING_TASK_DETAIL (
+    ITEM_NO, TASK_NO, BUSINESS_TYPE, BUSINESS_DESC, REQUIREMENTS, 
+      LENGTH, WIDTH, QUANTITY, SALES_ORDER_ITEM, STATUS, 
+      WORKING_PROCEDURE, IS_URGENT, FINISH_DATE, REMARKS, CREATE_TIME, CREATOR)
+      values 
+   <foreach collection="list" item="item" index="index"
+	  separator=",">  
+	    (#{item.itemNo,jdbcType=TINYINT}, #{item.taskNo,jdbcType=VARCHAR}, 
+	      #{item.businessType,jdbcType=CHAR}, #{item.businessDesc,jdbcType=VARCHAR}, #{item.requirements,jdbcType=VARCHAR}, 
+	      #{item.length,jdbcType=DECIMAL}, #{item.width,jdbcType=DECIMAL}, #{item.quantity,jdbcType=DECIMAL}, 
+	      #{item.salesOrderItem,jdbcType=TINYINT}, #{item.status,jdbcType=CHAR}, #{item.workingProcedure,jdbcType=VARCHAR}, 
+	      #{item.isUrgent,jdbcType=CHAR},#{item.finishDate,jdbcType=DATE}, #{item.remarks,jdbcType=VARCHAR},
+	      #{item.createTime,jdbcType=TIMESTAMP}, #{item.creator,jdbcType=VARCHAR})
+	</foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.assignment.AssignWorkingTaskDetail" >
+    insert into YDZ_ASSIGN_WORKING_TASK_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="itemNo != null" >
+        ITEM_NO,
+      </if>
+      <if test="taskNo != null" >
+        TASK_NO,
+      </if>
+      <if test="businessType != null" >
+        BUSINESS_TYPE,
+      </if>
+      <if test="businessDesc != null" >
+        BUSINESS_DESC,
+      </if>
+      <if test="requirements != null" >
+        REQUIREMENTS,
+      </if>
+      <if test="length != null" >
+        LENGTH,
+      </if>
+      <if test="width != null" >
+        WIDTH,
+      </if>
+      <if test="quantity != null" >
+        QUANTITY,
+      </if>
+      <if test="salesOrderItem != null" >
+        SALES_ORDER_ITEM,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="workingProcedure != null" >
+        WORKING_PROCEDURE,
+      </if>
+      <if test="isUrgent != null" >
+        IS_URGENT,
+      </if>
+      <if test="finishDate != null" >
+        FINISH_DATE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="itemNo != null" >
+        #{itemNo,jdbcType=TINYINT},
+      </if>
+      <if test="taskNo != null" >
+        #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null" >
+        #{businessType,jdbcType=CHAR},
+      </if>
+      <if test="businessDesc != null" >
+        #{businessDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="requirements != null" >
+        #{requirements,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="width != null" >
+        #{width,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="salesOrderItem != null" >
+        #{salesOrderItem,jdbcType=TINYINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="workingProcedure != null" >
+        #{workingProcedure,jdbcType=VARCHAR},
+      </if>
+      <if test="isUrgent != null" >
+        #{isUrgent,jdbcType=CHAR},
+      </if>
+      <if test="finishDate != null" >
+        #{finishDate,jdbcType=DATE},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.assignment.AssignWorkingTaskDetail" >
+    update YDZ_ASSIGN_WORKING_TASK_DETAIL
+    <set >
+      <if test="itemNo != null" >
+        ITEM_NO = #{itemNo,jdbcType=TINYINT},
+      </if>
+      <if test="taskNo != null" >
+        TASK_NO = #{taskNo,jdbcType=VARCHAR},
+      </if>
+      <if test="businessType != null" >
+        BUSINESS_TYPE = #{businessType,jdbcType=CHAR},
+      </if>
+      <if test="businessDesc != null" >
+        BUSINESS_DESC = #{businessDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="requirements != null" >
+        REQUIREMENTS = #{requirements,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        LENGTH = #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="width != null" >
+        WIDTH = #{width,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="salesOrderItem != null" >
+        SALES_ORDER_ITEM = #{salesOrderItem,jdbcType=TINYINT},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="workingProcedure != null" >
+        WORKING_PROCEDURE = #{workingProcedure,jdbcType=VARCHAR},
+      </if>
+      <if test="isUrgent != null" >
+        IS_URGENT = #{isUrgent,jdbcType=CHAR},
+      </if>
+      <if test="finishDate != null" >
+        FINISH_DATE = #{finishDate,jdbcType=DATE},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+    </set>
+    where TASK_NO = #{taskNo}
+    <if test="itemNo != null">
+    	and ITEM_NO = #{itemNo}
+    </if>
+    <if test="uid != null">
+    	and UID = #{uid}
+    </if>
+  </update>
+  <update id="updateAssignWorkingTaskDetailByMapPara" parameterType="pd" >
+    update YDZ_ASSIGN_WORKING_TASK_DETAIL
+    <set >
+       <if test="itemNoNew != null" >
+        ITEM_NO = #{itemNoNew,jdbcType=TINYINT},
+      </if>
+      <if test="businessType != null" >
+        BUSINESS_TYPE = #{businessType,jdbcType=CHAR},
+      </if>
+      <if test="businessDesc != null" >
+        BUSINESS_DESC = #{businessDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="requirements != null" >
+        REQUIREMENTS = #{requirements,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        LENGTH = #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="width != null" >
+        WIDTH = #{width,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+      <if test="salesOrderItem != null" >
+        SALES_ORDER_ITEM = #{salesOrderItem,jdbcType=TINYINT},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="workingProcedure != null" >
+        WORKING_PROCEDURE = #{workingProcedure,jdbcType=VARCHAR},
+      </if>
+      <if test="isUrgent != null" >
+        IS_URGENT = #{isUrgent,jdbcType=CHAR},
+      </if>
+      <if test="finishDate != null" >
+        FINISH_DATE = #{finishDate,jdbcType=DATE},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+    </set>
+    where TASK_NO = #{taskNo}
+    <if test="itemNo != null">
+    	and ITEM_NO = #{itemNo}
+    </if>
+    <if test="uid != null">
+    	and UID = #{uid}
+    </if>
+  </update>
+  
+  <update id="updateThrowUpByKey" parameterType="pd">
+  	update YDZ_ASSIGN_WORKING_TASK_DETAIL
+  	set STATUS = 'C'
+  	where TASK_NO = #{taskNo}
+  	<if test="salesOrderItem != null">
+  		and SALES_ORDER_ITEM = #{salesOrderItem}
+  	</if>
+  	<if test="salesOrderItemIns != null">
+  		and SALES_ORDER_ITEM IN ${salesOrderItemIns}
+  	</if>
+  </update>
+  <update id="updateReItemNoByKey" parameterType="pd">
+  	update YDZ_ASSIGN_WORKING_TASK_DETAIL
+  	set SALES_ORDER_ITEM = #{salesOrderItem}
+  	where TASK_NO = #{taskNo}
+  	<if test="businessDesc != null">
+  		and BUSINESS_DESC = #{businessDesc}
+  	</if>
+  	<if test="requirements != null">
+  		and REQUIREMENTS = #{requirements}
+  	</if>
+  	<if test="length != null">
+  		and LENGTH = #{length}
+  	</if>
+  	<if test="width != null">
+  		and WIDTH = #{width}
+  	</if>
+  	<if test="quantity != null">
+  		and QUANTITY = #{quantity}
+  	</if>
+  </update>
+</mapper>

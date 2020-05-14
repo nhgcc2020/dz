@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>订单详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="/wechat/css/mui.min.css">
+		<link rel="stylesheet" href="/wechat/css/main.css">
+		<link rel="stylesheet" href="/wechat/css/model.css">
+		<script src="/common/growingio.js"></script>
+	</head>
+
+	<body>
+
+
+		<!--这个是加载框，切勿修改-->
+		<div class="loadingssss loading_box"><span></span></div>
+
+		<div class="mui-content">
+			<div class="table_detail">
+				<p id="table_detail">喷绘</p>
+				<ul id="tableDetail"></ul>
+			</div>
+			<div class="remark" id="remark"></div>
+
+			<div class="mui-button-row lay_out">
+				<button type="button" class="mui-btn mui-btn-primary" id="daishouhuoNum"></button>
+			</div>
+		</div>
+
+		<script src="/wechat/js/mui.min.js"></script>
+		<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+		<script src="/wechat/js/main.js"></script>
+
+		<script>
+			var salesNo = GetRequest().salesNo;
+			var orderDate = GetRequest().orderDate;
+			var orderStatus = String(GetRequest().orderStatus);
+
+
+			var businessTypeview = decodeURI(GetRequest().businessTypeview);
+			$("#table_detail").html(businessTypeview);
+
+			//判断从上一个页面传递过来的值
+			if(orderStatus == 01){
+				$("#daishouhuoNum").html("返回待计价");
+				$("#daishouhuoNum").click(function(){
+					window.location="sales-order-list.html?tab=1";
+				});
+			}else if(orderStatus == 02){
+				$("#daishouhuoNum").html("返回待收货");
+				$("#daishouhuoNum").click(function(){
+					window.location="sales-order-list.html?tab=2";
+				});
+			}else if(orderStatus == 04) {
+				$("#daishouhuoNum").html("返回待对账");
+				$("#daishouhuoNum").click(function(){
+					window.location="sales-order-list.html?tab=3";
+				});
+			}else if(orderStatus == 05) {
+				$("#daishouhuoNum").html("返回已对账");
+				$("#daishouhuoNum").click(function(){
+					window.location="sales-order-list.html?tab=4";
+				});
+			}
+
+			$.ajax({
+				url:'../../../wx/menu/SalesOrderVO',
+				type:'GET',
+				async:true,
+				data:{salesNo:salesNo}, //传递参数
+				dataType:"json",
+				timeout:"10000",
+				success:function(data){
+					$(".loading_box").removeClass("loadingssss");
+					var secondDetails =  data.details;
+					var currentSDetail;
+					for(var i = 0;i<secondDetails.length;i++ ){
+						if(secondDetails[i].salesNo == salesNo){
+							currentSDetail = secondDetails[i];
+							document.getElementById('tableDetail').innerHTML =
+									"<li>"+"<span class='detial_left'>业务内容描述：</span>"+secondDetails[i].businessDesc+"</li>"
+									+"<li>"+"<span class='detial_left'>物料制作：</span>"+secondDetails[i].requirements+"</li>"
+									+"<li>"+"<span class='detial_left'>规格：</span>"+secondDetails[i].length+"m"+"*"+secondDetails[i].width+"m</li>"
+									+"<li>"+"<span class='detial_left'>数量：</span>"+secondDetails[i].quantity+"</li>"
+									+"<li>"+"<span class='detial_left'>单价：</span>"+secondDetails[i].unitPrice.toFixed(2)+"</li>"
+									+"<li>"+"<span class='detial_left'>总价：</span>"+secondDetails[i].totalPrice.toFixed(2)+"</li>"
+									+"<li>"+"<span class='detial_left'>订单号：</span>"+secondDetails[i].salesNo+"</li>"
+									+"<li>"+"<span class='detial_left'>订单日期：</span>"+orderDate+"</li>";
+
+							document.getElementById('remark').innerHTML =
+									"<p>备注：</p>"
+									+"<p>"+data.wxSalesOrder.remarks+"</p>";
+						}
+					}
+				},
+				error:function(){
+					$(this).showIn();
+					$('.error_tips').html('请求数据失败');
+				}
+			})
+		</script>
+	</body>
+</html>

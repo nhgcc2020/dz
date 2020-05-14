@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>协同待收货订单</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<link href="/wechat/css/mui.min.css" rel="stylesheet" />
+		<link href="/wechat/css/main.css" rel="stylesheet" />
+		<link href="/wechat/css/model.css" rel="stylesheet" />
+		<script src="/common/growingio.js"></script>
+	</head>
+
+	<body>
+
+		<!--这个是加载框，切勿修改-->
+		<div class="loadingssss loading_box"><span></span></div>
+
+		<div class="mui-content">
+		    <ul class="listCenter" id="to_be_confirmed"></ul>
+			<div class="billing">
+				<div class="billing_left">
+					<div class="mui-input-row mui-checkbox mui-left">
+						<label for="checking_confirmed">全选</label>
+						<input type="checkbox" id="checking_confirmed">
+					</div>
+					<span class="to_be_confirmed_price"></span>
+				</div>
+				<div class="billing_right" id="sure-product">
+					收货（<span class="to_be_confirmed_all">0</span>）
+				</div>
+			</div>
+		</div>
+		<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+		<script src="/wechat/js/main.js"></script>
+		<script>
+			$(function(){
+
+				var pageSize = 20; //每页条数
+				var pageNo = 1;    //需要数据的页数
+
+				$(".loading_box").addClass("loadingssss");
+				document.getElementById('to_be_confirmed').innerHTML = "";
+				$.ajax({
+					url:'../../../wx/menu/listPurchaseOrder',
+					type:'GET',
+					async:true,
+					data:{pageSize:pageSize,pageNo:pageNo,orderStatus:"03",isSynchro:1}, //传递参数
+					dataType:"json",
+					timeout:"10000",
+					success:function(data){
+						$(".loading_box").removeClass("loadingssss");
+						if(data.orders == ""){
+							$("<div class='error_tips'>").fadeIn(250).html("没有数据").delay(1000).fadeOut(250).appendTo("body");
+						}else{
+                            $.each(data.orders,function(key,val){
+                                document.getElementById('to_be_confirmed').innerHTML +=
+                                    '<li>'+
+//									'<a href="purchaseOrder/order-detail.html?purchaseNo='+val.purchaseNo+'&&orderStatus='+val.orderStatus+'&&salesNo='+val.salesNo+'">'+
+                                    '<div class="listTOP"><span class="listTitle">订单日期：'+val.orderDate+'</span><span>订单号：'+val.purchaseNo+'</span></div>'+
+                                    '<div class="listBottom">'+
+                                    '<div class="listCheck">'+
+                                    '<input type="checkbox" value="'+val.purchaseNo+'" name="checkbox1" class="listCheckbox" sid="'+val.salesNo+'" id="'+val.purchaseNo+'">'+
+                                    '<label for="'+val.purchaseNo+'"></label>'+
+                                    '</div>'+
+                                    '<a class="listRightNew  iconfont" href="purchaseOrder/order-detail.html?purchaseNo='+val.purchaseNo+'&&orderStatus='+val.orderStatus+'&&salesNo='+val.salesNo+'">'+
+                                    '<h4>项目名称：'+val.caseDesc+'</h4>'+
+                                    '<p>供应商：'+val.partnerShortname+'</p>'+
+                                    '<p>订单金额：<span>'+(val.totalPrice).toFixed(2)+'</span></p>'+
+                                    '</a>'+
+                                    '</div>'+
+//									'</a>'+
+                                    '</li>';
+                            });
+                            getTotal();			//调用全选结算
+                            $("#to_be_confirmed li input").change(function(){
+                                var allCheck=true;
+                                if(this.checked==false){
+                                    $("#checking_confirmed").attr('checked',false);
+                                }else{
+                                    $("#to_be_confirmed li input").each(function(){
+                                        if(this.checked==false){
+                                            allCheck=false;
+                                        }
+
+                                    })
+                                    $("#checking_confirmed").attr('checked',allCheck);
+                                }
+                                getTotal();
+                            });
+
+                        }
+					},
+					error:function(){
+						$("<div class='error_tips'>").fadeIn(250).html("数据请求失败").delay(500).fadeOut(250).appendTo("body");
+					}
+				});
+			});
+            //全选
+            function getTotal(){   //计算价格
+                var total_price = 0;
+                var total_count = 0;
+                $("#to_be_confirmed li input").each(function(){
+                    if(this.checked==true){
+                        total_count += 1;
+                        var price_money = Number( $(this).parentsUntil("#to_be_confirmed").find('span').html());
+                        total_price += price_money;
+                    }
+                    $('.to_be_confirmed_price').html("合计：¥"+(total_price).toFixed(2));
+                    $('.to_be_confirmed_all').html(total_count);
+                })
+            }
+            $(function () {
+                //批量收货
+                var daiduizhangInput	 = document.getElementsByName('checkbox1');
+                $("#sure-product").click(function(){
+                    var $this=$(this);
+                    $this.css("background","#8bbdef");
+                    var  purchaseNoIns = "";
+                    var  salesNoIns = "";
+                    for( var i = 0 ; i<daiduizhangInput.length ; i++) {
+                        if (daiduizhangInput[i].checked == true) {
+                            purchaseNoIns = purchaseNoIns + daiduizhangInput[i].value.toString() + ",";
+                            salesNoIns = salesNoIns + daiduizhangInput[i].sid.toString() + ",";
+                        }
+                    }
+                    if(purchaseNoIns!=null&&purchaseNoIns!=""
+                        &&salesNoIns!=null&&salesNoIns!=""){
+                        purchaseNoIns = purchaseNoIns.substring(0,purchaseNoIns.length-1);
+                        salesNoIns = salesNoIns.substring(0,salesNoIns.length-1);
+                        $.ajax({
+                            url:'/wx/synchroPurchase/takeover',
+                            type:'GET',
+                            async:true,
+                            data:{purchaseNoIns:purchaseNoIns,salesNoIns:salesNoIns,orderStatus:"04"}, //传递参数
+                            dataType:"json",
+                            timeout:"10000",
+                            success:function(data){
+                                $("<div class='error_tips'>").fadeIn(250).html("收货成功").delay(500).fadeOut(250).appendTo("body");
+                                setTimeout(function(){
+                                    window.location.reload();
+                                },500);
+                            },
+                            error:function(){
+                                $this.css("background","#2e8ae6");
+                                $("<div class='error_tips'>").fadeIn(250).html("没有更多数据").delay(500).fadeOut(250).appendTo("body");
+                            }
+                        })
+                    }else{
+                        $this.css("background","#2e8ae6");
+                        $("<div class='error_tips'>").fadeIn(250).html("请求数据失败").delay(500).fadeOut(250).appendTo("body");
+                    }
+
+                });
+                $("#checking_confirmed").change(function(){
+                    if(this.checked==true){
+                        $("#to_be_confirmed li input").attr('checked',true);
+                    }else{
+                        $("#to_be_confirmed li input").attr('checked',false);
+                    }
+                    getTotal()
+                })
+
+            })
+		</script>
+	</body>
+
+</html>

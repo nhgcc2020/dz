@@ -1,0 +1,1860 @@
+[
+    {
+        "uid": 189,
+        "createTime": 1466509714000,
+        "cmnt": "",
+        "pCode": "0",
+        "permissionDesc": "基础数据",
+        "permissionCode": "1-BD",
+        "industryId": "1A",
+        "permissionInits": [
+            {
+                "uid": 190,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-BD",
+                "permissionDesc": "客户档案",
+                "permissionCode": "1-BD01",
+                "industryId": "1A",
+                "permissionInits": [
+                    {
+                        "uid": 191,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-BD01",
+                        "permissionDesc": "添加客户档案",
+                        "permissionCode": "P1-BD0101",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 192,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0101",
+                                "permissionDesc": "允许添加",
+                                "permissionCode": "P1-BD010101",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 193,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0101",
+                                "permissionDesc": "禁止添加",
+                                "permissionCode": "P1-BD010102",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 1,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 194,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-BD01",
+                        "permissionDesc": "查看客户列表",
+                        "permissionCode": "P1-BD0102",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 195,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0102",
+                                "permissionDesc": "查看自己创建的",
+                                "permissionCode": "P1-BD010201",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 196,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0102",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-BD010202",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 197,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0102",
+                                "permissionDesc": "全公司的客户档案",
+                                "permissionCode": "P1-BD010203",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 198,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0102",
+                                "permissionDesc": "禁止查看",
+                                "permissionCode": "P1-BD010204",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 2,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 199,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-BD01",
+                        "permissionDesc": "修改客户档案",
+                        "permissionCode": "P1-BD0103",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 200,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0103",
+                                "permissionDesc": "查看自己创建的",
+                                "permissionCode": "P1-BD010301",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 201,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0103",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-BD010302",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 202,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0103",
+                                "permissionDesc": "全公司的客户档案",
+                                "permissionCode": "P1-BD010303",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 203,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0103",
+                                "permissionDesc": "禁止查看",
+                                "permissionCode": "P1-BD010304",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 3,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 204,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-BD01",
+                        "permissionDesc": "删除客户档案",
+                        "permissionCode": "P1-BD0104",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 205,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0104",
+                                "permissionDesc": "查看自己创建的",
+                                "permissionCode": "P1-BD010401",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 206,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0104",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-BD010402",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 207,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0104",
+                                "permissionDesc": "全公司的客户档案",
+                                "permissionCode": "P1-BD010403",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 208,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0104",
+                                "permissionDesc": "禁止查看",
+                                "permissionCode": "P1-BD010404",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 4,
+                        "permissionValue": "0"
+                    }
+                ],
+                "sortItem": 1,
+                "permissionValue": "1"
+            },
+            {
+                "uid": 209,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-BD",
+                "permissionDesc": "供应商档案",
+                "permissionCode": "1-BD02",
+                "industryId": "1A",
+                "permissionInits": [
+                    {
+                        "uid": 210,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-BD02",
+                        "permissionDesc": "添加供应商",
+                        "permissionCode": "P1-BD0201",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 211,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0201",
+                                "permissionDesc": "允许添加",
+                                "permissionCode": "P1-BD020101",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 212,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0201",
+                                "permissionDesc": "禁止添加",
+                                "permissionCode": "P1-BD020102",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 1,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 213,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-BD02",
+                        "permissionDesc": "查看供应商",
+                        "permissionCode": "P1-BD0202",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 214,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0202",
+                                "permissionDesc": "查看自己创建的",
+                                "permissionCode": "P1-BD020201",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 215,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0202",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-BD020202",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 216,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0202",
+                                "permissionDesc": "全公司的供应商档案",
+                                "permissionCode": "P1-BD020203",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 217,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0202",
+                                "permissionDesc": "禁止查看",
+                                "permissionCode": "P1-BD020204",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 2,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 218,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-BD02",
+                        "permissionDesc": "修改供应商",
+                        "permissionCode": "P1-BD0203",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 219,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0203",
+                                "permissionDesc": "查看自己创建的",
+                                "permissionCode": "P1-BD020301",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 220,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0203",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-BD020302",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 221,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0203",
+                                "permissionDesc": "全公司的供应商档案",
+                                "permissionCode": "P1-BD020303",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 222,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0203",
+                                "permissionDesc": "禁止查看",
+                                "permissionCode": "P1-BD020304",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 3,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 223,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-BD02",
+                        "permissionDesc": "删除供应商",
+                        "permissionCode": "P1-BD0204",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 224,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0204",
+                                "permissionDesc": "查看自己创建的",
+                                "permissionCode": "P1-BD020401",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 225,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0204",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-BD020402",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 226,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0204",
+                                "permissionDesc": "全公司的供应商档案",
+                                "permissionCode": "P1-BD020403",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 227,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0204",
+                                "permissionDesc": "禁止查看",
+                                "permissionCode": "P1-BD020404",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 4,
+                        "permissionValue": "0"
+                    }
+                ],
+                "sortItem": 2,
+                "permissionValue": "0"
+            },
+            {
+                "uid": 228,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-BD",
+                "permissionDesc": "服务分类定价",
+                "permissionCode": "1-BD03",
+                "industryId": "1A",
+                "permissionInits": [
+                    {
+                        "uid": 229,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-BD03",
+                        "permissionDesc": "价格设置",
+                        "permissionCode": "P1-BD0301",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 230,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0301",
+                                "permissionDesc": "允许价格设置",
+                                "permissionCode": "P1-BD030101",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 0,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 231,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0301",
+                                "permissionDesc": "禁止价格设置",
+                                "permissionCode": "P1-BD030102",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 0,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 0,
+                        "permissionValue": "0"
+                    }
+                ],
+                "sortItem": 3,
+                "permissionValue": "0"
+            },
+            {
+                "uid": 232,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-BD",
+                "permissionDesc": "商品销售定价",
+                "permissionCode": "1-BD04",
+                "industryId": "1A",
+                "permissionInits": [
+                    {
+                        "uid": 233,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-BD04",
+                        "permissionDesc": "价格设置",
+                        "permissionCode": "P1-BD0401",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 234,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0401",
+                                "permissionDesc": "允许价格设置",
+                                "permissionCode": "P1-BD040101",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 235,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-BD0401",
+                                "permissionDesc": "禁止价格设置",
+                                "permissionCode": "P1-BD040102",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 1,
+                        "permissionValue": "0"
+                    }
+                ],
+                "sortItem": 4,
+                "permissionValue": "0"
+            },
+            {
+                "uid": 236,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-BD",
+                "permissionDesc": "系统配置",
+                "permissionCode": "1-BD05",
+                "industryId": "1A",
+                "permissionInits": [],
+                "sortItem": 5,
+                "permissionValue": "0"
+            }
+        ],
+        "sortItem": 1,
+        "permissionValue": "1"
+    },
+    {
+        "uid": 237,
+        "createTime": 1466509714000,
+        "cmnt": "",
+        "pCode": "0",
+        "permissionDesc": "协同接单",
+        "permissionCode": "1-01",
+        "industryId": "1A",
+        "permissionInits": [
+            {
+                "uid": 238,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-01",
+                "permissionDesc": "业务处理",
+                "permissionCode": "1-0101",
+                "industryId": "1A",
+                "permissionInits": [
+                    {
+                        "uid": 239,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0101",
+                        "permissionDesc": "订单处理",
+                        "permissionCode": "P1-010101",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 240,
+                                "createTime": 1466509714000,
+                                "cmnt": "（即有权限在其微信或网页上查看到好友供应商发来的订单并进行确认）",
+                                "pCode": "P1-010101",
+                                "permissionDesc": "订单确认",
+                                "permissionCode": "P1-01010101",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 1,
+                        "permissionValue": "0"
+                    }
+                ],
+                "sortItem": 1,
+                "permissionValue": "0"
+            },
+            {
+                "uid": 244,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-01",
+                "permissionDesc": "统计分析",
+                "permissionCode": "1-0102",
+                "industryId": "1A",
+                "permissionInits": [
+                    {
+                        "uid": 245,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0102",
+                        "permissionDesc": "订单统计与分析",
+                        "permissionCode": "P1-010201",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 1,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 246,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0102",
+                        "permissionDesc": "供应商统计与分析",
+                        "permissionCode": "P1-010202",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 2,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 247,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0102",
+                        "permissionDesc": "付款统计与分析",
+                        "permissionCode": "P1-010203",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 3,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 248,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0102",
+                        "permissionDesc": "收到发票记录",
+                        "permissionCode": "P1-010204",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 4,
+                        "permissionValue": "0"
+                    }
+                ],
+                "sortItem": 2,
+                "permissionValue": "0"
+            }
+        ],
+        "sortItem": 2,
+        "permissionValue": "0"
+    },
+    {
+        "uid": 249,
+        "createTime": 1466509714000,
+        "cmnt": "",
+        "pCode": "0",
+        "permissionDesc": "销售管理",
+        "permissionCode": "1-02",
+        "industryId": "1A",
+        "permissionInits": [
+            {
+                "uid": 250,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-02",
+                "permissionDesc": "业务处理",
+                "permissionCode": "1-0201",
+                "industryId": "1A",
+                "permissionInits": [
+                    {
+                        "uid": 251,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0201",
+                        "permissionDesc": "订单处理",
+                        "permissionCode": "1-020101",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 252,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "1-020101",
+                                "permissionDesc": "添加销售订单",
+                                "permissionCode": "P1-02010101",
+                                "industryId": "1A",
+                                "permissionInits": [
+                                    {
+                                        "uid": 253,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-02010101",
+                                        "permissionDesc": "允许添加",
+                                        "permissionCode": "P1-0201010101",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 1,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 254,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-02010101",
+                                        "permissionDesc": "禁止添加",
+                                        "permissionCode": "P1-0201010102",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 2,
+                                        "permissionValue": "0"
+                                    }
+                                ],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 1,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 275,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0201",
+                        "permissionDesc": "对账结算",
+                        "permissionCode": "1-020102",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 2,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 276,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0201",
+                        "permissionDesc": "查看对账单",
+                        "permissionCode": "P1-02010201",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 277,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-02010201",
+                                "permissionDesc": "仅自己创建的",
+                                "permissionCode": "P1-0201020101",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 278,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-02010201",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-0201020102",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 279,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-02010201",
+                                "permissionDesc": "全公司创建的订单",
+                                "permissionCode": "P1-0201020103",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 280,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-02010201",
+                                "permissionDesc": "禁止查看",
+                                "permissionCode": "P1-0201020104",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 1,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 281,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0201",
+                        "permissionDesc": "撤销对账单",
+                        "permissionCode": "P1-02010202",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 282,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-02010202",
+                                "permissionDesc": "仅自己创建的",
+                                "permissionCode": "P1-0201020201",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 283,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-02010202",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-0201020202",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 284,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-02010202",
+                                "permissionDesc": "全公司创建的订单",
+                                "permissionCode": "P1-0201020203",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 285,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-02010202",
+                                "permissionDesc": "禁止撤销",
+                                "permissionCode": "P1-0201020204",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 2,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 286,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0201",
+                        "permissionDesc": "对账单付款",
+                        "permissionCode": "P1-02010203",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 287,
+                                "createTime": 1466509714000,
+                                "cmnt": "（重要！！！即有权限在系统里进行收款操作）",
+                                "pCode": "P1-02010203",
+                                "permissionDesc": "允许付款操作",
+                                "permissionCode": "P1-0201020301",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 288,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-02010203",
+                                "permissionDesc": "禁止付款操作",
+                                "permissionCode": "P1-0201020302",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 3,
+                        "permissionValue": "0"
+                    }
+                ],
+                "sortItem": 1,
+                "permissionValue": "0"
+            },
+            {
+                "uid": 289,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-02",
+                "permissionDesc": "统计分析",
+                "permissionCode": "1-0202",
+                "industryId": "1A",
+                "permissionInits": [
+                    {
+                        "uid": 290,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0202",
+                        "permissionDesc": "订单统计与分析",
+                        "permissionCode": "P1-020201",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 1,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 291,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0202",
+                        "permissionDesc": "客户统计与分析",
+                        "permissionCode": "P1-020202",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 2,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 292,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0202",
+                        "permissionDesc": "收款记录与分析",
+                        "permissionCode": "P1-020203",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 3,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 293,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0202",
+                        "permissionDesc": "开出发票记录",
+                        "permissionCode": "P1-020204",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 4,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 294,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0202",
+                        "permissionDesc": "提成统计与分析",
+                        "permissionCode": "P1-020205",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 5,
+                        "permissionValue": "0"
+                    }
+                ],
+                "sortItem": 2,
+                "permissionValue": "0"
+            }
+        ],
+        "sortItem": 3,
+        "permissionValue": "0"
+    },
+    {
+        "uid": 295,
+        "createTime": 1466509714000,
+        "cmnt": "",
+        "pCode": "0",
+        "permissionDesc": "采购管理",
+        "permissionCode": "1-03",
+        "industryId": "1A",
+        "permissionInits": [
+            {
+                "uid": 296,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-03",
+                "permissionDesc": "外协加工业务处理",
+                "permissionCode": "1-0301",
+                "industryId": "1A",
+                "permissionInits": [
+                    {
+                        "uid": 297,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0301",
+                        "permissionDesc": "订单处理",
+                        "permissionCode": "1-030101",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 298,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "1-030101",
+                                "permissionDesc": "添加采购订单",
+                                "permissionCode": "P1-03010101",
+                                "industryId": "1A",
+                                "permissionInits": [
+                                    {
+                                        "uid": 299,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03010101",
+                                        "permissionDesc": "允许添加",
+                                        "permissionCode": "P1-0301010101",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 0,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 300,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03010101",
+                                        "permissionDesc": "禁止添加",
+                                        "permissionCode": "P1-0301010102",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 0,
+                                        "permissionValue": "0"
+                                    }
+                                ],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 301,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "1-030101",
+                                "permissionDesc": "查看采购订单",
+                                "permissionCode": "P1-03010102",
+                                "industryId": "1A",
+                                "permissionInits": [
+                                    {
+                                        "uid": 302,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03010102",
+                                        "permissionDesc": "仅自己创建的",
+                                        "permissionCode": "P1-0301010201",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 1,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 303,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03010102",
+                                        "permissionDesc": "所属部门创建的",
+                                        "permissionCode": "P1-0301010202",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 2,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 304,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03010102",
+                                        "permissionDesc": "全公司创建的订单",
+                                        "permissionCode": "P1-0301010203",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 3,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 305,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03010102",
+                                        "permissionDesc": "禁止查看",
+                                        "permissionCode": "P1-0301010204",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 4,
+                                        "permissionValue": "0"
+                                    }
+                                ],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 1,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 306,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0301",
+                        "permissionDesc": "修改采购订单",
+                        "permissionCode": "P1-03010103",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 307,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010103",
+                                "permissionDesc": "仅自己创建的",
+                                "permissionCode": "P1-0301010301",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 308,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010103",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-0301010302",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 309,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010103",
+                                "permissionDesc": "全公司创建的订单",
+                                "permissionCode": "P1-0301010303",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 310,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010103html",
+                                "permissionDesc": "禁止修改",
+                                "permissionCode": "P1-0301010304",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 3,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 311,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0301",
+                        "permissionDesc": "删除采购订单",
+                        "permissionCode": "P1-03010104",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 312,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010104",
+                                "permissionDesc": "仅自己创建的",
+                                "permissionCode": "P1-0301010401",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 313,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010104",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-0301010402",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 314,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010104",
+                                "permissionDesc": "全公司创建的订单",
+                                "permissionCode": "P1-0301010403",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 315,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010104",
+                                "permissionDesc": "禁止删除",
+                                "permissionCode": "P1-0301010404",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 4,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 316,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0301",
+                        "permissionDesc": "创建对账单",
+                        "permissionCode": "P1-03010105",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 317,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010105",
+                                "permissionDesc": "仅自己创建的",
+                                "permissionCode": "P1-0301010501",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 318,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010105",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-0301010502",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 319,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010105",
+                                "permissionDesc": "全公司创建的订单",
+                                "permissionCode": "P1-0301010503",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 320,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010105",
+                                "permissionDesc": "禁止创建",
+                                "permissionCode": "P1-0301010504",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 5,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 321,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0301",
+                        "permissionDesc": "对账结算",
+                        "permissionCode": "1-030102",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 322,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "1-030102",
+                                "permissionDesc": "查看对账单",
+                                "permissionCode": "P1-03010201",
+                                "industryId": "1A",
+                                "permissionInits": [
+                                    {
+                                        "uid": 323,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03010201",
+                                        "permissionDesc": "仅自己创建的",
+                                        "permissionCode": "P1-0301020101",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 1,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 324,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03010201",
+                                        "permissionDesc": "所属部门创建的",
+                                        "permissionCode": "P1-0301020102",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 2,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 325,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03010201",
+                                        "permissionDesc": "全公司创建的订单",
+                                        "permissionCode": "P1-0301020103",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 3,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 326,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03010201",
+                                        "permissionDesc": "禁止查看",
+                                        "permissionCode": "P1-0301020104",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 4,
+                                        "permissionValue": "0"
+                                    }
+                                ],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 2,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 327,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0301",
+                        "permissionDesc": "撤销对账单",
+                        "permissionCode": "P1-03010202",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 328,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010202",
+                                "permissionDesc": "仅自己创建的",
+                                "permissionCode": "P1-0301020201",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 329,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010202",
+                                "permissionDesc": "所属部门创建的",
+                                "permissionCode": "P1-0301020202",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 330,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010202",
+                                "permissionDesc": "全公司创建的订单",
+                                "permissionCode": "P1-0301020203",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 331,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010202",
+                                "permissionDesc": "禁止撤销",
+                                "permissionCode": "P1-0301020204",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 2,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 332,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0301",
+                        "permissionDesc": "对账单付款",
+                        "permissionCode": "P1-03010203",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 333,
+                                "createTime": 1466509714000,
+                                "cmnt": "（重要！！！即有权限在系统里进行收款操作）",
+                                "pCode": "P1-03010203",
+                                "permissionDesc": "允许付款操作",
+                                "permissionCode": "P1-0301020301",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 334,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "P1-03010203",
+                                "permissionDesc": "禁止付款操作",
+                                "permissionCode": "P1-0301020302",
+                                "industryId": "1A",
+                                "permissionInits": [],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 3,
+                        "permissionValue": "0"
+                    }
+                ],
+                "sortItem": 1,
+                "permissionValue": "0"
+            },
+            {
+                "uid": 335,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-03",
+                "permissionDesc": "商品采购业务处理",
+                "permissionCode": "1-0302",
+                "industryId": "1A",
+                "permissionInits": [
+                    {
+                        "uid": 336,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0302",
+                        "permissionDesc": "订单处理",
+                        "permissionCode": "1-030201",
+                        "industryId": "1A",
+                        "permissionInits": [
+                            {
+                                "uid": 337,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "1-030201",
+                                "permissionDesc": "查看采购订单",
+                                "permissionCode": "P1-03020101",
+                                "industryId": "1A",
+                                "permissionInits": [
+                                    {
+                                        "uid": 338,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020101",
+                                        "permissionDesc": "仅自己创建的",
+                                        "permissionCode": "P1-0302010101",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 1,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 339,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020101",
+                                        "permissionDesc": "所属部门创建的",
+                                        "permissionCode": "P1-0302010102",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 2,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 340,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020101",
+                                        "permissionDesc": "全公司创建的订单",
+                                        "permissionCode": "P1-0302010103",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 3,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 341,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020101",
+                                        "permissionDesc": "禁止查看",
+                                        "permissionCode": "P1-0302010104",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 4,
+                                        "permissionValue": "0"
+                                    }
+                                ],
+                                "sortItem": 1,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 342,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "1-030201",
+                                "permissionDesc": "修改采购订单",
+                                "permissionCode": "P1-03020102",
+                                "industryId": "1A",
+                                "permissionInits": [
+                                    {
+                                        "uid": 343,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020102",
+                                        "permissionDesc": "仅自己创建的",
+                                        "permissionCode": "P1-0302010201",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 1,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 344,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020102",
+                                        "permissionDesc": "所属部门创建的",
+                                        "permissionCode": "P1-0302010202",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 2,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 345,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020102",
+                                        "permissionDesc": "全公司创建的订单",
+                                        "permissionCode": "P1-0302010203",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 3,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 346,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020102",
+                                        "permissionDesc": "禁止修改",
+                                        "permissionCode": "P1-0302010204",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 4,
+                                        "permissionValue": "0"
+                                    }
+                                ],
+                                "sortItem": 2,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 347,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "1-030201",
+                                "permissionDesc": "删除采购订单",
+                                "permissionCode": "P1-03020103",
+                                "industryId": "1A",
+                                "permissionInits": [
+                                    {
+                                        "uid": 348,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020103",
+                                        "permissionDesc": "仅自己创建的",
+                                        "permissionCode": "P1-0302010301",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 1,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 349,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020103",
+                                        "permissionDesc": "所属部门创建的",
+                                        "permissionCode": "P1-0302010302",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 2,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 350,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020103",
+                                        "permissionDesc": "全公司创建的订单",
+                                        "permissionCode": "P1-0302010303",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 3,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 351,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020103",
+                                        "permissionDesc": "禁止删除",
+                                        "permissionCode": "P1-0302010304",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 4,
+                                        "permissionValue": "0"
+                                    }
+                                ],
+                                "sortItem": 3,
+                                "permissionValue": "0"
+                            },
+                            {
+                                "uid": 352,
+                                "createTime": 1466509714000,
+                                "cmnt": "",
+                                "pCode": "1-030201",
+                                "permissionDesc": "创建对账单",
+                                "permissionCode": "P1-03020104",
+                                "industryId": "1A",
+                                "permissionInits": [
+                                    {
+                                        "uid": 353,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020104",
+                                        "permissionDesc": "仅自己创建的",
+                                        "permissionCode": "P1-0302010401",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 1,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 354,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020104",
+                                        "permissionDesc": "所属部门创建的",
+                                        "permissionCode": "P1-0302010402",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 2,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 355,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020104",
+                                        "permissionDesc": "全公司创建的订单",
+                                        "permissionCode": "P1-0302010403",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 3,
+                                        "permissionValue": "0"
+                                    },
+                                    {
+                                        "uid": 356,
+                                        "createTime": 1466509714000,
+                                        "cmnt": "",
+                                        "pCode": "P1-03020104",
+                                        "permissionDesc": "禁止创建",
+                                        "permissionCode": "P1-0302010404",
+                                        "industryId": "1A",
+                                        "permissionInits": [],
+                                        "sortItem": 4,
+                                        "permissionValue": "0"
+                                    }
+                                ],
+                                "sortItem": 4,
+                                "permissionValue": "0"
+                            }
+                        ],
+                        "sortItem": 1,
+                        "permissionValue": "0"
+                    }
+                ],
+                "sortItem": 2,
+                "permissionValue": "0"
+            },
+            {
+                "uid": 371,
+                "createTime": 1466509714000,
+                "cmnt": "",
+                "pCode": "1-03",
+                "permissionDesc": "统计分析",
+                "permissionCode": "1-0303",
+                "industryId": "1A",
+                "permissionInits": [
+                    {
+                        "uid": 372,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0303",
+                        "permissionDesc": "订单统计与分析",
+                        "permissionCode": "P1-030301",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 1,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 373,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0303",
+                        "permissionDesc": "客户统计与分析",
+                        "permissionCode": "P1-030302",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 2,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 374,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0303",
+                        "permissionDesc": "收款记录与分析",
+                        "permissionCode": "P1-030303",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 3,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 375,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0303",
+                        "permissionDesc": "开出发票记录",
+                        "permissionCode": "P1-030304",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 4,
+                        "permissionValue": "0"
+                    },
+                    {
+                        "uid": 376,
+                        "createTime": 1466509714000,
+                        "cmnt": "",
+                        "pCode": "1-0303",
+                        "permissionDesc": "提成统计与分析",
+                        "permissionCode": "P1-030305",
+                        "industryId": "1A",
+                        "permissionInits": [],
+                        "sortItem": 5,
+                        "permissionValue": "0"
+                    }
+                ],
+                "sortItem": 3,
+                "permissionValue": "0"
+            }
+        ],
+        "sortItem": 4,
+        "permissionValue": "0"
+    }
+]

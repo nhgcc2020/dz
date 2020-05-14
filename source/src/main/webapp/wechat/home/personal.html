@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>我的</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<link rel="stylesheet" href="/wechat/css/mui.min.css">
+	<link rel="stylesheet" href="/wechat/css/main.css">
+	<script src="/common/growingio.js"></script>
+	<script src="/resources/common/vue.min.js?v=32e8fb7bee"></script>
+</head>
+<style>
+	 body {
+        line-height: 1.6;
+        font-family: -apple-system-font, "Helvetica Neue", sans-serif;
+    }
+	.login_img {
+		padding-top: 37px;
+		padding-left: 20px;
+		height: 7.8rem;
+		/*background: #fff;*/
+		line-height: 5rem;
+		border-bottom: 1px solid #F6F6F6;
+	}
+
+	.login_img>div {
+		width: 3.9rem;
+		height: 3.9rem;
+		float: left;
+		margin-top: 0.5rem;
+		border-radius: 50%;
+		border: 1px solid #1e88e5;
+		padding: .2rem;
+		box-sizing: border-box;
+		overflow: hidden;
+	}
+
+	.login_img>div>img {
+		width: 100%;
+		height: 100%;
+	}
+
+	.many {
+		float: right !important;
+		color: #ccc;
+	}
+
+	p {
+		display: inline-block;
+		font-size: 1rem;
+	}
+
+	.company_name {
+		font-size: 1.1rem;
+		margin-left: 1rem;
+		font-family: "幼圆";
+		color: #333;
+	}
+
+	.company_name span:nth-child(3) {
+		color: #4f4f4f;
+		font-size: .9rem;
+	}
+
+	.color {
+		color: #0081ff;
+		font-size: 1.6rem;
+	}
+
+	.firm {
+		line-height: 3rem;
+		margin-top: .7rem;
+		height: 3rem;
+		background: #fff;
+		padding: 0 1.1rem;
+		border-top: 1px solid #F6F6F6;
+	}
+
+	.firm .color {
+		float: left;
+	}
+
+	.firm p {
+		margin-left: .5rem;
+		float: left;
+	}
+
+	.cut {
+		line-height: 3rem;
+		height: 3rem;
+		background: #fff;
+		padding: 0 1.1rem;
+		border-bottom: 1px solid #F6F6F6;
+	}
+
+	.cut .color {
+		float: left;
+	}
+
+	.cut p {
+		margin-left: .5rem;
+		float: left;
+	}
+
+	.cut_child {
+		float: right;
+		font-size: 0.9rem;
+		font-family: "幼圆";
+		color: #999;
+		height: 3rem;
+	}
+
+	.vux-header {
+		background: #fff;
+		padding: 0 !important;
+	}
+	.image {
+		width: 100%;
+		height: 4.4rem;
+		background: #ff5555;
+		display: flex;
+		justify-content: center;
+	}
+
+	.image>span:nth-child(1) {
+		display: inline-block;
+		width: 27%;
+		text-align: right;
+	}
+
+	.image>span:nth-child(2) {
+		display: inline-block;
+		width: 45%;
+		text-align: center;
+		color: #fff;
+	}
+
+	.image>span:nth-child(3) {
+		display: inline-block;
+		width: 28%;
+		text-align: center;
+	}
+
+	.image img {
+		margin-top: 0.7rem;
+		height: 3.5rem;
+		width: 3.5rem;
+	}
+
+	.error_tips {
+		position: fixed;
+		height: 4rem;
+		line-height: 4rem;
+		top: 40%;
+		width: 70%;
+		margin: 0 auto;
+		left: 15%;
+		right: 15%;
+		background: #000;
+		border-radius: 0.5rem;
+		z-index: 1100;
+		opacity: 0.7;
+		display: none;
+		color: #fff;
+		text-align: center;
+	}
+	p{
+		margin: 0;
+	}
+	.foot {
+		position: fixed;
+		bottom: 4rem;
+		width: 100%;
+		z-index: -1;
+	}
+
+	.foot>img {
+		display: block;
+		width: 10rem;
+		height: 3rem;
+		margin: 0 auto;
+	}
+	.mui-bar{
+			-webkit-box-shadow:0 0 1px #ccc!important;
+		}
+</style>
+
+<body>
+	<div id="app">
+		<div>
+			<div @click="comperCenter" class="login_img">
+				<div>
+					<img style="border-radius: 50%;" v-if="news.comLogoPath !==''" :src="news.comLogoPath | image" alt="">
+					<img style="border-radius: 50%;" v-if="news.comLogoPath ==''" src="../image/seft.png" alt="">
+				</div>
+				<p class="company_name">
+					{{news.realName}}
+				</p>
+				<i style="float:right;margin-right:1rem;" class="iconfont">&#xe68b;</i>
+			</div>
+			<div class="image">
+				<span>
+          <img src="../image/person.png" alt="">
+        </span>
+		<span>
+          <p style="font-size:1rem;margin:0;margin-top:.5rem;color:#fff;">成为易对账推广大使</p>
+          <p style="font-size:.8rem;color:#fff;">在家也能赚小钱</p>
+        </span>
+		<span @click="know">
+          <p style="width:4.7rem;height:1.6rem;text-align:center;line-height:1.6rem;background:#fdb94e;border-radius: 2rem;color:#fff;font-size:.8rem;margin-top:1.4rem;">了解详情</p>
+        </span>
+			</div>
+			<div @click="current" class="firm">
+				<i class="iconfont color" style="font-size:1.4rem;">&#xe6d0;</i>
+				<p style="margin-left:.6rem;">当前公司</p>
+				<i class="iconfont many" style="color:#ccc;">&#xe68b;</i>
+				<span class="cut_child">
+          <span v-cloak>{{news.comName | firm}}</span>
+				</span>
+			</div>
+			<div @click="quit" class="firm" style="margin:0; border-top:1px solid #F6F6F6;">
+				<i class="iconfont color" style="font-size:1.4rem;">&#xe6dd;</i>
+				<p style="margin-left:.6rem;">切换公司</p>
+				<i class="iconfont many" style="color:#ccc;">&#xe68b;</i>
+			</div>
+			<div class="foot">
+				<img src="../image/footlogo.png">
+			</div>
+		</div>
+		<div class="error_tips"></div>
+		<nav class="mui-bar mui-bar-tab">
+		<a class="mui-tab-item " href="/wechat/home/index.html">
+				<span class="mui-icon iconfont"><i class="iconfont">&#xe698;</i></span>
+		        <span class="mui-tab-label">采购</span>
+		    </a>
+		<a class="mui-tab-item" href="#">
+		    </a>
+		<a class="mui-tab-item mui-active" href="/wechat/home/personal.html">
+				<span class="mui-icon iconfont"><i class="iconfont">&#xe672;</i></span>
+		        <span class="mui-tab-label">我的</span>
+		    </a>
+	</nav>
+	</div>
+</body>
+<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+<script>
+	//权限管理
+	var app = new Vue({
+		el: '#app',
+		data() {
+			return {
+				news: "",
+				versions: "",
+				value:""
+			}
+		},
+		created() {
+			this.getInfo();
+		},
+		methods: {
+			getInfo() {
+				var _this = this;
+				$.ajax({
+					url: '/wx/user/detail',
+					type: 'GET',
+					async: false,
+					dataType: "json",
+					timeout: "10000",
+					success: function (data) {
+						_this.news = data;
+						
+					},
+					error: function () {
+						$(".error_tips").html("请求数据失败").fadeIn(250).delay(500).fadeOut(250);
+					}
+				});
+				$.ajax({
+				url:'/wx/company/companies',
+				type:'GET',
+				async:true,
+				dataType:"json",
+				timeout:"10000",
+				success:function(data){
+					$.each(data.companies,function(key,val){
+						//1是企业  2个人
+						if(val.comType == 2 ){
+						_this.value = val.comKey
+
+						}
+
+					})
+				},
+				error:function(){
+					$(".error_tips").html("请求数据失败").fadeIn(250).delay(500).fadeOut(250);
+				}
+			});
+			},
+			comperCenter(){
+				window.location="/wechat/member/person-info.html";
+			},
+			quit(){
+				window.location="/wechat/member/change-company.html";
+			},
+			current(){
+				window.location="/wechat/member/company-info.html";
+			},
+			know(){
+				var _this = this;
+				$.ajax({
+				url:'/wx/company/changeCurrentCompany',
+				type:'GET',
+				async:true,
+				data:{comKey:_this.value},
+				dataType:"json",
+				timeout:"10000",
+				success:function(data){
+					window.location="/wechat/home/person_index.html";
+				},
+				error:function(){
+					$(".error_tips").fadeIn(250).html("修改失败").delay(500).fadeOut(250);
+				}
+			});
+			}
+		}
+	})
+Vue.filter('image', value => {
+  if (value) {
+    if (value.indexOf('http') > -1) {
+      return value
+    } else {
+      return "https://www.yiduizhang.com" + value
+    }
+
+  }
+})
+Vue.filter('firm', value => {
+  if (value) {
+    if (value.length > 11) {
+      return value.substr(0, 10) + '...'
+    } else {
+      return value
+    }
+  }
+})
+</script>
+
+</html>

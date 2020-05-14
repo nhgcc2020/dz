@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.common.GlobalConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.common.GlobalConfig" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="CFG_CODE" property="cfgCode" jdbcType="VARCHAR" />
+    <result column="CFG_DESC" property="cfgDesc" jdbcType="VARCHAR" />
+    <result column="CFG_TYPE" property="cfgType" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, CFG_CODE, CFG_DESC, CFG_TYPE, INDUSTRY_ID, REMARKS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_GLOBAL_CONFIG
+    where INDUSTRY_ID = #{industryId} and CFG_TYPE = #{cfgType} and CFG_CODE = #{cfgCode}
+  </select>
+  <select id="selectListByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_GLOBAL_CONFIG
+    where INDUSTRY_ID = #{industryId}
+    <if test="cfgType != null">
+    	and CFG_TYPE = #{cfgType}
+    </if>
+    <if test="cfgCode != null">
+    	and CFG_CODE = #{cfgCode}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_GLOBAL_CONFIG
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.common.GlobalConfig" >
+    insert into YDZ_GLOBAL_CONFIG (UID, CFG_CODE, CFG_DESC, 
+      CFG_TYPE, INDUSTRY_ID, REMARKS
+      )
+    values (#{uid,jdbcType=BIGINT}, #{cfgCode,jdbcType=VARCHAR}, #{cfgDesc,jdbcType=VARCHAR}, 
+      #{cfgType,jdbcType=VARCHAR}, #{industryId,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.common.GlobalConfig" >
+    insert into YDZ_GLOBAL_CONFIG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="cfgCode != null" >
+        CFG_CODE,
+      </if>
+      <if test="cfgDesc != null" >
+        CFG_DESC,
+      </if>
+      <if test="cfgType != null" >
+        CFG_TYPE,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="cfgCode != null" >
+        #{cfgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cfgDesc != null" >
+        #{cfgDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="cfgType != null" >
+        #{cfgType,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.common.GlobalConfig" >
+    update YDZ_GLOBAL_CONFIG
+    <set >
+      <if test="cfgCode != null" >
+        CFG_CODE = #{cfgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cfgDesc != null" >
+        CFG_DESC = #{cfgDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="cfgType != null" >
+        CFG_TYPE = #{cfgType,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.common.GlobalConfig" >
+    update YDZ_GLOBAL_CONFIG
+    set CFG_CODE = #{cfgCode,jdbcType=VARCHAR},
+      CFG_DESC = #{cfgDesc,jdbcType=VARCHAR},
+      CFG_TYPE = #{cfgType,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

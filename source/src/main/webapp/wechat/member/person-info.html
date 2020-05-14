@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="format-detection" content="telephone=no" />
+	<meta http-equiv="x-rim-auto-match" content="none">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>个人信息</title>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+	<link href="/wechat/css/main.css" rel="stylesheet"/>
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+	<script src="/wechat/js/main.js"></script>
+	<script src="/common/growingio.js"></script>
+</head>
+<body>
+
+<!--这个是加载框，切勿修改-->
+<div class="loadingssss loading_box"><span></span></div>
+
+<div class="props_box">
+	<div class="props_box_sec">
+		<p>您确定要解除绑定？</p>
+		<div>
+			<button id="close">取消</button>
+			<button onclick="deleteBind()">确定</button>
+		</div>
+	</div>
+</div>
+
+	<div class="mui-content lazyloding">
+		<ul class="header-img-right">
+			<li class="iconfont">
+				<a href="javascript:void(0)" id="header_img">
+					<img onerror="this.src='/images/default_user.png'" alt="" style="right: 15px;"/>
+					<div id="realName">金鱼</div>
+				</a>
+			</li>
+		</ul>
+
+		<ul class="smail-list">
+			<li class="iconfont">
+				<a href="javascript:void(0)">
+					昵称<span id="nickname"></span>
+				</a>
+			</li>
+			<li class="iconfont">
+				<a href="javascript:void(0)">
+					手机号码<span id="userId"></span>
+				</a>
+			</li>
+			<li class="iconfont">
+				<a href="javascript:void(0)">
+					备用手机<span id="otherPhone"></span>
+				</a>
+			</li>
+			<li class="iconfont">
+				<a href="javascript:void(0)">
+					联系QQ<span id="tecentQQ"></span>
+				</a>
+			</li>
+			<li class="iconfont">
+				<a href="javascript:void(0)">
+					电子邮件<span id="email"></span>
+				</a>
+			</li>
+			<li class="iconfont">
+				<a href="javascript:void(0)">
+					所在地<span><b id="localProvince"></b><b id="localCity"></b></span>
+				</a>
+			</li>
+			<li class="iconfont">
+				<a href="javascript:void(0)">
+					家乡<span><b id="nowProvince"></b><b id="nowCity"></b></span>
+				</a>
+			</li>
+		</ul>
+
+		<div class="login-btn">解除绑定</div>
+	</div>
+
+	<script type="text/javascript" src="/resources/cola-ui/china_city.js"></script>
+	<script type="text/javascript">
+				var localProvince = "" , localCity = "" , nowProvince = "" , nowCity = "";
+				//个人信息
+				$.ajax({
+					url:'/wx/user/detail',
+					type:'POST',
+					async:false,
+					dataType:"json",
+					timeout:"10000",
+					success:function(data){
+						$(".loading_box").removeClass("loadingssss");
+						$("#header_img img").attr("src",data.avatarPath);
+						$("#nickname").html(data.nickName);
+						$("#realName").html(data.realName);
+						$("#userId").html(data.userId);
+						$("#otherPhone").html(data.telBak);
+						$("#tecentQQ").html(data.qq);
+						$("#email").html(data.email);
+
+						localProvince = data.localProvince;
+						localCity = data.localCity;
+						nowProvince = data.nowProvince;
+						nowCity = data.nowCity;
+					},
+					error:function(){
+						$("<div class='error_tips'>").html("请求数据失败").fadeIn(250).delay(500).fadeOut(250).appendTo('.mui-content');
+					}
+				});
+				function cityQuery(){
+					$.each(ProvinceJson,function(key,val){
+						if(val.provinceId == localProvince){
+							$("#localProvince").html(val.provinceName);
+						}
+						if(val.provinceId == nowProvince){
+							$("#nowProvince").html(val.provinceName);
+						}
+					});
+
+					$.each(CityJson,function(key,val){
+						if( val.provinceId == localProvince && val.cityId == localCity ){
+							$("#localCity").html(val.cityName);
+						}
+						if( val.provinceId == nowProvince && val.cityId == nowCity ){
+							$("#nowCity").html(val.cityName);
+						}
+					});
+				}
+				cityQuery();
+
+
+				$(".login-btn").click(function(){
+					$(this).css("background","#2e8ae6").css("color","#fff");
+					$(".props_box").fadeIn();
+				});
+				$("#close").click(function(){
+					$(".login-btn").css("background","#fff").css("color","#666");
+					$(".props_box").fadeOut();
+				})
+				function deleteBind(){
+					$.ajax({
+						url:'/wx/user/deleteBind',
+						type:'GET',
+						async:false,
+						dataType:"json",
+						timeout:"10000",
+						success:function(data){
+							$("<div class='error_tips'>").html("解除成功").fadeIn(250).delay(500).fadeOut(250).appendTo('.mui-content');
+							$(".props_box").fadeOut(200);
+							setTimeout(function(){
+								window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid_URL+"&redirect_uri="+redirect_uri_URL+"?key=wechat/member/sign-in&response_type=code&scope=snsapi_userinfo&state=ydz#wechat_redirect" ;
+							},300);
+						},
+						error:function(){
+							$("<div class='error_tips'>").html("请求数据失败").fadeIn(250).delay(500).fadeOut(250).appendTo('.mui-content');
+						}
+					});
+				}
+
+
+	</script>
+</body>
+</html>

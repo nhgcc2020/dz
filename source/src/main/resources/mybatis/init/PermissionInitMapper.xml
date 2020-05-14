@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.PermissionInitMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.init.PermissionInit" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="ROLE_KEY" property="roleKey" jdbcType="VARCHAR" />
+    <result column="RESOURCE_ID" property="resourceId" jdbcType="VARCHAR" />
+    <result column="RESOURCE_DESC" property="resourceDesc" jdbcType="VARCHAR" />
+    <result column="CONTROL_ID" property="controlId" jdbcType="VARCHAR" />
+    <result column="PERMISSION_VALUE" property="permissionValue" jdbcType="VARCHAR" />
+    <result column="PERMISSION_DESC" property="permissionDesc" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, INDUSTRY_ID, ROLE_KEY, RESOURCE_ID, RESOURCE_DESC, CONTROL_ID, PERMISSION_VALUE, PERMISSION_DESC, REMARKS, CREATE_TIME
+  </sql>
+  <select id="selectListByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_PERMISSION_INIT
+    where INDUSTRY_ID = #{industryId} and ROLE_KEY = #{roleKey}
+    <if test="resourceId != null">
+    	and RESOURCE_ID = #{resourceId}
+    </if>
+    <if test="controlId != null">
+    	and CONTROL_ID = #{controlId}
+    </if>
+  </select>
+  <select id="selectOneByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_PERMISSION_INIT
+    where INDUSTRY_ID = #{industryId} 
+    and ROLE_KEY = #{roleKey} 
+    and RESOURCE_ID = #{resourceId}
+    and CONTROL_ID = #{controlId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_PERMISSION_INIT
+    where INDUSTRY_ID = #{industryId} and ROLE_KEY = #{roleKey}
+    <if test="resourceId != null">
+    	and RESOURCE_ID = #{resourceId}
+    </if>
+    <if test="controlId != null">
+    	and CONTROL_ID = #{controlId}
+    </if>
+  </delete>
+  <insert id="insertBatch" parameterType="java.util.List" >
+    insert into YDZ_PERMISSION_INIT 
+    (INDUSTRY_ID, ROLE_KEY, RESOURCE_ID, RESOURCE_DESC, CONTROL_ID, PERMISSION_VALUE, PERMISSION_DESC,
+    	REMARKS)
+    values 
+    <foreach collection="list" item="item" index="index"
+    		separator=",">
+    	(#{item.industryId,jdbcType=VARCHAR}, #{item.roleKey,jdbcType=VARCHAR}, #{item.resourceId,jdbcType=VARCHAR}, #{item.resourceDesc,jdbcType=VARCHAR}, #{item.controlId,jdbcType=VARCHAR}, #{item.permissionValue,jdbcType=VARCHAR}, #{item.permissionDesc,jdbcType=VARCHAR}, 
+      #{item.remarks,jdbcType=VARCHAR})	
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.init.PermissionInit" >
+    insert into YDZ_PERMISSION_INIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="roleKey != null" >
+        ROLE_KEY,
+      </if>
+      <if test="resourceId != null" >
+        RESOURCE_ID,
+      </if>
+      <if test="resourceDesc != null" >
+        RESOURCE_DESC,
+      </if>
+      <if test="controlId != null" >
+        CONTROL_ID,
+      </if>
+      <if test="permissionValue != null" >
+        PERMISSION_VALUE,
+      </if>
+      <if test="permissionDesc != null" >
+        PERMISSION_DESC,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null" >
+        #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceId != null" >
+        #{resourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceDesc != null" >
+        #{resourceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="controlId != null" >
+        #{controlId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionValue != null" >
+        #{permissionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionDesc != null" >
+        #{permissionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.init.PermissionInit" >
+    update YDZ_PERMISSION_INIT
+    <set >
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null" >
+        ROLE_KEY = #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceId != null" >
+        RESOURCE_ID = #{resourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceDesc != null" >
+        RESOURCE_DESC = #{resourceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="controlId != null" >
+        CONTROL_ID = #{controlId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionValue != null" >
+        PERMISSION_VALUE = #{permissionValue,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionDesc != null" >
+        PERMISSION_DESC = #{permissionDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where INDUSTRY_ID = #{industryId} and ROLE_KEY = #{roleKey}
+      <if test="resourceId != null" >
+        and RESOURCE_ID = #{resourceId}
+      </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.init.PermissionInit" >
+    update YDZ_PERMISSION_INIT
+    set ROLE_KEY = #{roleKey,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      RESOURCE_ID = #{resourceId,jdbcType=VARCHAR},
+      RESOURCE_DESC = #{resourceDesc,jdbcType=VARCHAR},
+      CONTROL_ID = #{controlId,jdbcType=VARCHAR},
+      PERMISSION_VALUE = #{permissionValue,jdbcType=VARCHAR},
+      PERMISSION_DESC = #{permissionDesc,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+    where INDUSTRY_ID = #{industryId} and ROLE_KEY = #{roleKey}
+      <if test="resourceId != null" >
+        and RESOURCE_ID = #{resourceId}
+      </if>
+  </update>
+</mapper>

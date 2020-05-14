@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>订单详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="/wechat/css/mui.min.css">
+		<link rel="stylesheet" href="/wechat/css/main.css">
+		<link rel="stylesheet" href="/wechat/css/model.css">
+		<script src="/common/growingio.js"></script>
+	</head>
+
+	<body>
+		<!--这个是加载框，切勿修改-->
+		<div class="loadingssss loading_box"><span></span></div>
+
+		<div class="mui-content">
+			<div class="Cooperation_information" id="Cooperation_information"></div>
+
+			<div class="order_new_contant" id="order_new_contant"></div>
+
+
+			<div class="table_detail" >
+				<ul id="table_detail"></ul>
+			</div>
+
+			<div class="remark" id="remark"></div>
+
+
+			<div class="mui-button-row lay_out" style="margin: 20px 5% 15px;">
+				<button type="button" class="mui-btn mui-btn-primary" id="daishouhuoNum"></button>
+			</div>
+		</div>
+
+	</body>
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+	<script src="/wechat/js/main.js"></script>
+	<script>
+		var salesNo = GetRequest().salesNo;		//获取订单号
+		var orderStatus = String(GetRequest().orderStatus);		//获取传过来的值
+		//判断从上一个页面传递过来的值
+		if(orderStatus == 01){
+			$("#daishouhuoNum").html("返回待提交");
+			$("#daishouhuoNum").click(function(){
+				window.location="sales-order-list.html?tab=1";
+			});
+		}else if(orderStatus == 02){
+			$("#daishouhuoNum").html("返回待收货");
+			$("#daishouhuoNum").click(function(){
+				window.location="sales-order-list.html?tab=2";
+			});
+		}else if(orderStatus == 04) {
+			$("#daishouhuoNum").html("返回待对账");
+			$("#daishouhuoNum").click(function(){
+				window.location="sales-order-list.html?tab=3";
+			});
+		}else if(orderStatus == 05) {
+			$("#daishouhuoNum").html("返回已对账");
+			$("#daishouhuoNum").click(function(){
+				window.location="sales-order-list.html?tab=4";
+			});
+		}
+
+		var selectVos;
+		var orderDate;
+		$.ajax({
+			url:'../../../wx/menu/SalesOrderVO',
+			type:'GET',
+			async:true,
+			data:{salesNo:salesNo}, //传递参数
+			dataType:"json",
+			timeout:"10000",
+			success:function(data){
+				var dataVal = data.wxSalesOrder;
+				orderDate = dataVal.orderDate;
+				//var saleNo = dataVal.salesNo;
+				$(".loading_box").removeClass("loadingssss");
+				selectVos = data.businessType;
+				document.getElementById('Cooperation_information').innerHTML =
+						"<p>"+"<span class='detial_left'>客户：</span>"+dataVal.partnerShortname+"</p>"
+						+"<p>"+"<span class='detial_left'>订单日期：</span>"+dataVal.orderDate+"</p>"
+						+"<p>"+"<span class='detial_left'>订单号：</span>"+dataVal.salesNo+"</p>"
+						+"<p>"+"<span class='detial_left'>订单金额：</span>"+(dataVal.totalPrice).toFixed(2)+"</p>"
+						+"<p>"+"<span class='detial_left'>项目名称：</span>"+dataVal.caseDesc+"</p>";
+
+				document.getElementById('table_detail').innerHTML =
+						"<li>"+"<span class='detial_left'>合计金额：</span>"+(dataVal.price).toFixed(2)+"</li>"
+						+"<li>"+"<span class='detial_left'>折扣优惠：</span>-&nbsp;"+(dataVal.discount).toFixed(2)+"</li>"
+						+"<li>"+"<span class='detial_left'>减免金额：</span>-&nbsp;"+(dataVal.preferential).toFixed(2)+"</li>"
+						+"<li>"+"<span class='detial_left'>订单金额：</span>"+(dataVal.totalPrice).toFixed(2)+"</li>"
+						+"<li>"+"<span class='detial_left'>预收金额：</span>-&nbsp;"+(dataVal.depositRequested).toFixed(2)+"</li>"
+						+"<li>"+"<span class='detial_left'>应收金额：</span>"+(dataVal.receivablesMoney).toFixed(2)+"</li>"
+						+"<li>"+"<span class='detial_left'>制单时间：</span>"+dataVal.createTime+"</li>";
+
+				document.getElementById('remark').innerHTML =
+						"<p>备注：</p>"
+						+"<p>"+dataVal.remarks+"</p>";
+				var allDetails = {};
+				$.each(data.details,function(key,val){
+					var businessType =  val.businessType;
+					if(allDetails[businessType] == undefined){
+						var subDetails = new Array();
+						subDetails.push(val);
+						allDetails[businessType] = subDetails;
+					}else{
+						allDetails[businessType].push(val);
+					}
+
+				});
+				for(var detailObj in allDetails){
+					Createlement(allDetails[detailObj]);
+				}
+			},
+			error:function(){
+				$("<div class='error_tips'>").fadeIn(250).html("数据请求失败").delay(500).fadeOut(250).appendTo("body");
+			}
+		})
+
+		function Createlement(val){
+			console.log(val);
+			var businessType = val[0].businessType;
+			var businessTypeview ;
+			for(var num=0;num < selectVos.length;num++){
+				if(selectVos[num].value== businessType){
+					businessTypeview = selectVos[num].text;
+				}
+			}
+			var htmlStr =
+					"<div class='order_new_list'>"+
+					"<h2>"+businessTypeview+"<span>共计"+val.length+"条</span> <b class='iconfont'>&#xe68d;</b></h2>"+
+					"<ul>";
+			for(var i = 0; i < val.length; i++){
+				var myUrl = encodeURI(encodeURI("order-detail-next.html?salesNo="+val[i].salesNo+"&&orderStatus="+orderStatus+"&&orderDate="+orderDate+"&&businessTypeview="+businessTypeview));
+				htmlStr +=
+						"<li>"
+						+"<a>"
+						+"<h4>"+"业务内容描述："+val[i].businessDesc+"</h4>"
+						+"<p>"+"物料制作："+val[i].requirements+"</p>"
+						+"<p>"+val[i].length+"m"+"*"+val[i].width+"m"+"<span>"+val[i].quantity+"</span>"+"<span>￥"+val[i].totalPrice.toFixed(2)+"</span>"+"</p>"
+						+"</a>"
+						+"</li>"
+			}
+			htmlStr += "</ul>"+ "</div>";
+			$("#order_new_contant").append(htmlStr);
+		}
+
+		//tab点击切换
+		$('.order_new_contant').on("click",".order_new_list h2",function(){
+			$(this).children('b').toggleClass('active');
+			$(this).next('ul').slideToggle(500);
+		})
+
+
+	</script>
+</html>

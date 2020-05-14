@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>安装单打印</title>
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+    <meta HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
+    <meta HTTP-EQUIV="expires" CONTENT="0">
+    <link rel="stylesheet" type="text/css" href="/resources/new/base_new.css?v=da63245499">
+    <style>
+        html,body{
+            color:#000;
+        }
+        .Customer-address{
+            color:#000;
+        }
+        .talRight{
+            text-align: right;
+        }
+        table,
+        th,
+        td {
+            vertical-align: top;
+        }
+        .datagrid-body tr>td:last-child,.datagrid-header tr>td:last-child{
+            border-right: none !important;
+        }
+        .ui.items-view table tbody tr:nth-child(even) {
+            background: none !important;
+        }
+
+        .ui.items-view .item {
+            cursor: default;
+        }
+
+        #order .table-wrapper>table thead th:nth-child(11),
+        #order .table-wrapper>table thead th:nth-child(1),
+        #order .table-wrapper>table thead th:nth-child(12),
+        #order .table-wrapper>table thead th:nth-child(2) {
+            font-weight: 700;
+        }
+
+        .pagination table {
+            height: 50px;
+            line-height: 50px;
+            float: right;
+        }
+
+        .datagrid-row-over,
+        .datagrid-header td.datagrid-header-over {
+            background: none !important;
+            color: #000;
+            cursor: default;
+        }
+
+        .datagrid-header td,
+        .datagrid-body td,
+        .datagrid-footer td {
+            border-style: solid;
+            border-color: #e4e4e4;
+        }
+        .datagrid-header-row,
+        .datagrid-row {
+            height: 30px;
+            line-height: 30px;
+        }
+
+        table,
+        th,
+        td {
+            vertical-align: middle;
+        }
+
+        .datagrid-header .datagrid-cell {
+            text-align: center !important;
+        }
+        .datagrid-body td {
+            position: relative;
+        }
+        .datagrid-cell a:hover,
+        .datagrid-cell a:visited,
+        .datagrid-cell a:link {
+            color: #4284d9;
+            text-decoration: none;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 18px;
+            color: #000;
+        }
+
+        .line {
+            width: 30%;
+            border-bottom: 1px solid #000;
+            margin: 10px auto;
+        }
+
+        #print {
+            border: none;
+            /*padding: 10px 20px;*/
+            border-radius: 5px;
+        }
+
+        .sales {
+            margin: 5px;
+        }
+
+        .list_one {
+            text-align: center;
+            margin: 20px;
+        }
+        .order{
+            position: absolute;
+            right: 10px;
+            top: 30px;
+        }
+        .code{
+            display: none;
+            position: absolute;
+            top: 0;
+        }
+        .codeone{
+            display: none;
+            position: absolute;
+            top: 0;
+        }
+        .total-preson{
+            position: absolute;
+            width: 70%;
+            left: 0;
+            bottom: 10px;
+        }
+        .total-preson p{
+            line-height: normal;
+            margin-bottom: 8px;
+        }
+        .money{
+            margin-left: 100px;
+        }
+        .empoy{
+            margin-bottom: 8px;
+            border-bottom: 1px solid #000;
+        }
+        .division{
+            border-bottom: 1px solid #000;
+            margin: 10px 0;
+        }
+        .sales #print{
+            display: block;
+            width: 120px;
+            background: #2e8ae6;
+            margin: 50px auto;
+            color: #fff;
+            height: 30px;
+        }
+        .clear{
+            clear: both;
+        }
+        .total_right li{
+            margin-top: 2px;
+        }
+        .total_beizhu{
+            position: absolute;
+            width: 100%;
+            height: auto;
+            top: 10px;
+            text-decoration: none;
+            float: left;
+        }
+        b{
+            margin-left: 5px;
+        }
+        .datagrid .panel-body{
+            border-bottom: none;
+        }
+        .datagrid-header, .datagrid-td-rownumber{
+            background: none !important;
+        }
+        .datagrid-header, .datagrid-toolbar, .datagrid-pager, .datagrid-footer-inner,.datagrid-header td, .datagrid-body td, .datagrid-footer td,.panel-header, .panel-body{
+            border-color:#000;
+        }
+        .ding{
+            padding-bottom: 7px;
+        }
+        table,
+        table td,table th {
+            border-collapse: collapse;
+            border: 1px solid #000;
+        }
+
+        table td ,table th{
+            color: #000;
+            height: 30px;
+            padding: 0 3px;
+            line-height: 30px;
+        }
+
+
+
+        *, *:before, *:after{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        html {
+            /*font-size: 62.5%;*/
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+    </style>
+    <style media="print">
+        .sales #print,
+        #plugin {
+            display: none;
+        }
+    </style>
+    <script src="/resources/jquery/jquery-2.1.3.min.js?v=a03e4bc153"></script>
+    <script src="/resources/cola-ui/china_city.js?v=bef170068c"></script>
+    <script src="/resources/business/base_new.js?v=9ac481258d"></script>
+    <script src="/resources/easyui/pace.min.js?v=cdbdd88ddf"></script>
+    <script src="/resources/pageConfig.js?v=d1935279f7"></script>
+</head>
+<body style="border:none !important;padding:10px;width:1100px;margin:0 auto;position:relative;">
+<div  id="datagrid-mask-msg"  class="frame_box datagrid-mask-msg" style="display:block;left:50%"><span></span></div>
+<div id="content">
+
+</div>
+<script id="tpl-print" type="text/html">
+    <div class="header"><span>{{order.comName}}</span>&#x3000;<span>安装单</span></div>
+    <div class="order">
+        <p>安装单号 : <span>{{order.installationNo}}</span></p>
+        <!--<p>安装单号 : <span class="cont"></span></p>-->
+    </div>
+
+    <div class="line"></div>
+    <div class="list_one">
+        <span>客户 : {{order.partnerShortname}}</span>&#x3000;&#x3000;<span>联系人 : {{order.contactName}}</span>&#x3000;&#x3000;<span>订单日期 :{{order.orderDate}}</span>&#x3000;&#x3000;  <span>手机 : {{order.contactTel}}</span>
+    </div>
+    <table id="order"  style="width:100%;">
+        <col width="40%"/>
+        <col width="10%"/>
+        <col width="7%"/>
+        <col width="7%"/>
+        <col width="7%"/>
+        <col width="7%"/>
+        <col width="9%"/>
+        <col width="12%"/>
+        <thead>
+        <th>业务内容</th>
+        <th>规格(m)</th>
+        <th>计价方式</th>
+        <th>面积(㎡)</th>
+        <th>数量</th>
+        <th>单位</th>
+        <th >费用单价</th>
+        <th >行小计</th>
+        </thead>
+        <tbody>
+        {{each details as item i}}
+        <tr>
+            <td>{{item.businessDesc}}</td>
+            <td align="center">{{item.specification}}</td>
+            <td align="center">{{item.priceWay | formatPrcWay}}</td>
+            <td align="center">{{item.totalArea}}</td>
+            <td class="talRight">{{item.quantity}}</td>
+            <td align="center">{{item.unit}}</td>
+            <td style="text-align: right">{{item.unitPrice | formatNumber}}</td>
+            <td style="text-align: right">{{item.totalPrice | formatNumber}}</td>
+        </tr>
+        {{/each}}
+
+        </tbody>
+
+    </table>
+
+    <div class="ui form">
+        <div id="tableContainer" class="field" style="margin-bottom: 10px;"></div>
+        <div class="total-drive">
+            <div>
+                <div style="float:left;width:70%;"><div>备注 : <span id="shifouweikong">{{order.remarks}}</span></div></div>
+                <div class="total_right">
+
+                    <ul class='ding'>
+                        <li>合&#x3000;&#x3000;计 :<span>{{order.totalPrice | formatNumber}}</span></li>
+                        <li class="zhe">折&#x3000;&#x3000;扣 :<span> - <i>{{order.discount | formatNumber}}</i> </span></li>
+                        <li class="jian">减&#x3000;&#x3000;免 :<span> - <i>{{order.preferential | formatNumber}}</i> </span></li>
+                        <div class='division'></div>
+                    </ul>
+                </div>
+
+                <div style="clear:both;"></div>
+            </div>
+            <div style="position:relative;">
+                <div class="total_left" style="float:right;width:25%;">
+                    <ul><li style='margin-bottom:8px;'>安装金额 :<span style='float:right;'>{{order.installationPrice | formatNumber}}</span></li>
+                        <li>预&#x3000;&#x3000;付 :<span style='float:right;'> - <i>{{order.prepayPrice | formatNumber}}</i> </span></li>
+                        <li>应&#x3000;&#x3000;付 :<span style='float:right;'><i>{{order.payablePrice | formatNumber}}</i> </span></li>
+                    </ul>
+
+                </div>
+                <div class="total-preson">
+                    <p class='address'>客户地址 ：<span class='province'></span> <span class='city'></span> <span class='country'></span> <span>{{bottomComInfo.partnerAddress}}</span></p><p>制单人 ：<span>{{order.creatorName}}</span>制单时间 ：<span> {{order.createTime}}</span><span class='money'>未付款签字 :</span></p>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="empoy"></div>
+    <div class="Customer-address">
+        公司电话 : <span>{{bottomComInfo.comTel}}</span>
+        公司QQ : <span>{{bottomComInfo.comQQ}}</span>
+        联系人 : <span>{{bottomComInfo.realName}}</span>
+        手机 : <span>{{bottomComInfo.userId}}</span>
+        通讯地址 : <span>
+                   <b id='sheng1'></b>
+                   <b id='shi1'></b>
+                   <b id='xian2'></b>
+               <b>{{bottomComInfo.comAddress}}</b>
+</span>
+    </div>
+    <h4 class="sales">
+        <button onclick="window.print()" id="print">打印</button>
+    </h4>
+</script>
+<script>
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    // type :print /share;    param:salesNo  key    url:
+    function pageLoad(type,param,url) {
+        $.post(url+param)
+            .then(function (data) {
+
+                var date=JSON.parse(data);
+                template.defaults.imports.formatNumber = function (value) {
+                    return accounting.formatNumber(value, 2);
+                };
+                template.defaults.imports.formatPrcWay = function (value) {
+                    for(var i=0;i<priceWayAll.length;i++){
+                        if(priceWayAll[i].priceWay==value){
+                            return priceWayAll[i].priceWayDesc;
+                            break;
+                        }
+                    }
+                };
+                var html = template('tpl-print',  date);
+                document.getElementById("content").innerHTML = html;
+                var addressShow=true;
+                if (date.order.discount == "" || date.order.discount == "0") {
+                    $(".zhe").hide();
+                }
+                if (date.order.preferential == "" || date.order.preferential == "0") {
+                    $(".jian").hide();
+                }
+                    $.each(ProvinceJson, function (key, val) {
+                        if (val.provinceId == date.bottomComInfo.partnerProvince) {
+                            addressShow=false;
+                            $(".province").html(val.provinceName);
+                            return false;
+                        }
+                    });
+
+                    $.each(CityJson, function (key, val) {
+                        if (val.provinceId == date.bottomComInfo.partnerProvince && val.cityId == date.bottomComInfo.partnerCity) {
+                            addressShow=false;
+                            $(".city").html(val.cityName);
+                            return false;
+                        }
+                    });
+                    $.each(CountryJson, function (key, val) {
+                        if (val.cityId == date.bottomComInfo.partnerCity && val.countryId == date.bottomComInfo.partnerCountry) {
+                            addressShow=false;
+                            $(".country").html(val.countryName);
+                            return false;
+                        }
+                    });
+                    if(addressShow){
+                        $(".address").hide();
+                    }
+                $.each(ProvinceJson, function (key, val) {
+                    if (val.provinceId == date.bottomComInfo.comProvince) {
+                        $("#sheng1").html(val.provinceName)
+                        return false;
+                    }
+                });
+
+                $.each(CityJson, function (key, val) {
+                    if (val.provinceId == date.bottomComInfo.comProvince && val.cityId == date.bottomComInfo.comCity) {
+                        $("#shi1").html(val.cityName);
+                        return false;
+                    }
+                });
+
+                $.each(CountryJson, function (key, val) {
+                    if (val.cityId == date.bottomComInfo.comCity && val.countryId == date.bottomComInfo.comCountry) {
+                        $("#xian2").html(val.countryName);
+                        return false;
+                    }
+                });
+
+                $(".order span").eq(0).text(date.order.salesNo);
+
+                if (date.order.discount == "" || date.order.discount == "null") {
+                    $(".total_right li").eq(1).hide()
+                }
+                if (date.order.preferential == "" || date.order.preferential == "null") {
+                    $(".total_right li").eq(2).hide()
+                }
+                if (date.order.purchaseNo == "" || date.order.purchaseNo == "null") {
+                    $(".order p").eq(1).hide()
+                } else {
+                    $(".cont").text(date.order.purchaseNo)
+                }
+//                $(".header span").eq(0).text(date.order.comName)
+            })
+    }
+//    pageLoad("print","X171011473362865","/ydz/salesorder/salesOrderDetailData?salesNo=");
+    pageLoad("print",GetRequest().installationNo,"/order/installation/orderAndDetails?installationNo=");
+</script>
+</body>
+
+</html>

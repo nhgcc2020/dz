@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>邀请员工</title>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+    <link href="/wechat/css/main.css" rel="stylesheet"/>
+    <script src="/wechat/js/mui.min.js"></script>
+	<script src="/common/growingio.js"></script>
+</head>
+<body>
+
+	
+	<div class="mui-content">
+		<div class="mui-content-padded related_form_content">
+			<p>邀请员工</p>
+			<form class="mui-input-group related_form" action="../member/employee-list.html">
+				<p>员工姓名</p>
+			    <div class="mui-input-row related_form_row">
+			    		<input type="text" id="name" class="mui-input-clear" placeholder="请输入员工姓名">
+			    </div>
+			    <p>手机号码</p>
+			    <div class="mui-input-row related_form_row">
+			        <input type="text" id="phone" class="mui-input-clear" placeholder="请输入手机号码" >
+			    </div>  
+			    
+			    <p>选择部门</p>
+			    <div class="mui-input-row related_form_occupation">
+			    		<select name="department">
+			    			<option value="null">请选择</option>
+
+			    		</select>
+			    </div>  
+			    
+			    	<p>选择角色</p>
+			    <div class="mui-input-row related_form_occupation">
+			    		<select name="role">
+			    			<option value="null">请选择</option>
+
+			    		</select>
+			    </div>
+			    <div class="mui-button-row related_form_sub">
+			        <button type="button" id="saveEmp" class="mui-btn mui-btn-primary" style="border: none;">发送短信邀请</button>
+			    </div>
+			</form>
+		</div>
+	</div>
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+	<script>
+		var departments;
+		var roles;
+		//当前公司的所有部门
+		$.ajax({
+			type: "POST",
+			url: "/wx/department/select-info",
+			data:{},
+			async: false,
+			dataType: "json",
+			success: function (data) {
+				var $department = $("select[name='department']");
+				$(data).each(function(index,element){
+					$department.append("<option value='"+element.value+"'>"+element.text+"</option>")
+				});
+				departments = data;
+			}
+		});
+		//当前公司的所有角色
+		$.ajax({
+			type: "POST",
+			url: "/wx/role/select-info",
+			data:{},
+			async: false,
+			dataType: "json",
+			success: function (data) {
+				var $role = $("select[name='role']");
+				$(data).each(function(index,element){
+					$role.append("<option value='"+element.value+"'>"+element.text+"</option>")
+				});
+				roles = data;
+			}
+		});
+
+		//保存员工
+		$("#saveEmp").on("click",function(data){
+
+			var name = $("#name").val();
+			var phone = $("#phone").val();
+			var deptId = $("select[name='department']").val();
+			var roleKey = $("select[name='role']").val();
+
+
+			/*if (contacterName11_per == undefined || $.trim(contacterName11_per) == "") {
+				$("<div class='error_tips'>").delay(100).fadeIn(250).html("请填写真实姓名").delay(1000).fadeOut(250).appendTo("body");
+				return false;
+			}*/
+
+			$.post(
+					"/wx/employee/inviteEmployee",
+					{
+						remarks: name,
+						userId: phone,
+						deptId: deptId,
+						roleKey: roleKey
+					},
+					function (callback) {
+
+						var data = eval("("+callback+")");
+						if (data.state == '1') {
+							$("<div class='tips_contants'>").fadeIn(250).html("添加成功！").delay(1000).fadeOut(250).appendTo('body');
+
+						} else {
+							$("<div class='tips_contants'>").fadeIn(250).html(data.msg).delay(1000).fadeOut(250).appendTo('body');
+
+						}
+					}
+			);
+
+
+		})
+
+
+	</script>
+</body>
+</html>

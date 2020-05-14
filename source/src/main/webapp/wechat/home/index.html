@@ -1,0 +1,260 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>采购查询</title>
+	<meta name="format-detection" content="telephone=no" />
+	<meta http-equiv="x-rim-auto-match" content="none">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<link href="/wechat/css/mui.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="/wechat/css/main.css">
+	<!--<link rel="stylesheet" href="/wechat/css/model.css">-->
+	<script src="/common/growingio.js"></script>
+	<style>
+		html {
+			font-size: 62.5%;
+			font-family: "微软雅黑";
+		}
+
+		.toggle {
+			background: #f0f0f0;
+			padding: 0 1rem;
+			font-size: 1.4rem;
+			line-height: 40px;
+		}
+
+		.toggle a {
+			float: right;
+			color: #8A8A8A;
+		}
+
+		.toggle a {
+			color: #4285d9;
+		}
+		.public{
+			margin-top:16%;
+		}
+		.public>div {
+			font-size: 15px;
+			font-weight: 600;
+			padding: 22px 0;
+			width: 28rem;
+			margin: 0 auto;
+		}
+
+		.public ul {
+			display: flex;
+			justify-content: center;
+			text-align: center;
+			width: 28rem;
+			margin: 0 auto;
+			border-top: 1px solid #e4e4e4;
+		}
+
+		.public li {
+			display: inline-block;
+			width: 50%;
+			height: 14rem;
+			border-right: 1px solid #e4e4e4;
+		}
+
+		.public li a {
+			position: relative;
+			display: inline-block;
+			height: 7rem;
+			margin-top: 3.5rem;
+		}
+
+		.public li div {
+			font-size: 1rem;
+			position: absolute;
+			top: -.7rem;
+			padding: .1rem;
+			left: 65%;
+			background: red;
+			width: 1.6rem;
+			height: 1.6rem;
+			border-radius: 50%;
+			line-height: 1.6rem;
+			color: #fff;
+			text-align: center;
+			display: none;
+		}
+
+		.public li p {
+			color: #8A8A8A;
+		}
+
+		.error_tips {
+			position: fixed;
+			height: 4rem;
+			line-height: 4rem;
+			top: 40%;
+			width: 70%;
+			margin: 0 auto;
+			left: 15%;
+			right: 15%;
+			background: #000;
+			border-radius: 0.5rem;
+			z-index: 1100;
+			opacity: 0.7;
+			display: none;
+			color: #fff;
+			text-align: center;
+		}
+
+		.public li i {
+			display: inline-block;
+			font-size: 4.2rem;
+			color: #4285d9;
+			/*border: 1px solid #B5B5B5;*/
+			border-radius: 50%;
+			height: 4.3rem;
+			width: 4.3rem;
+			line-height: 4.3rem;
+			text-align: center;
+		}
+
+		.empty {
+			height: 4.6rem;
+		}
+
+		#no_open {
+			display: none;
+		}
+		.mui-bar{
+			-webkit-box-shadow:0 0 1px #ccc!important;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="toggle">
+		<img style="height:24px;width:24px;border-radius:50%;position:relative;top:7px;" src="/wechat/image/login.jpeg" alt="">
+		&nbsp;&nbsp;<span class="company_name"></span>
+		<a href="/wechat/member/change-company.html">切换企业 <i style="font-size:14px;font-weight: 900;position:relative;top:1px;" class="iconfont">&#xe68b;</i></a>
+	</div>
+	<div class="sell public">
+		<div><span>采购查询</span></div>
+		<ul style="border-left:1px solid #e4e4e4;">
+			<li>
+				<a href="/wechat/default/purchaseOrder/synchpurchase-order-list.html?tab=2">
+						<i class="iconfont" style="color:#4285d9;">&#xe698;</i>
+						<p>采购单</p>
+						<div class="duizhang"></div>
+					</a>
+			</li>
+			<li>
+				<a href="/wechat/default/purchasecheckingOrder/synchpurchasechecking-order-list.html?tab=1">
+						<i class="iconfont" style="color:#4285d9;">&#xe717;</i>
+						<p>对账付款</p>
+						<div class="daifukuan"></div>
+					</a>
+			</li>
+		</ul>
+		<ul style="border-bottom:1px solid #e4e4e4;border-left:1px solid #e4e4e4;">
+			<li>
+				<a href="/wechat/default/supplier-list.html">
+						<i class="iconfont" style="color:#6bcccc;">&#xe6c3;</i>
+						<p>供应商</p>
+					</a>
+			</li>
+			<li onclick="schedule()">
+				<a href="#">
+						<i class="iconfont" style="color:#ff9201;">&#xe6fa;</i>
+						<p>加工进度</p>
+					</a>
+			</li>
+		</ul>
+	</div>
+	<div class="empty"></div>
+	<nav class="mui-bar mui-bar-tab">
+		<a class="mui-tab-item mui-active" href="/wechat/home/index.html">
+				<span class="mui-icon iconfont"><i class="iconfont">&#xe698;</i></span>
+		        <span class="mui-tab-label">采购</span>
+		    </a>
+		<a class="mui-tab-item" href="#">
+		    </a>
+		<a class="mui-tab-item" href="/wechat/home/personal.html">
+				<span class="mui-icon iconfont"><i class="iconfont">&#xe672;</i></span>
+		        <span class="mui-tab-label">我的</span>
+		    </a>
+	</nav>
+	<div class='error_tips'></div>
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+	<script src="/wechat/js/main.js"></script>
+	<script src="/wechat/js/idangerous.swiper.min.js"></script>
+	<script>
+		var pageSize = 20; //每页条数
+		var pageNo = 1;    //需要数据的页数
+		$.ajax({
+			url: '/wx/user/detail',
+			type: 'GET',
+			async: false,
+			dataType: "json",
+			timeout: "10000",
+			success: function (data) {
+				$(".company_name").html(data.comShortname);
+			},
+			error: function () {
+				$(".error_tips").html("请求数据失败").fadeIn(250).delay(500).fadeOut(250);
+			}
+		});
+		function queryVal() {
+			//待对账订单 
+			$.ajax({
+				url: '../../wx/menu/listPurchaseOrder',
+				type: 'GET',
+				async: true,
+				data: { pageSize: pageSize, pageNo: pageNo, orderStatus: "04", isSynchro: 1 }, //传递参数
+				dataType: "json",
+				timeout: "10000",
+				success: function (data) {
+
+					if (data.pageCount == 0) {
+						$(".duizhang").css("display", "none");
+					} else if (data.pageCount >= 99) {
+						$(".duizhang").html("99+").css({ "display": "block", "font-size": "0.8rem" });
+					} else {
+						$(".duizhang").html(data.pageCount).css("display", "block");
+					}
+				},
+				error: function () {
+					$(".error_tips").fadeIn(250).html("数据请求失败").delay(500).fadeOut(250);
+				}
+			});
+
+			//待付款对账单
+			$.ajax({
+				url: '../../wx/menu/listPurchaseCheckingOrder',
+				type: 'GET',
+				async: true,
+				data: { pageSize: pageSize, pageNo: pageNo, orderStatus: "09", isSynchro: 1 }, //传递参数
+				dataType: "json",
+				timeout: "10000",
+				success: function (data) {
+					if (data.pageCount == 0) {
+						$(".daifukuan").css("display", "none");
+					} else if (data.pageCount >= 99) {
+						$(".daifukuan").html("99+").css({ "display": "block", "font-size": "0.8rem" });
+					} else {
+						$(".daifukuan").html(data.pageCount).css("display", "block");
+					}
+				},
+				error: function () {
+					$(".error_tips").fadeIn(250).html("数据请求失败").delay(500).fadeOut(250);
+				}
+			});
+		};
+		queryVal();
+		function schedule() {
+			$(".error_tips").fadeIn(250).html("程序猿正在玩命开发中，敬请期待 !").delay(500).fadeOut(250);
+		}
+	</script>
+</body>
+
+</html>

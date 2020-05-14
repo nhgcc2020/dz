@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>联合登录</title>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+    <link href="/wechat/css/main.css" rel="stylesheet"/>
+	<script src="/wechat/js/mui.min.js"></script>
+	<script src="/resources/cola-ui/jquery-2.2.3.min.js"></script>
+	<script src="/common/growingio.js"></script>
+</head>
+<body>
+
+	
+	<div class="mui-content">
+		<div class="mui-content-padded related_account">  
+			<div class="header_img"><img id="header" src="../image/header.png" alt="头像" /></div>
+			<p>亲爱的微信用户：<span id="nickName"></span><br><span>为了给您更好的服务，请关联一个易对账账号</span></p>
+			<p>已有易对账账号？</p>
+			<a href="#" type="button" class="mui-btn mui-btn-primary" id="related">立即关联</a>
+		</div>
+	</div>
+	<script>
+
+		function test() {
+			$.get("/wechat/test2","", function(data){
+				var user = eval("("+data+")");
+				alert(user);
+				$("#header").attr("src",user.avatarPath);
+				$("#nickName").text(user.nickName);
+			})
+		}
+		test();
+	</script>
+</body>
+</html>

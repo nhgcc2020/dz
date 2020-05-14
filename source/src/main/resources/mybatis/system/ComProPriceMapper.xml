@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.ComProPriceMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.ComProPrice" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="CATEGORY_DESC" property="categoryDesc" jdbcType="VARCHAR" />
+    <result column="P_CODE" property="pCode" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="TINYINT" />
+    <result column="PRICE_WAY" property="priceWay" jdbcType="CHAR" />
+    <result column="PRICE_WAY_DESC" property="priceWayDesc" jdbcType="VARCHAR" />
+    <result column="PRICE_UNIT" property="priceUnit" jdbcType="CHAR" />
+    <result column="PRICE_UNIT_DESC" property="priceUnitDesc" jdbcType="VARCHAR" />
+    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="PRICING_TYPE" property="pricingType" jdbcType="CHAR" />
+    <result column="IS_CHECKED" property="isChecked" jdbcType="CHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="CREATE_TYPE" property="createType" jdbcType="CHAR" />
+    <result column="TIER" property="tier" jdbcType="TINYINT" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, COM_KEY, PARTNER_KEY, CATEGORY_ID, CATEGORY_DESC, P_CODE, SORT_ITEM, PRICE_WAY, PRICE_WAY_DESC, 
+    PRICE_UNIT, PRICE_UNIT_DESC, UNIT_PRICE, IS_VALID, PRICING_TYPE, IS_CHECKED, INDUSTRY_ID, CREATE_TYPE, TIER, REMARKS, 
+    CREATE_TIME
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_COM_PROPRICE
+    where IS_VALID = '1' 
+    AND INDUSTRY_ID = #{industryId} 
+    AND COM_KEY = #{comKey}
+    AND	CATEGORY_ID = #{categoryId}
+    AND PRICING_TYPE = #{pricingType} 
+  </select>
+  <select id="listComProPrice" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_COM_PROPRICE
+    where IS_VALID = '1' 
+    AND INDUSTRY_ID = #{industryId}
+    AND PRICING_TYPE = #{pricingType} 
+    AND COM_KEY = #{comKey}
+    AND	P_CODE = #{pCode}
+    <if test="searchKey != null">
+    	and CATEGORY_DESC like '%${searchKey}%'
+    </if>
+    <if test="isChecked != null">
+    	and IS_CHECKED= #{isChecked}
+    </if>
+    order by IS_CHECKED DESC, CATEGORY_ID ASC
+  </select>
+  
+  <resultMap id="MapComProPrice" type="com.ydz.entity.system.ComProPrice" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_LEVEL" property="partnerLevel" jdbcType="VARCHAR" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="CATEGORY_DESC" property="categoryDesc" jdbcType="VARCHAR" />
+    <result column="P_CODE" property="pCode" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="TINYINT" />
+    <result column="PRICE_WAY" property="priceWay" jdbcType="CHAR" />
+    <result column="PRICE_WAY_DESC" property="priceWayDesc" jdbcType="VARCHAR" />
+    <result column="PRICE_UNIT" property="priceUnit" jdbcType="CHAR" />
+    <result column="PRICE_UNIT_DESC" property="priceUnitDesc" jdbcType="VARCHAR" />
+    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="PRICING_TYPE" property="pricingType" jdbcType="CHAR" />
+    <result column="IS_CHECKED" property="isChecked" jdbcType="CHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="CREATE_TYPE" property="createType" jdbcType="CHAR" />
+    <result column="TIER" property="tier" jdbcType="TINYINT" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <collection property="comProPriceLevels" column="{comKey=COM_KEY,categoryId=CATEGORY_ID}" 
+    	ofType="ComProPriceLevel" select="selectPriceLevel"></collection>
+  </resultMap>
+
+	<resultMap id="MapPriceLevel" type="com.ydz.entity.system.ComProPriceLevel" >
+	    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+	    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+	    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+	    <result column="PRICE_LEVEL" property="priceLevel" jdbcType="CHAR" />
+	    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+	    <result column="SORT_ITEM" property="sortItem" jdbcType="INTEGER" />
+	    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+	    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+  <select id="selectPriceLevel" resultMap="MapPriceLevel" parameterType="com.ydz.entity.system.ComProPrice">
+  	select COM_KEY, PARTNER_KEY, CATEGORY_ID, PRICE_LEVEL, UNIT_PRICE 
+  	from YDZ_COM_PROPRICE_LEVEL 
+  	where COM_KEY = #{comKey} and CATEGORY_ID = #{categoryId}
+  </select>
+  
+  <!-- <select id="selectComProPriceAndLevel" resultMap="MapComProPrice" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_COM_PROPRICE
+    where IS_VALID = '1' AND INDUSTRY_ID = #{industryId} AND COM_KEY = #{comKey} AND PRICING_TYPE = #{pricingType} 
+    <if test="tier!=null">
+    	AND TIER = #{tier}
+    </if>
+    <if test="partnerKey!=null">
+    	and PARTNER_KEY = #{partnerKey}
+    </if>
+    <if test="pCodeComPro!=null">
+    	AND P_CODE LIKE '%${pCodeComPro}%'
+    </if>
+    <if test="pCode!=null">
+    	AND P_CODE = #{pCode}
+    </if>
+    <if test="isChecked != null">
+    	AND IS_CHECKED = '1'
+    </if>
+  </select> -->
+  
+  <select id="selectComProPriceAndPriceLevel" resultMap="MapComProPrice" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_COM_PROPRICE
+    where IS_VALID = '1' 
+    AND INDUSTRY_ID = #{industryId} 
+    AND COM_KEY = #{comKey} 
+    AND PRICING_TYPE = #{pricingType} 
+    <if test="tier!=null">
+    	AND TIER = #{tier}
+    </if>
+    <if test="pCode!=null">
+    	AND P_CODE = #{pCode}
+    </if>
+    <if test="categoryDesc != null">
+    	AND CATEGORY_DESC LIKE '%${categoryDesc}%'
+    </if>
+    order by IS_CHECKED DESC, CATEGORY_ID ASC
+  </select>
+  <select id="selectComPartnerProPriceAndPriceLevel" resultMap="MapComProPrice" parameterType="pd" >
+    select 
+	    cp.COM_KEY ,
+		cpp.PARTNER_KEY ,
+		cpp.PARTNER_LEVEL,
+		cp.CATEGORY_ID ,
+		cp.CATEGORY_DESC ,
+		cp.P_CODE ,
+		cp.SORT_ITEM ,
+		cp.PRICE_WAY ,
+		cp.PRICE_WAY_DESC ,
+		cp.PRICE_UNIT ,
+		cp.PRICE_UNIT_DESC ,
+		cpp.UNIT_PRICE ,
+		cp.IS_VALID ,
+		cp.PRICING_TYPE ,
+		cpp.PARTNER_LEVEL ,
+		cp.IS_CHECKED ,
+		cp.INDUSTRY_ID ,
+		cp.CREATE_TYPE ,
+		cp.TIER ,
+		cp.REMARKS ,
+		cp.CREATE_TIME
+    from 
+    	YDZ_COM_PROPRICE cp ,
+		YDZ_COM_PARTNER_PROPRICE cpp
+    where cp.IS_VALID = '1'
+		AND cp.COM_KEY = cpp.COM_KEY
+		AND cp.CATEGORY_ID = cpp.CATEGORY_ID
+		AND cp.INDUSTRY_ID = #{industryId}
+		AND cp.COM_KEY = #{comKey}
+		AND cpp.PARTNER_KEY = #{partnerKey}
+		AND cp.PRICING_TYPE = #{pricingType}
+		AND cp.TIER = '2'
+	<if test="pCode != null">
+		AND cp.P_CODE = #{pCode}
+	</if>
+	<if test="searchKey != null">
+		AND cp.CATEGORY_DESC like '%${searchKey}%'
+	</if>
+	order by SORT_ITEM
+  </select>
+  
+  <select id="selectComProPricesToExcel" resultType="com.ydz.entity.system.ComProPrice" parameterType="pd" >
+    SELECT 
+		cp.CATEGORY_ID categoryId,
+		cp.CATEGORY_DESC categoryDesc,
+		cp.PRICE_WAY priceWay,
+		cp.PRICE_WAY_DESC priceWayDesc,
+		cp.PRICE_UNIT priceUnit,
+		cp.PRICE_UNIT_DESC priceUnitDesc,
+		cpl.PRICE_LEVEL priceLevel,
+		cpl.UNIT_PRICE unitPrice
+    from 
+   		YDZ_COM_PROPRICE cp,
+   		YDZ_COM_PROPRICE_LEVEL cpl
+    where cp.IS_VALID = '1' and cp.CATEGORY_ID = cpl.CATEGORY_ID 
+    	and cp.COM_KEY = #{comKey} 
+    	and cpl.COM_KEY = #{comKey} 
+    	and cp.PRICING_TYPE = #{pricingType} 
+    	and cpl.PRICE_LEVEL = #{priceLevel}
+    	and cp.TIER = #{tier}
+    	and cp.INDUSTRY_ID = #{industryId}
+    	and cpl.INDUSTRY_ID = #{industryId}
+  </select>
+  
+  <select id="selectMaxCategoryId" resultType="ComProPrice" parameterType="pd">
+  	select max(CATEGORY_ID) maxCategoryId from YDZ_COM_PROPRICE
+  	where COM_KEY = #{comKey}
+  	and P_CODE = #{pCode}
+  	and INDUSTRY_ID = #{industryId}
+  	and PRICING_TYPE = #{pricingType}
+  	<if test="partnerKey != null">
+  		PARTNER_KEY = #{partnerKey}
+  	</if>
+  </select>
+  
+  <select id="listComProPricesByDesc" resultType="com.ydz.entity.system.ComProPrice" parameterType="pd">
+  	SELECT
+		CP.CATEGORY_ID categoryId ,
+		CP.CATEGORY_DESC categoryDesc ,
+		CP.PRICE_WAY priceWay ,
+		CP.PRICE_WAY_DESC priceWayDesc ,
+		CP.PRICE_UNIT priceUnit ,
+		CP.PRICE_UNIT_DESC priceUnitDesc ,
+		ROUND(CPL.UNIT_PRICE , 2) unitPrice
+	FROM
+		YDZ_COM_PROPRICE CP ,
+		YDZ_COM_PROPRICE_LEVEL CPL
+	WHERE
+		CP.CATEGORY_ID = CPL.CATEGORY_ID
+	AND CP.COM_KEY = CPL.COM_KEY
+	AND CP.INDUSTRY_ID = CPL.INDUSTRY_ID
+	AND CP.IS_VALID = '1'
+	AND CP.IS_CHECKED = '1'
+	AND CP.TIER = 2
+	AND CP.COM_KEY = #{comKey}
+	AND CP.INDUSTRY_ID = #{industryId}
+	<if test="priceLevel != null">
+		AND CPL.PRICE_LEVEL = #{priceLevel}
+	</if>
+	<if test="categoryDesc != null">
+		AND CP.CATEGORY_DESC LIKE '%${categoryDesc}%'
+	</if>
+	<if test="pricingType != null">
+		AND CP.PRICING_TYPE = #{pricingType}
+	</if>
+	<if test="pCode != null">
+		AND CP.P_CODE = #{pCode}
+	</if>
+	order by CP.SORT_ITEM
+  </select>
+  
+   <select id="listComPartnerProPricesByDesc" resultType="com.ydz.entity.system.ComProPrice" parameterType="pd">
+	   SELECT
+			CP.CATEGORY_ID categoryId ,
+			CP.CATEGORY_DESC categoryDesc ,
+			CP.PRICE_WAY priceWay ,
+			CP.PRICE_WAY_DESC priceWayDesc ,
+			CP.PRICE_UNIT priceUnit ,
+			CP.PRICE_UNIT_DESC priceUnitDesc ,
+			ROUND(CPP.UNIT_PRICE , 2) unitPrice
+		FROM
+			YDZ_COM_PROPRICE CP ,
+			YDZ_COM_PARTNER_PROPRICE CPP
+		WHERE
+			CP.CATEGORY_ID = CPP.CATEGORY_ID
+		AND CP.COM_KEY = CPP.COM_KEY
+		AND CP.PRICING_TYPE = CPP.PRICING_TYPE
+		AND CP.IS_VALID = '1'
+		AND CP.IS_CHECKED = '1'
+		AND CPP.IS_CHECKED = '1'
+		AND CP.TIER = 2
+		AND CP.COM_KEY = #{comKey}
+		AND CP.INDUSTRY_ID = #{industryId}
+		AND CPP.PARTNER_KEY = #{partnerKey}
+		AND CP.PRICING_TYPE = #{pricingType}
+		AND CP.CATEGORY_DESC LIKE '%${categoryDesc}%'
+		<if test="pCode != null">
+			AND CP.P_CODE = #{pCode}
+		</if>
+		order by CP.SORT_ITEM
+   </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_COM_PROPRICE
+    where COM_KEY = #{comKey}
+    <if test="industryId != null">
+    	and INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="categoryId != null">
+    	and CATEGORY_ID = #{categoryId} 
+    </if>
+    <if test="categoryIdIns != null">
+    	and CATEGORY_ID IN ${categoryIdIns} 
+    </if>
+    <if test="pCode != null">
+    	and P_CODE = #{pCode}
+    </if>
+    <if test=" tier != null">
+    	and TIER = #{tier}
+    </if>
+  </delete>
+  
+  <delete id="deleteAllCompany" parameterType="pd" >
+    delete from YDZ_COM_PROPRICE
+    where COM_KEY = #{comKey} and INDUSTRY_ID = #{industryId}
+  </delete>
+  
+  
+  <insert id="insertBatch" parameterType="java.util.List" >
+    insert into YDZ_COM_PROPRICE 
+    (COM_KEY, PARTNER_KEY, CATEGORY_ID, CATEGORY_DESC, P_CODE, SORT_ITEM, 
+      PRICE_WAY, PRICE_WAY_DESC, PRICE_UNIT, PRICE_UNIT_DESC, UNIT_PRICE, 
+      IS_VALID, PRICING_TYPE, INDUSTRY_ID, CREATE_TYPE, TIER, IS_CHECKED, REMARKS, CREATE_TIME)
+    values 
+    <foreach collection="list" item="item" index="index"  
+    separator=",">  
+	    (#{item.comKey,jdbcType=VARCHAR}, #{item.partnerKey,jdbcType=VARCHAR}, #{item.categoryId,jdbcType=VARCHAR}, #{item.categoryDesc,jdbcType=VARCHAR}, 
+	    #{item.pCode,jdbcType=VARCHAR}, #{item.sortItem,jdbcType=TINYINT}, #{item.priceWay,jdbcType=CHAR}, #{item.priceWayDesc,jdbcType=VARCHAR}, 
+	    #{item.priceUnit,jdbcType=CHAR}, #{item.priceUnitDesc,jdbcType=VARCHAR}, #{item.unitPrice,jdbcType=DECIMAL}, #{item.isValid,jdbcType=CHAR}, 
+	    #{item.pricingType,jdbcType=CHAR}, #{item.industryId,jdbcType=VARCHAR}, #{item.createType,jdbcType=CHAR}, #{item.tier,jdbcType=TINYINT}, #{item.isChecked,jdbcType=CHAR},
+	    #{item.remarks,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP})
+   </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.ComProPrice" >
+    insert into YDZ_COM_PROPRICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="categoryDesc != null" >
+        CATEGORY_DESC,
+      </if>
+      <if test="pCode != null" >
+        P_CODE,
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM,
+      </if>
+      <if test="priceWay != null" >
+        PRICE_WAY,
+      </if>
+      <if test="priceWayDesc != null" >
+        PRICE_WAY_DESC,
+      </if>
+      <if test="priceUnit != null" >
+        PRICE_UNIT,
+      </if>
+      <if test="priceUnitDesc != null" >
+        PRICE_UNIT_DESC,
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="pricingType != null" >
+        PRICING_TYPE,
+      </if>
+      <if test="isChecked != null" >
+        IS_CHECKED,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="createType != null" >
+        CREATE_TYPE,
+      </if>
+      <if test="tier != null" >
+        TIER,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryDesc != null" >
+        #{categoryDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pCode != null" >
+        #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        #{sortItem,jdbcType=TINYINT},
+      </if>
+      <if test="priceWay != null" >
+        #{priceWay,jdbcType=CHAR},
+      </if>
+      <if test="priceWayDesc != null" >
+        #{priceWayDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="priceUnit != null" >
+        #{priceUnit,jdbcType=CHAR},
+      </if>
+      <if test="priceUnitDesc != null" >
+        #{priceUnitDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="pricingType != null" >
+        #{pricingType,jdbcType=CHAR},
+      </if>
+      <if test="isChecked != null" >
+        #{isChecked,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createType != null" >
+        #{createType,jdbcType=CHAR},
+      </if>
+      <if test="tier != null" >
+        #{tier,jdbcType=TINYINT},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.ComProPrice" >
+    update YDZ_COM_PROPRICE
+    <set >
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryDesc != null" >
+        CATEGORY_DESC = #{categoryDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pCode != null" >
+        P_CODE = #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM = #{sortItem,jdbcType=TINYINT},
+      </if>
+      <if test="priceWay != null" >
+        PRICE_WAY = #{priceWay,jdbcType=CHAR},
+      </if>
+      <if test="priceWayDesc != null" >
+        PRICE_WAY_DESC = #{priceWayDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="priceUnit != null" >
+        PRICE_UNIT = #{priceUnit,jdbcType=CHAR},
+      </if>
+      <if test="priceUnitDesc != null" >
+        PRICE_UNIT_DESC = #{priceUnitDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="pricingType != null" >
+        PRICING_TYPE = #{pricingType,jdbcType=CHAR},
+      </if>
+      <if test="isChecked != null" >
+        IS_CHECKED = #{isChecked,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="createType != null" >
+        CREATE_TYPE = #{createType,jdbcType=CHAR},
+      </if>
+      <if test="tier != null" >
+        TIER = #{tier,jdbcType=TINYINT},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where COM_KEY = #{comKey}
+    AND CATEGORY_ID = #{categoryId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pd" >
+    update YDZ_COM_PROPRICE
+    <set >
+      <if test="isChecked != null" >
+        IS_CHECKED = #{isChecked},
+      </if>
+	</set>
+	where COM_KEY = #{comKey}
+	<if test="categoryId != null">
+    	AND CATEGORY_ID = #{categoryId}
+	</if>
+	<if test="categoryId != null">
+    	AND CATEGORY_ID = #{categoryId}
+	</if>
+	<if test="pCode != null" >
+        and P_CODE = #{pCode}
+      </if>
+  </update>
+  
+</mapper>

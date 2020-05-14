@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>工作台</title>
+	<base href="/">
+	<link rel="stylesheet" type="text/css" href="./resources/nprogress/nprogress.css?v=b7ac70ebbe">
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<script src="./resources/nprogress/nprogress.js?v=234c9db3ed"></script>
+	<script src="./resources/jquery/jquery-2.1.3.js?v=b11891de95"></script>
+	<link rel="stylesheet" type="text/css" href="./resources/cola-ui/semantic.css?v=6d8f0baa07">
+	<link rel="stylesheet" type="text/css" href="./resources/cola-ui/cola.css?v=347492ea8b">
+	<link rel="stylesheet" type="text/css" href="./resources/business/global.css?v=76321dbcfe">
+	<script src="../../../resources/cola-ui/3rd.js?v=c0452c9026"></script>
+	<script src="../../../resources/cola-ui/semantic.js?v=4d50164349"></script>
+	<script src="../../../resources/cola-ui/cola.js?v=bd5fd42985"></script>
+	<script src="../../../resources/cola-ui/cola-ext.js?v=ab24bf6495"></script>
+	<link rel="stylesheet" type="text/css" href="./resources/cola-ui/base.css?v=529b4c3d67"> 		<!--整体修改-->
+	<script src="/resources/util/jquery.qrcode.min.js?v=05f0b1d7d4"></script>
+
+</head>
+<body>
+
+<div class="table_list">
+
+	<!--工作台提示-->
+	<div class="table_list_tips">
+		成为我们的产品大使，邀请朋友使用，获得现金奖励！<a class="table_list_tips_first">点击参与</a>
+		<!--<a href="#" class="table_list_tips_last">[更多活动]</a>-->
+		<span id="login-time"></span>
+	</div>
+
+
+	<!--工作台中心-->
+	<div class="table_list_contant">
+			<!--黑名单提醒-->
+			<div class="table_list_remind">
+				<div class="table_list_title">
+					黑名单提醒
+					<span>有一些客户被您的同行列为黑名单，建议贵公司在接业务前予以留意，避免出现可能的坏账。</span>
+					<i id="blacklist_num"></i>
+					<button class="table_list_title_prev table_paner_prev_sec"></button>
+					<button class="table_list_title_next table_paner_next_sec"></button>
+				</div>
+
+				<div class="table_contant_list_box">
+					<!--<ul class="table_contant_list" id="blacklist_num_list"></ul>-->
+				</div>
+			</div>
+
+			<!--客户流失提醒-->
+			<div class="table_list_remind">
+				<div class="table_list_title">
+					客户流失提醒
+					<span>最近没有生意成交的客户，建议跟进，不要流失了哦！</span>
+					<b class="table_list_close iconfont"></b>
+				</div>
+				<!--<ul class="table_list_price">-->
+					<!--<li>江苏康美到责任有限公司</li>-->
+					<!--<li>上海奥讯有限公司</li>-->
+					<!--<li>上海无印良品</li>-->
+					<!--<li>上海先达霓虹广告公司</li>-->
+					<!--<li>上海舒乙广告有限公司</li>-->
+					<!--<li>上海逸晨广告有限公司</li>-->
+					<!--<li>上海唯尚广告有限公司</li>-->
+					<!--<li>上海龙韵广告传播股份有限公司</li>-->
+					<!--<li>上海白墨广告有限公司</li>-->
+					<!--<li>沃巴博(上海)广告有限公司_官网</li>-->
+					<!--<li>上海嘉逊广告</li>-->
+					<!--<li>江苏康美到责任有限公司</li>-->
+				<!--</ul>-->
+
+			</div>
+
+			<!--报价跟进提醒-->
+			<div class="table_list_remind">
+				<div class="table_list_title">
+					报价跟进提醒
+					<span>最近有项目报价的客户，建议跟紧了哦！</span>
+					<b class="table_list_close iconfont"></b>
+				</div>
+				<!--<ul class="table_list_price">-->
+					<!--<li>江苏康美到责任有限公司</li>-->
+					<!--<li>上海奥讯有限公司</li>-->
+					<!--<li>上海无印良品</li>-->
+					<!--<li>上海先达霓虹广告公司</li>-->
+					<!--<li>上海舒乙广告有限公司</li>-->
+					<!--<li>上海逸晨广告有限公司</li>-->
+					<!--<li>上海唯尚广告有限公司</li>-->
+					<!--<li>上海龙韵广告传播股份有限公司</li>-->
+					<!--<li>上海白墨广告有限公司</li>-->
+					<!--<li>沃巴博(上海)广告有限公司_官网</li>-->
+					<!--<li>上海嘉逊广告</li>-->
+					<!--<li>江苏康美到责任有限公司</li>-->
+				<!--</ul>-->
+			</div>
+	</div>
+</div>
+
+<div class="tips_contants"></div>
+
+<script>
+
+	$(function(){
+
+//		var table_contant_list_box = $('.table_contant_list_box').width();
+//		function boxResize(){
+//			$(".table_contant_list").find("li").each(function(){
+//				$(this).css('width',(table_contant_list_box/3)+"px");
+//			});
+//		}
+//
+//		//黑名单查询
+//		function request_data_black(){
+//			$.ajax({
+//				url:'../json/json.json',
+//				type:'GET',
+//				async:true,
+//				dataType:"json",
+//				timeout:"10000",
+//				success:function(data){
+//					//返回的结果放入合计中
+//					$('#blacklist_num').html("合计:"+data.length)
+//					//遍历所有的数据
+//					$.each(data,function(key,val){
+//						document.getElementById('blacklist_num_list').innerHTML +=
+//								"<li>"+
+//								"<h1>"+val.comName+"<i>("+val.comShortname+")</i>"+"</h1>"+
+//								"<p>"+"法定代表人:"+val.bossName+"<a href='#' class='table_list_tips_know'>我知道了</a>"+"<a href='#' class='table_list_tips_detail'>查看详情</a>"
+//						"</li>"
+//					})
+//					boxResize();
+//				},
+//				error:function(){
+//					$("<div class='tips_contants'>").fadeIn(250).html("请求失败").delay(500).fadeOut(250).appendTo('body');
+//				}
+//			});
+//		}
+//		request_data_black();
+//
+//
+//		//黑名单分页
+//		(function(){
+//			$('#blacklist_num_list').width(11 * table_contant_list_box/3);
+//			var slider_count_sec = 0;
+//			//下一页
+//			$('.table_paner_next_sec').bind("click",(function(){
+//				if( slider_count_sec+3 >= 11 ){
+//					$('.tips_contants').stop().fadeIn(500).html('然后就没有然后喽!!!').delay(1000).fadeOut();
+//					return false;
+//				}
+//				slider_count_sec += 3;
+//				$(this).parent().next("div").children("ul").animate({left: '-=' + table_contant_list_box + 'px'}, 'slow');
+//			}));
+//			//上一页
+//			$('.table_paner_prev_sec').bind("click",(function(){
+//				if(slider_count_sec <= 0 ){
+//					$('.tips_contants').stop().fadeIn(500).html('已经是最前面啦!!!').delay(1000).fadeOut();
+//					return false;
+//				}
+//				slider_count_sec -= 3;
+//				$(this).parent().next("div").children("ul").animate({left: '+=' + table_contant_list_box + 'px'}, 'slow');
+//			}));
+//		})();
+
+		//点击关闭
+		$('.table_list_close').click(function(){
+			$(this).parent().parent().fadeOut(800); //关闭父级元素
+		});
+
+		$(".table_list_tips_first").click(function(){
+			$.get("/invite/normal/getKey", {}, function (data) {
+				$("#inventMsgShow",parent.document).text("链接地址:"+data);
+				$("#inventMsg",parent.document).val(data);
+				$('#wechat_code',parent.document).qrcode({width: 120, height: 120, text: data});
+				$('.invent_user',parent.document).fadeIn();
+			});
+			//$('.invent_user',parent.document).fadeIn();
+		})
+		//登录时间
+		$.ajax({
+			url:'/common/workbench/info',
+			type:'GET',
+			async:true,
+			dataType:"json",
+			timeout:"10000",
+			success:function(data){
+				//遍历出时间
+				$("#login-time").html("上次登录："+data.loginLog.loginTime+"  "+data.loginLog.loginCity);
+			},
+			error:function(){
+				$("<div class='tips_contants'>").fadeIn(250).html("请求失败").delay(500).fadeOut(250).appendTo('body');
+			}
+		})
+
+	});
+
+</script>
+</body>
+</html>

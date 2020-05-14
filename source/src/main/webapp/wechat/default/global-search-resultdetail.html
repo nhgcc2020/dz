@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>添加好友</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="/wechat/css/mui.min.css" rel="stylesheet" />
+		<link href="/wechat/css/main.css" rel="stylesheet" />
+		<link href="/wechat/css/model.css" rel="stylesheet" />
+		<script src="/common/growingio.js"></script>
+	</head>
+
+	<body>
+
+		
+		<div class="mui-content">
+			<ul class="mui-table-view search_deteal">
+			    <li class="mui-table-view-cell mui-media">
+			        <a href="javascript:;">
+			            <img class="mui-media-object mui-pull-left" src="../image/ionic_1.png">
+			            <div class="mui-media-body">
+			                易对账
+			                <p class="mui-ellipsis">上海仁石科技有限公司 <span>RSK001</span></p>
+			            </div>
+			        </a>
+			    </li>
+			</ul>
+			<ul class="search_deteal_message"> 
+				<li>法定代表人：<span>金仁波</span></li>
+				<li>手机号码：<span>13333333333</span></li>
+			</ul>
+			
+			<ul class="search_deteal_message"> 
+				<li>系统管理员：<span>金仁波</span></li>
+				<li>手机号码：<span>13333333333</span></li>
+			</ul>
+			
+			<ul class="add_friend search_friend">
+				<li class="active">
+					<form class="mui-input-group">
+					    <p>伙伴分类</p>
+					    <p class="mui-radio mui-left">
+							<label>互为客户/供应商</label>
+							<input name="radio1" type="radio" checked>
+						</p> 
+						<p class="mui-radio mui-left">
+							<label>我的客户</label>
+							<input name="radio1" type="radio">
+						</p> 
+						<p class="mui-radio mui-left">
+							<label>我的供应商</label>
+							<input name="radio1" type="radio">
+						</p> 
+					    <p>合作级别</p>
+					    <p class="mui-radio mui-left">
+							<label>重点伙伴</label>
+							<input name="radio2" type="radio" checked>
+						</p> 
+						<p class="mui-radio mui-left">
+							<label>普通伙伴</label>
+							<input name="radio2" type="radio">
+						</p> 
+						<p class="mui-radio mui-left">
+							<label>零散合作</label>
+							<input name="radio3" type="radio">
+						</p> 
+						<p class="add_notices">
+							注意：如果启用“基础数据”的“服务定价”模块，合作级别将决定客户享受的价格。
+						</p>
+					</form>
+				</li>
+			</ul>
+			<button type="button" class="save_friend search_friend_add">添加</button>
+		</div>
+		
+		<script src="/wechat/js/mui.min.js"></script>
+	</body>
+
+</html>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.expense.ExpenseBookDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.expense.ExpenseBookDetail" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="ITEM_NO" property="itemNo" jdbcType="INTEGER" />
+    <result column="EXPENSE_NO" property="expenseNo" jdbcType="VARCHAR" />
+    <result column="EXPENSE_DESC" property="expenseDesc" jdbcType="VARCHAR" />
+    <result column="MONEY" property="money" jdbcType="DECIMAL" />
+    <result column="EXPENSE_TYPE" property="expenseType" jdbcType="CHAR" />
+    <result column="EXPENSE_TYPE_DESC" property="expenseTypeDesc" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, ITEM_NO, EXPENSE_NO, EXPENSE_DESC, MONEY, EXPENSE_TYPE, EXPENSE_TYPE_DESC, REMARKS, IS_DEL, CREATE_TIME, 
+    CREATOR
+  </sql>
+  <sql id="Base_Column_List_VO" >
+    ebd.UID uid, ebd.ITEM_NO itemNo, ebd.EXPENSE_NO expenseNo, ebd.EXPENSE_DESC expenseDesc, ebd.MONEY money, 
+    ebd.EXPENSE_TYPE expenseType, ebd.EXPENSE_TYPE_DESC expenseTypeDesc,
+    ebd.REMARKS remarks, ebd.IS_DEL isDel, 
+    ebd.CREATE_TIME createTime, ebd.CREATOR creator, u.REAL_NAME creatorName, eb.COM_KEY comKey, eb.INDUSTRY_ID industryId, 
+    eb.SPENDER_KEY spenderKey, eb.SPENDER_NAME spenderName, eb.PAY_TYPE payType, eb.PAY_DATE payDate, eb.CHARGE_DATE chargeDate, 
+    eb.EXPENSE_EXPLAIN expenseExplain, eb.TOTAL_MONEY totalMoney
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_EXPENSE_BOOK_DETAIL
+    where IS_DEL = '0'
+    <if test="expenseNo != null">
+    	and EXPENSE_NO = #{expenseNo}
+    </if>
+    <if test="itemNo != null">
+    	and ITEM_NO = #{itemNo}
+    </if>
+  </select>
+  <select id="listPageExpenseBookDetails" resultMap="BaseResultMap" parameterType="page" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_EXPENSE_BOOK_DETAIL
+    where IS_DEL = '0'
+    <if test="pd.expenseNo != null">
+    	and EXPENSE_NO = #{pd.expenseNo}
+    </if>
+    <if test="pd.itemNo != null">
+    	and ITEM_NO = #{itemNo}
+    </if>
+    <if test="pd.expenseDesc != null">
+    	and EXPENSE_DESC like '%${pd.expenseDesc}%'
+    </if>
+    order by UID
+  </select>
+  <select id="listPageExpenseBookDetailVOs" resultType="com.ydz.entity.expense.ExpenseBookDetailVO" parameterType="page" >
+    select 
+    <include refid="Base_Column_List_VO" />
+    from YDZ_EXPENSE_BOOK_DETAIL ebd, YDZ_EXPENSE_BOOK eb, YDZ_USER u
+    where ebd.IS_DEL = '0' and ebd.EXPENSE_NO = eb.EXPENSE_NO and ebd.CREATOR = u.USER_KEY
+    and eb.COM_KEY = #{pd.comKey}  and eb.EXPENSE_TYPE = #{pd.expenseType}
+    <if test="pd.expenseNo != null">
+    	and eb.EXPENSE_NO = #{pd.expenseNo}
+    </if>
+    <if test="pd.expenseTypeDetail != null">
+    	and ebd.EXPENSE_TYPE = #{pd.expenseTypeDetail}
+    </if>
+    <if test="pd.spenderKey != null">
+    	and eb.SPENDER_KEY = #{pd.spenderKey}
+    </if>
+    <if test="pd.itemNo != null">
+    	and ebd.ITEM_NO = #{pd.itemNo}
+    </if>
+    <if test="pd.expenseDesc != null">
+    	and ebd.EXPENSE_DESC like '%${pd.expenseDesc}%'
+    </if>
+    <if test="pd.expenseExplain != null">
+    	and eb.EXPENSE_EXPLAIN like '%${pd.expenseExplain}%'
+    </if>
+     <if test="pd.startDate != null and pd.endDate !=null">
+    	AND PAY_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+    </if>
+    order by eb.PAY_DATE DESC, ebd.CREATE_TIME DESC, ebd.ITEM_NO ASC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_EXPENSE_BOOK_DETAIL
+    where EXPENSE_NO = #{expenseNo}
+    <if test="itemNo != null">
+    	and ITEM_NO = #{itemNo}
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.expense.ExpenseBookDetail" >
+    insert into YDZ_EXPENSE_BOOK_DETAIL (ITEM_NO, EXPENSE_NO, 
+      EXPENSE_DESC, MONEY, EXPENSE_TYPE, EXPENSE_TYPE_DESC,
+      REMARKS, IS_DEL, CREATE_TIME, 
+      CREATOR)
+    values (#{itemNo,jdbcType=INTEGER}, #{expenseNo,jdbcType=VARCHAR}, 
+      #{expenseDesc,jdbcType=VARCHAR}, #{money,jdbcType=DECIMAL}, #{expenseType,jdbcType=CHAR}, #{expenseTypeDesc,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{isDel,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR})
+  </insert>
+   <insert id="insertList" parameterType="java.util.List" >
+  	insert into YDZ_EXPENSE_BOOK_DETAIL (ITEM_NO, EXPENSE_NO, 
+      EXPENSE_DESC, MONEY, EXPENSE_TYPE, EXPENSE_TYPE_DESC, 
+      REMARKS, IS_DEL, CREATE_TIME, 
+      CREATOR)
+     values 
+    <foreach collection="list" item="item" index="index"  
+        separator=",">  
+	    (#{item.itemNo,jdbcType=INTEGER}, #{item.expenseNo,jdbcType=VARCHAR}, 
+      #{item.expenseDesc,jdbcType=VARCHAR}, #{item.money,jdbcType=DECIMAL}, #{item.expenseType,jdbcType=CHAR}, #{item.expenseTypeDesc,jdbcType=VARCHAR}, 
+      #{item.remarks,jdbcType=VARCHAR}, #{item.isDel,jdbcType=CHAR}, #{item.createTime,jdbcType=TIMESTAMP}, 
+      #{item.creator,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.expense.ExpenseBookDetail" >
+    insert into YDZ_EXPENSE_BOOK_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="itemNo != null" >
+        ITEM_NO,
+      </if>
+      <if test="expenseNo != null" >
+        EXPENSE_NO,
+      </if>
+      <if test="expenseDesc != null" >
+        EXPENSE_DESC,
+      </if>
+      <if test="money != null" >
+        MONEY,
+      </if>
+      <if test="expenseType != null" >
+        EXPENSE_TYPE,
+      </if>
+      <if test="expenseTypeDesc != null" >
+        EXPENSE_TYPE_DESC,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="itemNo != null" >
+        #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="expenseNo != null" >
+        #{expenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expenseDesc != null" >
+        #{expenseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="expenseType != null" >
+        #{expenseType,jdbcType=CHAR},
+      </if>
+      <if test="expenseTypeDesc != null" >
+        #{expenseTypeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.expense.ExpenseBookDetail" >
+    update YDZ_EXPENSE_BOOK_DETAIL
+    <set >
+      <if test="itemNo != null" >
+        ITEM_NO = #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="expenseNo != null" >
+        EXPENSE_NO = #{expenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="expenseDesc != null" >
+        EXPENSE_DESC = #{expenseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        MONEY = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="expenseType != null" >
+        EXPENSE_TYPE = #{expenseType,jdbcType=CHAR},
+      </if>
+      <if test="expenseTypeDesc != null" >
+        EXPENSE_TYPE_DESC = #{expenseTypeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where EXPENSE_NO = #{expenseNo}
+    <if test="itemNo != null">
+    	ITEM_NO = #{itemNo}
+    </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.expense.ExpenseBookDetail" >
+    update YDZ_EXPENSE_BOOK_DETAIL
+    set ITEM_NO = #{itemNo,jdbcType=INTEGER},
+      EXPENSE_NO = #{expenseNo,jdbcType=VARCHAR},
+      EXPENSE_DESC = #{expenseDesc,jdbcType=VARCHAR},
+      MONEY = #{money,jdbcType=DECIMAL},
+      EXPENSE_TYPE = #{expenseType,jdbcType=CHAR},
+      EXPENSE_TYPE_DESC = #{expenseType,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      IS_DEL = #{isDel,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

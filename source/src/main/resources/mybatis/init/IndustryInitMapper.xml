@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydz.dao.system.IndustryInitMapper">
+
+	<resultMap type="IndustryInit" id="industryInitResultMap">
+		<id column="INDUSTRY_ID" property="industryId"/>
+		<result column="INDUSTRY_NAME" property="industryName"/>
+		<result column="INDUSTRY_DESC" property="industryDesc"/>
+		<result column="P_INDUSTRY_ID" property="pIndustryId"/>
+		<result column="SORT_ITEM" property="sortItem"/>
+		<result column="IS_VALID" property="isValid"/>
+		<result column="CREATE_TIME" property="createTime"/>
+	</resultMap>
+
+	<resultMap id="treeIndustryInit" type="IndustryInit">
+		<id column="INDUSTRY_ID" property="industryId"/>
+		<result column="INDUSTRY_NAME" property="industryName"/>
+		<result column="INDUSTRY_DESC" property="industryDesc"/>
+		<result column="P_INDUSTRY_ID" property="pIndustryId"/>
+		<result column="SORT_ITEM" property="sortItem"/>
+		<result column="IS_VALID" property="isValid"/>
+		<result column="CREATE_TIME" property="createTime"/>
+		<collection property="indus" column="INDUSTRY_ID" ofType="IndustryInit"
+					javaType="java.util.ArrayList" select="listIndusChildren" > </collection>
+	</resultMap>
+
+
+	<sql id="Base_Column_List" >
+		INDUSTRY_ID, INDUSTRY_NAME, INDUSTRY_DESC,P_INDUSTRY_ID,SORT_ITEM,IS_VALID,CREATE_TIME
+	</sql>
+
+
+	<!--根据in-->
+	<select id="listAllIndusInit" resultMap="treeIndustryInit" parameterType="pd" >
+		select <include refid="Base_Column_List"/>
+		from YDZ_INDUSTRY_INIT
+		where P_INDUSTRY_ID = #{pIndustryId} and IS_VALID = '1'
+		order by SORT_ITEM
+	</select>
+
+
+
+	<select id="listIndusChildren" resultMap="treeIndustryInit" parameterType="String" >
+		SELECT INDUSTRY_ID, INDUSTRY_NAME, INDUSTRY_DESC,P_INDUSTRY_ID,SORT_ITEM,IS_VALID,CREATE_TIME
+		FROM YDZ_INDUSTRY_INIT
+		WHERE IS_VALID = '1' AND P_INDUSTRY_ID = #{INDUSTRY_ID} ORDER BY SORT_ITEM
+	</select>
+
+
+
+	<select id="selectByIndId" resultMap="industryInitResultMap" parameterType="pd" >
+		select
+		<include refid="Base_Column_List" />
+		from YDZ_INDUSTRY_INIT
+		where INDUSTRY_ID = #{industryId,jdbcType=BIGINT}
+	</select>
+
+	<select id="listAllIndustryInit" resultMap="industryInitResultMap">
+		select * from YDZ_INDUSTRY_INIT
+	</select>
+	
+	<select id="listAllParentIndustryInit" parameterType="pd" resultMap="industryInitResultMap">
+		select * from YDZ_INDUSTRY_INIT
+		where P_INDUSTRY_ID = '0' and IS_VALID = '1' order by SORT_ITEM		
+	</select>
+	
+	<select id="listAllSubIndustryInitByParentId" parameterType="pd" resultMap="industryInitResultMap">
+		select * from YDZ_INDUSTRY_INIT
+		where INDUSTRY_ID = #{P_INDUSTRY_ID} and IS_VALID = '1' order by SORT_ITEM		
+	</select>
+	
+	<select id="getIndustryInitById" parameterType="pd" resultMap="industryInitResultMap">
+		select * from YDZ_INDUSTRY_INIT
+		where INDUSTRY_ID = #{INDUSTRY_ID} and IS_VALID = '1' order by SORT_ITEM		
+	</select>
+	
+	<insert id="insertIndustryInit" parameterType="IndustryInit">
+		insert into YDZ_INDUSTRY_INIT(
+			INDUSTRY_ID,INDUSTRY_NAME,INDUSTRY_DESC,P_INDUSTRY_ID,SORT_ITEM,IS_VALID,CREATE_TIME
+		) values (
+			#{INDUSTRY_ID},#{INDUSTRY_NAME},#{INDUSTRY_DESC},#{P_INDUSTRY_ID},#{SORT_ITEM},#{IS_VALID},#{CREATE_TIME}
+		)
+	</insert>
+	
+	<update id="updateIndustryInit" parameterType="IndustryInit">
+		update YDZ_INDUSTRY_INIT set 
+			INDUSTRY_NAME=#{INDUSTRY_NAME},INDUSTRY_DESC=#{INDUSTRY_DESC},P_INDUSTRY_ID=#{P_INDUSTRY_ID},SORT_ITEM=#{SORT_ITEM},IS_VALID=#{IS_VALID} 
+		where INDUSTRY_ID=#{INDUSTRY_ID}
+	</update>
+	
+	<delete id="deleteIndustryInit" parameterType="pd">
+		delete from YDZ_INDUSTRY_INIT where where INDUSTRY_ID=#{INDUSTRY_ID}
+	</delete>
+</mapper>

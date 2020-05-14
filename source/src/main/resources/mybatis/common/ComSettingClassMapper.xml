@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.common.ComSettingClassMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.common.ComSettingClass" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="SETTING_CLASS" property="settingClass" jdbcType="CHAR" />
+    <result column="TYPE_CODE" property="typeCode" jdbcType="VARCHAR" />
+    <result column="TYPE_DESC" property="typeDesc" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, COM_KEY, INDUSTRY_ID, SETTING_CLASS, TYPE_CODE, TYPE_DESC, REMARKS, CREATE_TIME, IS_DEL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_com_setting_class
+    where IS_DEL = '0' AND COM_KEY = #{comKey} and SETTING_CLASS = #{settingClass}
+    <if test="industryId != null">
+    	and INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="typeCode != null">
+    	and TYPE_CODE = #{typeCode}
+    </if>
+  </select>
+  <select id="selectMaxTypeCodeByPrimaryKey" resultType="java.lang.Integer" parameterType="pd" >
+    select 
+    max(TYPE_CODE)
+    from ydz_com_setting_class
+    where COM_KEY = #{comKey} and SETTING_CLASS = #{settingClass}
+    <if test="industryId != null">
+    	and INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="typeCode != null">
+    	and TYPE_CODE = #{typeCode}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from ydz_com_setting_class
+    where COM_KEY = #{comKey} and SETTING_CLASS = #{settingClass}
+     <if test="typeCode != null">
+    	and TYPE_CODE = #{typeCode}
+    </if>
+  </delete>
+  <insert id="insertList" parameterType="java.util.List" >
+    insert into ydz_com_setting_class (
+    	COM_KEY, INDUSTRY_ID, SETTING_CLASS, TYPE_CODE, TYPE_DESC,IS_DEL
+    )
+    values
+     <foreach collection="list" item="item" index="index"  
+        separator=",">  
+    	 (#{item.comKey,jdbcType=VARCHAR}, #{item.industryId,jdbcType=VARCHAR}, 
+      #{item.settingClass,jdbcType=CHAR}, #{item.typeCode,jdbcType=VARCHAR}, #{item.typeDesc,jdbcType=VARCHAR}, #{item.isDel,jdbcType=CHAR})
+     </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.common.ComSettingClass" >
+    insert into ydz_com_setting_class
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="settingClass != null" >
+        SETTING_CLASS,
+      </if>
+      <if test="typeCode != null" >
+        TYPE_CODE,
+      </if>
+      <if test="typeDesc != null" >
+        TYPE_DESC,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="settingClass != null" >
+        #{settingClass,jdbcType=CHAR},
+      </if>
+      <if test="typeCode != null" >
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDesc != null" >
+        #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.common.ComSettingClass" >
+    update ydz_com_setting_class
+    <set >
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="settingClass != null" >
+        SETTING_CLASS = #{settingClass,jdbcType=CHAR},
+      </if>
+      <if test="typeCode != null" >
+        TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDesc != null" >
+        TYPE_DESC = #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+    </set>
+    where  COM_KEY = #{comKey} and SETTING_CLASS = #{settingClass}
+     <if test="typeCode != null">
+    	and TYPE_CODE = #{typeCode}
+    </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.common.ComSettingClass" >
+    update ydz_com_setting_class
+    set COM_KEY = #{comKey,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      SETTING_CLASS = #{settingClass,jdbcType=CHAR},
+      TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+      TYPE_DESC = #{typeDesc,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.common.MenuTypeInitMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.init.MenuTypeInit" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="RENTAL_VERSION" property="rentalVersion" jdbcType="CHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="MENU_ID" property="menuId" jdbcType="VARCHAR" />
+    <result column="P_MENU_ID" property="pMenuId" jdbcType="VARCHAR" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="INTEGER" />
+    <result column="CLOSEABLE" property="closeable" jdbcType="CHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, RENTAL_VERSION, INDUSTRY_ID, MENU_ID, P_MENU_ID, SORT_ITEM, CLOSEABLE, IS_VALID, 
+    CREATE_TIME
+  </sql>
+  <select id="selectListVOByPrimaryKey" resultType="com.ydz.vo.RoleMenuVO" parameterType="pd" >
+  select 
+	    mt.INDUSTRY_ID industryId,
+	    mt.RENTAL_VERSION rentalVersion,
+		mt.MENU_ID menuId,
+		mdic.MENU_NAME menuName,
+		mt.P_MENU_ID pMenuId,
+		mdic.MENU_ICON menuIcon,
+		mdic.MENU_URL menuUrl,
+		mdic.MENU_CLASS menuClass,
+		mdic.RESOURCE_ID resourceId,
+		mt.CLOSEABLE closeable,
+		mt.SORT_ITEM sortItem
+	from
+	   	YDZ_MENU_TYPE_INIT mt,
+		YDZ_MENU_INIT_DICT mdic
+    where mt.MENU_ID = mdic.MENU_ID AND mt.IS_VALID = '1'
+    <if test="industryId != null">
+    	and mt.INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="rentalVersion != null">
+    	and mt.RENTAL_VERSION = #{rentalVersion}
+    </if>
+    <if test="menuId != null">
+    	and mt.MENU_ID = #{menuId}
+    </if>
+    <if test="pMenuId != null">
+    	and mt.P_MENU_ID = #{pMenuId}
+    </if>
+    <if test=" menuIdNotIn != null">
+    	and mt.MENU_ID NOT IN 
+    	<foreach collection="menuIdNotIn" item="item" index="index"
+    		open="(" separator="," close=")">
+    		#{item}
+    	</foreach>
+    </if>
+    order by mt.SORT_ITEM
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from YDZ_MENU_TYPE_INIT
+    where UID = #{uid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.init.MenuTypeInit" >
+    insert into YDZ_MENU_TYPE_INIT (UID, RENTAL_VERSION, INDUSTRY_ID, 
+      MENU_ID, P_MENU_ID, SORT_ITEM, 
+      CLOSEABLE, IS_VALID, CREATE_TIME
+      )
+    values (#{uid,jdbcType=BIGINT}, #{rentalVersion,jdbcType=CHAR}, #{industryId,jdbcType=VARCHAR}, 
+      #{menuId,jdbcType=VARCHAR}, #{pMenuId,jdbcType=VARCHAR}, #{sortItem,jdbcType=INTEGER}, 
+      #{closeable,jdbcType=CHAR}, #{isValid,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.init.MenuTypeInit" >
+    insert into YDZ_MENU_TYPE_INIT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="rentalVersion != null" >
+        RENTAL_VERSION,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="menuId != null" >
+        MENU_ID,
+      </if>
+      <if test="pMenuId != null" >
+        P_MENU_ID,
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM,
+      </if>
+      <if test="closeable != null" >
+        CLOSEABLE,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="rentalVersion != null" >
+        #{rentalVersion,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="pMenuId != null" >
+        #{pMenuId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="closeable != null" >
+        #{closeable,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.init.MenuTypeInit" >
+    update YDZ_MENU_TYPE_INIT
+    <set >
+      <if test="rentalVersion != null" >
+        RENTAL_VERSION = #{rentalVersion,jdbcType=CHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        MENU_ID = #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="pMenuId != null" >
+        P_MENU_ID = #{pMenuId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="closeable != null" >
+        CLOSEABLE = #{closeable,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.init.MenuTypeInit" >
+    update YDZ_MENU_TYPE_INIT
+    set RENTAL_VERSION = #{rentalVersion,jdbcType=CHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      MENU_ID = #{menuId,jdbcType=VARCHAR},
+      P_MENU_ID = #{pMenuId,jdbcType=VARCHAR},
+      SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      CLOSEABLE = #{closeable,jdbcType=CHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

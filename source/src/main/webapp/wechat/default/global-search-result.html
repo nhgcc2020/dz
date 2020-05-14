@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>搜索</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="/wechat/css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="/wechat/css/main.css">
+		<link rel="stylesheet" href="/wechat/css/model.css">
+		<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+		<script src="/wechat/js/main.js"></script>
+		<script src="/common/growingio.js"></script>
+	</head>
+
+	<body>	
+
+		<div class="mui-content">
+			<form class="mui-input-group index_form">
+			    <div class="mui-input-row mui-search">
+				    <input type="search" class="mui-input-clear" placeholder="企业/员工/订单/任务">
+				</div>
+			</form>
+
+			<div class="addres">
+				默认仅搜索本地区范围内（地级市/区）的企业
+			</div>
+			<ul class="mui-table-view search_friend_list">
+			    <li class="mui-table-view-cell mui-media">
+			        <a href="global-search-resultdetail.html">
+			            <img class="mui-media-object mui-pull-left" src="../image/ionic_2.png">
+			            <div class="mui-media-body">
+			                易对账
+			                <p class="mui-ellipsis">上海仁石科技有限公司 <span>RSKJ001</span><i>我的好友</i></p>
+			            </div>
+			        </a>
+			    </li>
+			    <li class="mui-table-view-cell mui-media">
+			        <a href="global-search-resultdetail.html">
+			            <img class="mui-media-object mui-pull-left" src="../image/ionic_2.png">
+			            <div class="mui-media-body">
+			                好对账
+			                <p class="mui-ellipsis">上海仁石科技有限公司 <span>RSKJ001</span><i>我的好友</i></p>
+			            </div>
+			        </a>
+			    </li>
+			</ul>
+			
+			<ul class="mui-table-view search_friend_list">
+			    <li class="mui-table-view-cell mui-media" id="transfer_friend">
+			        <a href="global-search-resultdetail.html">
+			            <img class="mui-media-object mui-pull-left" src="../image/ionic_2.png">
+			            <div class="mui-media-body">
+			                上海奥逊广告
+			                <p class="mui-ellipsis">上海奥逊广告有限公司 <span>RSKJ001</span><i>非好友</i></p>
+			            </div>
+			        </a>
+			    </li>
+			</ul>
+			<div class="all_search">关于“<span>易对账</span>”共<i>4</i>条信息</div>
+		</div>
+
+	</body>
+
+</html>

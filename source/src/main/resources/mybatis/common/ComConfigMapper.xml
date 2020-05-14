@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.common.ComConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.common.ComConfig" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="CONFIG_KEY" property="configKey" jdbcType="VARCHAR" />
+    <result column="CONFIG_VALUE" property="configValue" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, COM_KEY, CONFIG_KEY, CONFIG_VALUE, REMARKS, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_COM_CONFIG
+    where COM_KEY = #{comKey}
+    <if test="configKey != null">
+    	and CONFIG_KEY = #{configKey}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_COM_CONFIG
+    where COM_KEY = #{comKey}
+    <if test="configKey != null">
+    	and CONFIG_KEY = #{configKey}
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.common.ComConfig" >
+    insert into YDZ_COM_CONFIG (UID, COM_KEY, CONFIG_KEY, 
+      CONFIG_VALUE, REMARKS, CREATE_TIME
+      )
+    values (#{uid,jdbcType=BIGINT}, #{comKey,jdbcType=VARCHAR}, #{configKey,jdbcType=VARCHAR}, 
+      #{configValue,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.common.ComConfig" >
+    insert into YDZ_COM_CONFIG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="configKey != null" >
+        CONFIG_KEY,
+      </if>
+      <if test="configValue != null" >
+        CONFIG_VALUE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="configKey != null" >
+        #{configKey,jdbcType=VARCHAR},
+      </if>
+      <if test="configValue != null" >
+        #{configValue,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.common.ComConfig" >
+    update YDZ_COM_CONFIG
+    <set >
+      <if test="configKey != null" >
+        CONFIG_KEY = #{configKey,jdbcType=VARCHAR},
+      </if>
+      <if test="configValue != null" >
+        CONFIG_VALUE = #{configValue,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COM_KEY = #{comKey}
+    <if test="configKey != null">
+    	and CONFIG_KEY = #{configKey}
+    </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.common.ComConfig" >
+    update YDZ_COM_CONFIG
+    set COM_KEY = #{comKey,jdbcType=VARCHAR},
+      CONFIG_KEY = #{configKey,jdbcType=VARCHAR},
+      CONFIG_VALUE = #{configValue,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

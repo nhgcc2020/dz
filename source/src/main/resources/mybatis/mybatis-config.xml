@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD SQL Map Config 3.0//EN"  
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<settings> 
+        <setting name="cacheEnabled" value="true" /><!-- 全局映射器启用缓存 -->   
+        <setting name="useGeneratedKeys" value="true" /> 
+        <setting name="defaultExecutorType" value="REUSE" /> 
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="logImpl" value="LOG4J"/> 
+    </settings>
+
+	<typeAliases>
+		<!-- 全局系统配置  -->
+		<typeAlias type="com.ydz.entity.common.Dict" alias="Dict"/>
+		
+		<!-- 数据初始化 -->
+		<typeAlias type="com.ydz.entity.init.IndustryInit" alias="IndustryInit"/>
+		<typeAlias type="com.ydz.entity.init.MenuInit" alias="MenuInit"/>
+		<typeAlias type="com.ydz.entity.init.RoleInit" alias="RoleInit"/>
+		<typeAlias type="com.ydz.entity.init.BusinessPriceInit" alias="BusinessPriceInit"/>
+		<typeAlias type="com.ydz.entity.system.ProductPrice" alias="ProductPrice"/>
+		
+		
+		<!-- 用户信息 -->
+		<typeAlias type="com.ydz.entity.system.User" alias="User"/>
+		
+		<!-- 公司信息相关 -->
+		<typeAlias type="com.ydz.entity.system.Company" alias="Company"/>
+		<typeAlias type="com.ydz.entity.system.ComRelationship" alias="ComRelationship"/>
+		<typeAlias type="com.ydz.entity.system.ComContact" alias="ComContact"/>
+		<typeAlias type="com.ydz.entity.system.Department" alias="Department"/>
+		<typeAlias type="com.ydz.entity.system.IndustryCom" alias="IndustryCom"/>
+		<typeAlias type="com.ydz.entity.system.Employee" alias="Employee"/>
+		
+		<typeAlias type="com.ydz.entity.system.Partner" alias="Partner"/>
+		<typeAlias type="com.ydz.entity.system.PartnerContacter" alias="PartnerContacter"/>
+		<typeAlias type="com.ydz.entity.system.ComPartner" alias="ComPartner"/>
+		
+		<typeAlias type="com.ydz.entity.common.Message" alias="Message"/>
+		<typeAlias type="com.ydz.entity.common.ComConfig" alias="ComConfig"/>
+		
+		
+		<!-- 支付相关 发票 抵用券等 -->
+		<typeAlias type="com.ydz.entity.system.RentalPeriod" alias="RentalPeriod"/>
+		<typeAlias type="com.ydz.entity.system.RentalTrade" alias="RentalTrade"/>
+		<typeAlias type="com.ydz.entity.system.Voucher" alias="Voucher"/>
+		<typeAlias type="com.ydz.entity.system.VoucherUse" alias="VoucherUse"/>
+		<typeAlias type="com.ydz.entity.system.RentalInvoice" alias="RentalInvoice"/>
+		<typeAlias type="com.ydz.entity.system.RentalInvoiceSend" alias="RentalInvoiceSend"/>
+		<typeAlias type="com.ydz.entity.system.CityLevel" alias="CityLevel"/>
+		<typeAlias type="com.ydz.entity.system.RentalTradeDiscount" alias="RentalTradeDiscount"/>
+		
+		
+		<!-- 角色权限相关 -->
+		<typeAlias type="com.ydz.entity.system.Role" alias="Role"/>
+		<typeAlias type="com.ydz.entity.system.RolePermission" alias="RolePermission"/>	
+		<typeAlias type="com.ydz.entity.system.RoleUser" alias="RoleUser"/>	
+		<typeAlias type="com.ydz.entity.system.RoleMenu" alias="RoleMenu"/>
+		<typeAlias type="com.ydz.entity.init.PermissionInit" alias="PermissionInit"/>
+		
+		<!-- 模块业务 -->
+		<typeAlias type="com.ydz.entity.system.BusiPriceCom" alias="BusiPriceCom"/>
+		
+		<!-- 订单业务相关 -->
+		<typeAlias type="com.ydz.entity.advert.SalesOrder" alias="SalesOrder"/>
+		<typeAlias type="com.ydz.entity.advert.SalesOrderDetail" alias="SalesOrderDetail"/>
+		<typeAlias type="com.ydz.entity.advert.SalesCheckingOrder" alias="SalesCheckingOrder"/>
+		<typeAlias type="com.ydz.entity.advert.SalesCheckingOrderDetail" alias="SalesCheckingOrderDetail"/>
+		
+		<typeAlias type="com.ydz.entity.advert.PurchaseOrder" alias="PurchaseOrder"/>
+		<typeAlias type="com.ydz.entity.advert.PurchaseOrderDetail" alias="PurchaseOrderDetail"/>
+		<typeAlias type="com.ydz.entity.advert.PurchaseCheckingOrder" alias="PurchaseCheckingOrder"/>
+		<typeAlias type="com.ydz.entity.advert.PurchaseCheckingOrderDetail" alias="PurchaseCheckingOrderDetail"/>	
+			
+		<typeAlias type="com.ydz.entity.advert.CheckingInvoice" alias="CheckingInvoice"/>
+		
+		<typeAlias type="com.ydz.entity.system.ComProPrice" alias = "ComProPrice"/>
+		<typeAlias type="com.ydz.entity.system.ComProPriceLevel" alias = "ComProPriceLevel"/>
+		
+		
+		<!-- PageData -->
+		<typeAlias type="com.ydz.util.PageData" alias="pd"/>
+		<!-- 分页 -->
+		<typeAlias type="com.ydz.entity.Page" alias="page"/>
+	</typeAliases>
+	
+	<plugins>
+		<plugin interceptor="com.ydz.plugin.PagePlugin">
+			<property name="dialect" value="mysql"/>
+			<property name="pageSqlId" value=".*listPage.*"/>
+		</plugin>
+	</plugins>
+	
+</configuration>

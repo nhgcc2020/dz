@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.media.MediaRunPlanDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.media.MediaRunPlanDetail" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="ITEM_NO" property="itemNo" jdbcType="INTEGER" />
+    <result column="PLAN_NO" property="planNo" jdbcType="VARCHAR" />
+    <result column="POINT_NO" property="pointNo" jdbcType="VARCHAR" />
+    <result column="POINT_NAME" property="pointName" jdbcType="VARCHAR" />
+    <result column="POINT_CODE" property="pointCode" jdbcType="VARCHAR" />
+    <result column="START_DATE" property="startDate" jdbcType="DATE" />
+    <result column="END_DATE" property="endDate" jdbcType="DATE" />
+    <result column="DAYS" property="days" jdbcType="INTEGER" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, ITEM_NO, PLAN_NO, POINT_NO, POINT_NAME, POINT_CODE, START_DATE, END_DATE, DAYS, 
+    IS_DEL, REMARKS, CREATE_TIME, CREATOR
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_media_run_plan_detail
+    where is_del = '0' and plan_no = #{planNo}
+    <if test="itemNo != null">
+    	and item_no = #{itemNo}
+    </if>
+    <if test="pointNo != null">
+    	and point_no = #{pointNo}
+    </if>
+    <if test="pointCode != null">
+    	and point_code = #{pointCode}
+    </if>
+  </select>
+  <select id="listPageMediaRunPlanDetails" resultType="com.ydz.entity.media.MediaRunPlanDetail" parameterType="page" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_media_run_plan_detail
+    where is_del = '0'
+    <if test="pd.planNo != null">
+    	and plan_no = #{pd.planNo}
+    </if>
+    <if test="pd.itemNo != null">
+    	and item_no = #{pd.itemNo}
+    </if>
+    <if test="pd.pointNo != null">
+    	and point_no = #{pd.pointNo}
+    </if>
+    <if test="pd.pointCode != null">
+    	and point_code = #{pd.pointCode}
+    </if>
+    <if test="pd.startDate != null">
+    	and start_date <![CDATA[>=]]> #{startDate}
+    </if>
+    <if test="pd.endDate !=null">
+    	and end_date <![CDATA[<=]]> #{endDate}
+    </if>
+    order by uid asc
+  </select>
+  <select id="listMediaRunPlanDetailsAndPointLocation" resultType="com.ydz.entity.media.MediaRunPlanDetailPointLocationVO" parameterType="pd">
+  	SELECT
+		distinct mrpd.PLAN_NO ,
+		mrpd.POINT_NO ,
+		mrpd.POINT_NAME ,
+		mpl.PLACE ,
+		mpl.POINT_LOCATION ,
+		mpl.SPECIFICATION ,
+		mpl.UNIT_PRICE ,
+		mpl.PRICE_WAY ,
+		mrpd.START_DATE ,
+		mrpd.END_DATE ,
+		mrpd.DAYS ,
+		mrp.PLAN_STATUS
+	FROM
+		ydz_media_run_plan_detail mrpd
+	LEFT JOIN ydz_media_point_location mpl ON mpl.point_no = mrpd.point_no
+	LEFT JOIN ydz_media_run_plan mrp ON mrp.PLAN_NO = mrpd.PLAN_NO
+	WHERE 1=1
+	<if test="planNo != null">
+		and mrpd.PLAN_NO = #{planNo}
+	</if>
+	<if test="pointNo != null">
+		and mrpd.POINT_NO = #{pointNo}
+	</if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from ydz_media_run_plan_detail
+    where plan_no = #{planNo}
+    <if test="itemNo != null">
+    	and item_no = #{itemNo}
+    </if>
+    <if test="pointNo != null">
+    	and point_no = #{pointNo}
+    </if>
+    <if test="pointCode != null">
+    	and point_code = #{pointCode}
+    </if>
+  </delete>
+  <insert id="insertList" parameterType="java.util.List" >
+    insert into ydz_media_run_plan_detail (ITEM_NO, PLAN_NO, 
+      POINT_NO, POINT_NAME, POINT_CODE, 
+      START_DATE, END_DATE, DAYS, 
+      IS_DEL, REMARKS, CREATE_TIME, 
+      CREATOR) values 
+	    <foreach collection="list" item="item" index="index"  
+	        separator=",">
+		    (#{item.itemNo,jdbcType=INTEGER}, #{item.planNo,jdbcType=VARCHAR}, 
+		      #{item.pointNo,jdbcType=VARCHAR}, #{item.pointName,jdbcType=VARCHAR}, #{item.pointCode,jdbcType=VARCHAR}, 
+		      #{item.startDate,jdbcType=DATE}, #{item.endDate,jdbcType=DATE}, #{item.days,jdbcType=INTEGER}, 
+		      #{item.isDel,jdbcType=CHAR}, #{item.remarks,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, 
+		      #{item.creator,jdbcType=VARCHAR})
+		</foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.media.MediaRunPlanDetail" >
+    insert into ydz_media_run_plan_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="itemNo != null" >
+        ITEM_NO,
+      </if>
+      <if test="planNo != null" >
+        PLAN_NO,
+      </if>
+      <if test="pointNo != null" >
+        POINT_NO,
+      </if>
+      <if test="pointName != null" >
+        POINT_NAME,
+      </if>
+      <if test="pointCode != null" >
+        POINT_CODE,
+      </if>
+      <if test="startDate != null" >
+        START_DATE,
+      </if>
+      <if test="endDate != null" >
+        END_DATE,
+      </if>
+      <if test="days != null" >
+        DAYS,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="itemNo != null" >
+        #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="planNo != null" >
+        #{planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="pointNo != null" >
+        #{pointNo,jdbcType=VARCHAR},
+      </if>
+      <if test="pointName != null" >
+        #{pointName,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCode != null" >
+        #{pointCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="days != null" >
+        #{days,jdbcType=INTEGER},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.media.MediaRunPlanDetail" >
+    update ydz_media_run_plan_detail
+    <set >
+      <if test="itemNo != null" >
+        ITEM_NO = #{itemNo,jdbcType=INTEGER},
+      </if>
+      <if test="planNo != null" >
+        PLAN_NO = #{planNo,jdbcType=VARCHAR},
+      </if>
+      <if test="pointNo != null" >
+        POINT_NO = #{pointNo,jdbcType=VARCHAR},
+      </if>
+      <if test="pointName != null" >
+        POINT_NAME = #{pointName,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCode != null" >
+        POINT_CODE = #{pointCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        START_DATE = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        END_DATE = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="days != null" >
+        DAYS = #{days,jdbcType=INTEGER},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where plan_no = #{planNo}
+    <if test="itemNo != null">
+    	and item_no = #{itemNo}
+    </if>
+    <if test="pointNo != null">
+    	and point_no = #{pointNo}
+    </if>
+    <if test="pointCode != null">
+    	and point_code = #{pointCode}
+    </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.media.MediaRunPlanDetail" >
+    update ydz_media_run_plan_detail
+    set ITEM_NO = #{itemNo,jdbcType=INTEGER},
+      PLAN_NO = #{planNo,jdbcType=VARCHAR},
+      POINT_NO = #{pointNo,jdbcType=VARCHAR},
+      POINT_NAME = #{pointName,jdbcType=VARCHAR},
+      POINT_CODE = #{pointCode,jdbcType=VARCHAR},
+      START_DATE = #{startDate,jdbcType=DATE},
+      END_DATE = #{endDate,jdbcType=DATE},
+      DAYS = #{days,jdbcType=INTEGER},
+      IS_DEL = #{isDel,jdbcType=CHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

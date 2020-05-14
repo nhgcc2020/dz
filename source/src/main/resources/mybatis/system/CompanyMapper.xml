@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.CompanyMapper" >
+    <resultMap id="BaseResultMap" type="com.ydz.entity.system.Company" >
+      <id column="UID" property="uid" jdbcType="BIGINT" />
+      <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+      <result column="COM_ID" property="comId" jdbcType="VARCHAR" />
+      <result column="WITHIN_COM_ID" property="withinComId" jdbcType="VARCHAR" />
+      <result column="COM_NAME" property="comName" jdbcType="VARCHAR" />
+      <result column="COM_SHORTNAME" property="comShortname" jdbcType="VARCHAR" />
+      <result column="COM_TYPE" property="comType" jdbcType="CHAR" />
+      <result column="COM_ATTR" property="comAttr" jdbcType="CHAR" />
+      <result column="COM_PROVINCE" property="comProvince" jdbcType="VARCHAR" />
+      <result column="COM_CITY" property="comCity" jdbcType="VARCHAR" />
+      <result column="COM_COUNTRY" property="comCountry" jdbcType="VARCHAR" />
+      <result column="COM_ADDRESS" property="comAddress" jdbcType="VARCHAR" />
+      <result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+      <result column="COM_TEL" property="comTel" jdbcType="VARCHAR" />
+      <result column="COM_QQ" property="comQQ" jdbcType="VARCHAR" />
+      <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+      <result column="COM_BANK" property="comBank" jdbcType="VARCHAR" />
+      <result column="COM_ACCOUNT" property="comAccount" jdbcType="VARCHAR" />
+      <result column="REFEREE_NAME" property="refereeName" jdbcType="VARCHAR" />
+      <result column="IS_VALID" property="isValid" jdbcType="VARCHAR" />
+      <result column="IN_TYPE" property="inType" jdbcType="VARCHAR" />
+      <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+      <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+      <result column="MNEMONIC_CODE" property="mnemonicCode" jdbcType="VARCHAR"/>
+       <result column="COM_LOGO_PATH" property="comLogoPath" jdbcType="VARCHAR" />
+      <!-- <collection property="employeeList" resultMap="EmployeeResultMap" /> -->
+    </resultMap>
+  <resultMap id="BaseResultMapVO" type="com.ydz.vo.CompanyVO" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="COM_ID" property="comId" jdbcType="VARCHAR" />
+    <result column="WITHIN_COM_ID" property="withinComId" jdbcType="VARCHAR" />
+    <result column="COM_NAME" property="comName" jdbcType="VARCHAR" />
+    <result column="COM_SHORTNAME" property="comShortname" jdbcType="VARCHAR" />
+    <result column="COM_TYPE" property="comType" jdbcType="CHAR" />
+    <result column="COM_ATTR" property="comAttr" jdbcType="CHAR" />
+    <result column="COM_PROVINCE" property="comProvince" jdbcType="VARCHAR" />
+    <result column="COM_CITY" property="comCity" jdbcType="VARCHAR" />
+    <result column="COM_COUNTRY" property="comCountry" jdbcType="VARCHAR" />
+    <result column="COM_ADDRESS" property="comAddress" jdbcType="VARCHAR" />
+    <result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+    <result column="COM_TEL" property="comTel" jdbcType="VARCHAR" />
+    <result column="COM_QQ" property="comQQ" jdbcType="VARCHAR" />
+    <result column="COM_BANK" property="comBank" jdbcType="VARCHAR" />
+    <result column="COM_ACCOUNT" property="comAccount" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="REFEREE_NAME" property="refereeName" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="VARCHAR" />
+    <result column="IN_TYPE" property="inType" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="MNEMONIC_CODE" property="mnemonicCode" jdbcType="VARCHAR"/>
+    <result column="COM_LOGO_PATH" property="comLogoPath" jdbcType="VARCHAR" />
+    <!-- <collection property="employeeList" resultMap="EmployeeResultMap" /> -->
+  </resultMap>
+  <!-- <resultMap id="EmployeeResultMap" type="com.ydz.entity.system.ComEmployee" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="USER_KEY" property="userKey" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="CHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="IS_BOSS" property="isBoss" jdbcType="CHAR" />
+    <result column="IS_ADMIN" property="isAdmin" jdbcType="CHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="USER_NAME" property="name" jdbcType="VARCHAR" />
+    <result column="USER_PHONE" property="phone" jdbcType="VARCHAR" />
+  </resultMap> -->
+
+
+    <sql id="Base_Column_List" >
+      UID, COM_KEY, COM_ID, WITHIN_COM_ID, COM_NAME, COM_SHORTNAME, COM_TYPE, COM_ATTR,
+      COM_PROVINCE, COM_CITY, COM_COUNTRY, COM_ADDRESS, AREA_CODE, COM_TEL, COM_QQ, COM_BANK, COM_ACCOUNT, INDUSTRY_ID,
+      REFEREE_NAME, IS_VALID, IN_TYPE, CREATOR, CREATE_TIME,MNEMONIC_CODE,COM_LOGO_PATH
+    </sql>
+
+	<sql id="Base_Column_List_Copy" >
+	  YC.COM_KEY, YC.COM_ID, YC.WITHIN_COM_ID, YC.COM_NAME, YC.COM_SHORTNAME, YC.COM_TYPE, YC.COM_ATTR, YC.COM_PROVINCE, YC.COM_CITY,
+	  YC.COM_COUNTRY, YC.COM_ADDRESS, YC.COM_LOGO_PATH, YC.AREA_CODE, YC.COM_TEL, YC.COM_QQ, YC.INDUSTRY_ID, YC.REFEREE_NAME,YC.IS_VALID,YC.CREATOR,YC.MNEMONIC_CODE,YC.CREATE_TIME
+	</sql>
+
+    <sql id="Base_Column_List_YC" >
+      YC.COM_KEY, YC.COM_ID, YC.WITHIN_COM_ID, YC.COM_NAME, YC.COM_SHORTNAME, YC.COM_TYPE, YC.COM_ATTR, YC.COM_PROVINCE, YC.COM_CITY,
+      YC.COM_COUNTRY, YC.COM_ADDRESS, YC.COM_LOGO_PATH, YC.AREA_CODE, YC.COM_TEL, YC.COM_QQ, YC.INDUSTRY_ID, YC.REFEREE_NAME,YC.CREATOR,YC.CREATE_TIME
+    </sql>
+
+    <sql id="Base_Column_List_YCE" >
+      YCE.USER_KEY,YCE.USER_ID, YCE.DEPT_ID, YCE.IS_BOSS, YCE.IS_ADMIN, YCE.STATUS,YU.REAL_NAME AS `USER_NAME`,YU.USER_ID AS `USER_PHONE`
+    </sql>
+  
+  <!--,  YCE.IS_VALID, YCE.REMARKS, YCE.CREATE_TIME-->
+  <!--获取该用户所属的所有公司  /*,YU.USER_ID AS adminPhone  ,YU.REAL_NAME AS adminName*/-->
+  <select id="getByEmpUserKey" parameterType="pd" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List_Copy"/> ,
+              E.DEPT_ID AS deptId,
+              E.USER_KEY AS userKey
+        from YDZ_COM_EMPLOYEE E
+      JOIN YDZ_COMPANY YC ON YC.COM_KEY = E.COM_KEY
+      WHERE
+      E.USER_KEY = #{userKey}
+      <if test="comName != null">
+        AND YC.COM_NAME = #{comName}
+      </if>
+      AND E.IS_VALID = '1'
+      AND YC.IS_VALID = '1'
+      AND E.STATUS = '3'
+  </select>
+
+  <select id="getByRefereeName" parameterType="pd" resultMap="BaseResultMapVO">
+      SELECT <include refid="Base_Column_List_YC"/>,
+      YU.USER_ID AS userId,
+      YU.REAL_NAME AS realName
+      from YDZ_COMPANY YC
+      JOIN YDZ_USER YU ON YC.CREATOR = YU.USER_KEY
+      WHERE YC.REFEREE_NAME = #{refereeName}
+  </select>
+
+  <!--根据可能的条件查询合作伙伴-->
+  <select id="getInfoByKey" parameterType="pd" resultMap="BaseResultMap">
+    select
+      YC.COM_KEY, YC.COM_ID, YC.WITHIN_COM_ID, YC.COM_NAME, YC.COM_SHORTNAME, YC.COM_TYPE, YC.COM_ATTR, YC.COM_PROVINCE, YC.COM_CITY,
+	  YC.COM_COUNTRY, YC.COM_ADDRESS, YC.AREA_CODE, YC.COM_TEL, YC.COM_QQ, YC.INDUSTRY_ID, YC.REFEREE_NAME,YC.IS_VALID,YC.CREATOR,
+	  YC.MNEMONIC_CODE,YC.CREATE_TIME, YU.USER_ID AS adminPhone,YU.REAL_NAME AS adminName
+    FROM YDZ_COMPANY YC
+      <!--CP.STATUS AS partnerStatus,-->
+      LEFT JOIN YDZ_COM_EMPLOYEE YE ON YC.COM_KEY = YE.COM_KEY
+      LEFT JOIN YDZ_USER YU ON YE.USER_KEY = YU.USER_KEY
+      <!--
+      LEFT JOIN YDZ_COM_PARTNER CP ON CP.COM_KEY = YC.COM_KEY
+      LEFT JOIN YDZ_PARTNER P ON P.PARTNER_KEY = CP.PARTNER_KEY
+      -->
+    WHERE
+    YC.COM_KEY != #{currentComKey}
+    AND
+    (YC.COM_ID = #{searchkey}
+    OR
+      YE.IS_ADMIN ="1"
+      AND
+      (YU.USER_ID = #{searchkey} OR YU.REAL_NAME = #{searchkey})
+    OR
+      YC.COM_NAME = #{searchkey})
+  </select>
+
+  <select id="getByDirector" parameterType="pd" resultMap="BaseResultMap">
+   <!-- SELECT <include refid="Blob_Column_List"/> from YDZ_COMPANY where COM_KEY in(
+      SELECT COM_KEY from YDZ_COM_EMPLOYEE where USER_KEY =
+        (SELECT USER_KEY FROM YDZ_USER WHERE USER_ID = #{userId})
+          AND (IS_BOSS = 1 OR IS_ADMIN = 1)
+        )-->
+    SELECT <include refid="Base_Column_List_YC"/> from YDZ_COM_EMPLOYEE YCE
+    JOIN YDZ_USER YU ON YCE.USER_KEY = YU.USER_KEY
+    JOIN YDZ_COMPANY YC ON YC.COM_KEY in (YCE.COM_KEY)  AND (YCE.IS_BOSS = 1 OR YCE.IS_ADMIN = 1)
+    WHERE 1=1
+    <if test="userId != null">
+      AND YU.USER_ID = #{userId}
+    </if>
+    <if test="realName != null">
+      AND YU.REAL_NAME = #{realName}
+    </if>
+    <!--<if test="realName != null">
+      AND YU.REAL_NAME LIKE CONCAT(CONCAT('%', #{realName}),'%')
+    </if>-->
+
+  </select>
+
+  <!--getByComId 7.20 添加合作伙伴查询使用-->
+  <select id="getByComId" parameterType="pd" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List_YC"/>,<include refid="Base_Column_List_YCE"/> from YDZ_COM_EMPLOYEE YCE
+    JOIN YDZ_USER YU ON YCE.USER_KEY = YU.USER_KEY
+    JOIN YDZ_COMPANY YC ON YC.COM_KEY in (YCE.COM_KEY)  AND (YCE.IS_BOSS = 1 OR YCE.IS_ADMIN = 1)
+    WHERE  1=1
+    <if test = "comId != null">
+      AND YC.COM_ID = #{comId}
+    </if>
+    <if test="comName != null">
+      AND YC.COM_NAME = #{comName}
+    </if>
+    <!--<if test = "comName != null">
+      AND YC.COM_NAME LIKE CONCAT(CONCAT('%', #{comName}),'%')
+    </if>-->
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select
+    	DISTINCT YC.COM_KEY ,
+		YC.COM_ID ,
+		YC.WITHIN_COM_ID ,
+		YC.COM_NAME ,
+		YC.COM_SHORTNAME ,
+		YC.COM_TYPE ,
+		YC.COM_ATTR ,
+		YC.COM_PROVINCE ,
+		YC.COM_CITY ,
+		YC.COM_COUNTRY ,
+		YC.COM_ADDRESS ,
+		YC.COM_LOGO_PATH ,
+		YC.AREA_CODE ,
+		YC.COM_TEL ,
+		YC.COM_QQ ,
+		YC.INDUSTRY_ID ,
+		YC.REFEREE_NAME ,
+		YC.IS_VALID ,
+		YC.CREATOR ,
+		YC.MNEMONIC_CODE ,
+		YC.CREATE_TIME ,
+		YD.REAL_NAME AS creatorName ,
+		P.PROVINCE_NAME AS PROVINCE ,
+		CI.CITY_NAME AS city ,
+		CO.COUNTRY_NAME AS country,
+	    YD.REAL_NAME AS creatorName,
+	    P.PROVINCE_NAME AS PROVINCE,
+	    CI.CITY_NAME AS city,
+	    CO.COUNTRY_NAME AS country
+    from YDZ_COMPANY YC
+    LEFT JOIN YDZ_USER YD ON YC.CREATOR = YD.USER_KEY
+    LEFT JOIN YDZ_PROVINCE P ON YC.COM_PROVINCE = P.PROVINCE_ID
+    LEFT JOIN YDZ_CITY CI ON YC.COM_CITY = CI.CITY_ID
+    LEFT JOIN YDZ_COUNTRY CO ON CO.COUNTRY_ID = YC.COM_COUNTRY
+    where 1 = 1
+    <if test="comProvince != null">
+      and YC.COM_PROVINCE = #{comProvince}
+    </if>
+    <if test="comType != null">
+      and YC.COM_TYPE = #{comType}
+    </if>
+    <if test="comKey != null">
+      and YC.COM_KEY = #{comKey}
+    </if>
+    <if test="comId != null">
+    	and YC.COM_ID = #{comId}
+    </if>
+    <if test="withinComId != null">
+    	and YC.WITHIN_COM_ID = #{withinComId}
+    </if>
+
+  </select>
+
+  <select id="selectByComKey" resultMap="BaseResultMap" parameterType="pd">
+    SELECT <include refid="Base_Column_List"/> FROM YDZ_COMPANY
+    WHERE IS_VALID = '1'
+    <if test="comKey != null" >
+    	AND COM_KEY = #{comKey}
+    </if>
+    <if test="creator != null" >
+      AND CREATOR = #{creator}
+    </if>
+    <if test="comType != null">
+      and COM_TYPE = #{comType}
+    </if>
+  </select>
+  
+  <select id="selectComLogoByKey" resultMap="BaseResultMap" parameterType="pd">
+  	select COM_KEY, COM_LOGO_PATH from YDZ_COMPANY where IS_VALID = '1' and COM_KEY = #{comKey}
+  </select>
+  
+  <select id="selectOrderDetailCompany" resultType="com.ydz.vo.CompanyVO" parameterType="pd">
+	    SELECT 
+		    c.COM_NAME comName, 
+		    c.COM_SHORTNAME comShortname,
+		    c.AREA_CODE areaCode, 
+		    c.COM_TEL comTel, 
+		    c.COM_QQ comQQ, 
+		    c.COM_PROVINCE comProvince, 
+		    c.COM_CITY comCity, 
+		    c.COM_COUNTRY comCountry, 
+		    c.COM_ADDRESS comAddress, 
+		    c.COM_BANK comBank,
+		    c.COM_ACCOUNT comAccount,
+		    u.REAL_NAME realName, 
+		    u.USER_ID userId,
+		    p.PARTNER_PROVINCE partnerProvince,
+		    p.PARTNER_CITY partnerCity,
+		    p.PARTNER_COUNTRY partnerCountry,
+		    p.PARTNER_ADDRESS partnerAddress
+		FROM 
+		    YDZ_COMPANY c, 
+		    YDZ_USER u, 
+		    YDZ_COM_EMPLOYEE ce,
+		    YDZ_PARTNER p    
+		WHERE 
+		    u.IS_VALID = '1' 
+		    AND c.IS_VALID = '1' 
+		    AND ce.IS_VALID = '1' 
+		    AND p.IS_VALID = '1'
+		    AND c.COM_KEY = ce.COM_KEY 
+		    AND ce.USER_KEY = u.USER_KEY 
+		<if test="isAdmin != null">
+			AND ce.IS_ADMIN = '1'
+		</if>
+		<if test="partnerKey != null">
+			AND p.PARTNER_KEY = #{partnerKey}
+		</if>
+			AND c.COM_KEY = #{comKey} LIMIT 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_COMPANY
+    where COM_KEY = #{comKey}
+  </delete>
+
+
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.Company" >
+    insert into YDZ_COMPANY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="comId != null" >
+        COM_ID,
+      </if>
+      <if test="withinComId != null" >
+        WITHIN_COM_ID,
+      </if>
+      <if test="comName != null" >
+        COM_NAME,
+      </if>
+      <if test="comShortname != null" >
+        COM_SHORTNAME,
+      </if>
+      <if test="comType != null" >
+        COM_TYPE,
+      </if>
+      <if test="comAttr != null" >
+        COM_ATTR,
+      </if>
+      <if test="comProvince != null" >
+        COM_PROVINCE,
+      </if>
+      <if test="comCity != null" >
+        COM_CITY,
+      </if>
+      <if test="comCountry != null" >
+        COM_COUNTRY,
+      </if>
+      <if test="comAddress != null" >
+        COM_ADDRESS,
+      </if>
+      <if test="areaCode != null" >
+        AREA_CODE,
+      </if>
+      <if test="comTel != null" >
+        COM_TEL,
+      </if>
+      <if test="comQQ != null" >
+        COM_QQ,
+      </if>
+      <if test="comBank != null" >
+        COM_BANK,
+      </if>
+      <if test="comAccount != null" >
+        COM_ACCOUNT,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="refereeName != null" >
+        REFEREE_NAME,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="inType != null" >
+        IN_TYPE,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="comLogoPath != null" >
+        COM_LOGO_PATH,
+      </if>
+      <if test="mnemonicCode != null" >
+        MNEMONIC_CODE,
+      </if>      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="comId != null" >
+        #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="withinComId != null" >
+        #{withinComId,jdbcType=VARCHAR},
+      </if>
+      <if test="comName != null" >
+        #{comName,jdbcType=VARCHAR},
+      </if>
+      <if test="comShortname != null" >
+        #{comShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="comType != null" >
+        #{comType,jdbcType=CHAR},
+      </if>
+      <if test="comAttr != null" >
+        #{comAttr,jdbcType=CHAR},
+      </if>
+      <if test="comProvince != null" >
+        #{comProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="comCity != null" >
+        #{comCity,jdbcType=VARCHAR},
+      </if>
+      <if test="comCountry != null" >
+        #{comCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="comAddress != null" >
+        #{comAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="comTel != null" >
+        #{comTel,jdbcType=VARCHAR},
+      </if>
+      <if test="comQQ != null" >
+        #{comQQ,jdbcType=VARCHAR},
+      </if>
+      <if test="comBank != null" >
+        #{comBank,jdbcType=VARCHAR},
+      </if>
+      <if test="comAccount != null" >
+        #{comAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="refereeName != null" >
+        #{refereeName,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="inType != null" >
+        #{inType,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comLogoPath != null" >
+        #{comLogoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="mnemonicCode != null" >
+        #{mnemonicCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.Company" >
+    update YDZ_COMPANY
+    <set >
+      <if test="comId != null" >
+        COM_ID = #{comId,jdbcType=VARCHAR},
+      </if>
+      <if test="withinComId != null" >
+        WITHIN_COM_ID = #{withinComId,jdbcType=VARCHAR},
+      </if>
+      <if test="comName != null" >
+        COM_NAME = #{comName,jdbcType=VARCHAR},
+      </if>
+      <if test="comShortname != null" >
+        COM_SHORTNAME = #{comShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="comType != null" >
+        COM_TYPE = #{comType,jdbcType=CHAR},
+      </if>
+      <if test="comAttr != null" >
+        COM_ATTR = #{comAttr,jdbcType=CHAR},
+      </if>
+      <if test="comProvince != null" >
+        COM_PROVINCE = #{comProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="comCity != null" >
+        COM_CITY = #{comCity,jdbcType=VARCHAR},
+      </if>
+      <if test="comCountry != null" >
+        COM_COUNTRY = #{comCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="comAddress != null" >
+        COM_ADDRESS = #{comAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="comTel != null" >
+        COM_TEL = #{comTel,jdbcType=VARCHAR},
+      </if>
+      <if test="comQQ != null" >
+        COM_QQ = #{comQQ,jdbcType=VARCHAR},
+      </if>
+      <if test="comBank != null" >
+        COM_BANK = #{comBank,jdbcType=VARCHAR},
+      </if>
+      <if test="comAccount != null" >
+        COM_ACCOUNT = #{comAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="refereeName != null" >
+        REFEREE_NAME = #{refereeName,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="inType != null" >
+        IN_TYPE = #{inType,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comLogoPath != null" >
+        COM_LOGO_PATH = #{comLogoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="mnemonicCode != null" >
+        MNEMONIC_CODE = #{mnemonicCode,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COM_KEY = #{comKey,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

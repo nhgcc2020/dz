@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.RentalTradeDiscountMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.RentalTradeDiscount" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="DURATION" property="duration" jdbcType="INTEGER" />
+    <result column="DISCOUNT" property="discount" jdbcType="DECIMAL" />
+    <result column="REMAKRS" property="remakrs" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, DURATION, DISCOUNT, REMAKRS, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_RENTAL_TRADE_DISCOUNT
+    where 1 = 1
+    <if test="duration != null">
+    	and DURATION = #{duration}
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_RENTAL_TRADE_DISCOUNT
+    where DURATION = #{duration}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.system.RentalTradeDiscount" >
+    insert into YDZ_RENTAL_TRADE_DISCOUNT (UID, DURATION, DISCOUNT, 
+      REMAKRS, CREATE_TIME)
+    values (#{uid,jdbcType=BIGINT}, #{duration,jdbcType=INTEGER}, #{discount,jdbcType=DECIMAL}, 
+      #{remakrs,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.RentalTradeDiscount" >
+    insert into YDZ_RENTAL_TRADE_DISCOUNT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="duration != null" >
+        DURATION,
+      </if>
+      <if test="discount != null" >
+        DISCOUNT,
+      </if>
+      <if test="remakrs != null" >
+        REMAKRS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="duration != null" >
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="remakrs != null" >
+        #{remakrs,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.RentalTradeDiscount" >
+    update YDZ_RENTAL_TRADE_DISCOUNT
+    <set >
+      <if test="duration != null" >
+        DURATION = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        DISCOUNT = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="remakrs != null" >
+        REMAKRS = #{remakrs,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DURATION = #{duration}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.RentalTradeDiscount" >
+    update YDZ_RENTAL_TRADE_DISCOUNT
+    set DURATION = #{duration,jdbcType=INTEGER},
+      DISCOUNT = #{discount,jdbcType=DECIMAL},
+      REMAKRS = #{remakrs,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where DURATION = #{duration}
+  </update>
+</mapper>

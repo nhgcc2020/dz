@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.report.ReportCompanySheetMapper" >
+  
+  <select id="getCompanyGrossProfit" resultType="com.ydz.entity.report.ReportCompanySheet" parameterType="pd" >
+	   SELECT
+		(
+			SELECT
+				ROUND(SUM(TOTAL_PRICE) , 2)
+			FROM
+				ydz_sales_order
+			WHERE
+				ORDER_STATUS IN('01' , '02' , '04' , '05')
+			AND IS_VALID = '1'
+			AND IS_DEL = '0'
+			AND ORDER_DATE BETWEEN #{startDate}	AND #{endDate}
+			AND COM_KEY = #{comKey}
+		) salesTotalPrice ,
+		(
+			SELECT
+				ROUND(SUM(TOTAL_PRICE) , 2)
+			FROM
+				ydz_purchase_order
+			WHERE
+				ORDER_STATUS IN('01' , '03' , '04' , '05')
+			AND IS_VALID = '1'
+			AND IS_DEL = '0'
+			AND ORDER_DATE BETWEEN #{startDate}	AND #{endDate}
+			AND COM_KEY = #{comKey}
+		) purchaseTotalPrice ,
+		(
+			SELECT
+				ROUND(SUM(TOTAL_MONEY) , 2)
+			FROM
+				ydz_expense_book
+			WHERE
+				IS_DEL = '0'
+			AND EXPENSE_TYPE = '0'
+			AND PAY_DATE BETWEEN #{startDate}	AND #{endDate}
+			AND COM_KEY = #{comKey}
+		) expenseDailyTotalPrice ,
+		(
+			SELECT
+				ROUND(SUM(TOTAL_MONEY) , 2)
+			FROM
+				ydz_expense_book
+			WHERE
+				IS_DEL = '0'
+			AND EXPENSE_TYPE = '1'
+			AND PAY_DATE BETWEEN #{startDate}	AND #{endDate}
+			AND COM_KEY = #{comKey}
+		) expenseSalaryTotalPrice
+  </select>
+  
+  
+</mapper>

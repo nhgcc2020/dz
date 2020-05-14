@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.advert.ReceiptPaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.advert.ReceiptPayment" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="CHECKING_NO" property="checkingNo" jdbcType="VARCHAR" />
+    <result column="CHECKING_TYPE" property="checkingType" jdbcType="CHAR" />
+    <result column="RECPAY_TYPE" property="recpayType" jdbcType="CHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="RECPAY_MONEY" property="recpayMoney" jdbcType="DECIMAL" />
+    <result column="RECPAY_DATE" property="recpayDate" jdbcType="DATE" />
+    <result column="RECPAY_NAME" property="recpayName" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_TYPE" property="accountType" jdbcType="VARCHAR" />
+    <result column="ACCOUNT_PAYEE" property="accountPayee" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, CHECKING_NO, CHECKING_TYPE, RECPAY_TYPE, COM_KEY, RECPAY_MONEY, RECPAY_DATE, 
+    RECPAY_NAME, ACCOUNT_TYPE, ACCOUNT_PAYEE, REMARKS, IS_VALID, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_RECEIPT_PAYMENT
+    where IS_VALID = '1' AND COM_KEY = #{comKey}
+    <if test="checkingNo != null">
+    	and CHECKING_NO = #{checkingNo}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_RECEIPT_PAYMENT
+    where CHECKING_NO = #{checkingNo}
+    <if test="comKey != null">
+    	and COM_KEY = #{comKey} 
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.advert.ReceiptPayment" >
+    insert into YDZ_RECEIPT_PAYMENT (UID, CHECKING_NO, CHECKING_TYPE, 
+      RECPAY_TYPE, COM_KEY, RECPAY_MONEY, 
+      RECPAY_DATE, RECPAY_NAME, ACCOUNT_TYPE, ACCOUNT_PAYEE, REMARKS, 
+      IS_VALID, CREATE_TIME)
+    values (#{uid,jdbcType=BIGINT}, #{checkingNo,jdbcType=VARCHAR}, #{checkingType,jdbcType=CHAR}, 
+      #{recpayType,jdbcType=CHAR}, #{comKey,jdbcType=VARCHAR}, #{recpayMoney,jdbcType=DECIMAL}, 
+      #{recpayDate,jdbcType=DATE}, #{recpayName,jdbcType=VARCHAR}, #{accountType,jdbcType=VARCHAR},  #{accountPayee,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{isValid,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.advert.ReceiptPayment" >
+    insert into YDZ_RECEIPT_PAYMENT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="checkingNo != null" >
+        CHECKING_NO,
+      </if>
+      <if test="checkingType != null" >
+        CHECKING_TYPE,
+      </if>
+      <if test="recpayType != null" >
+        RECPAY_TYPE,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="recpayMoney != null" >
+        RECPAY_MONEY,
+      </if>
+      <if test="recpayDate != null" >
+        RECPAY_DATE,
+      </if>
+      <if test="recpayName != null" >
+        RECPAY_NAME,
+      </if>
+      <if test="accountType != null" >
+        ACCOUNT_TYPE,
+      </if>
+      <if test="accountPayee != null" >
+        ACCOUNT_PAYEE,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="checkingNo != null" >
+        #{checkingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="checkingType != null" >
+        #{checkingType,jdbcType=CHAR},
+      </if>
+      <if test="recpayType != null" >
+        #{recpayType,jdbcType=CHAR},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="recpayMoney != null" >
+        #{recpayMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="recpayDate != null" >
+        #{recpayDate,jdbcType=DATE},
+      </if>
+      <if test="recpayName != null" >
+        #{recpayName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null" >
+        #{accountType,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPayee != null" >
+        #{accountPayee,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.advert.ReceiptPayment" >
+    update YDZ_RECEIPT_PAYMENT
+    <set >
+      <if test="checkingNo != null" >
+        CHECKING_NO = #{checkingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="checkingType != null" >
+        CHECKING_TYPE = #{checkingType,jdbcType=CHAR},
+      </if>
+      <if test="recpayType != null" >
+        RECPAY_TYPE = #{recpayType,jdbcType=CHAR},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="recpayMoney != null" >
+        RECPAY_MONEY = #{recpayMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="recpayDate != null" >
+        RECPAY_DATE = #{recpayDate,jdbcType=DATE},
+      </if>
+      <if test="recpayName != null" >
+        RECPAY_NAME = #{recpayName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null" >
+        ACCOUNT_TYPE = #{accountType,jdbcType=VARCHAR},
+      </if>
+      <if test="accountPayee != null" >
+        ACCOUNT_PAYEE = #{accountPayee,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where COM_KEY = #{comKey} and CHECKING_NO = #{checkingNo}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.advert.ReceiptPayment" >
+    update YDZ_RECEIPT_PAYMENT
+    set CHECKING_NO = #{checkingNo,jdbcType=VARCHAR},
+      CHECKING_TYPE = #{checkingType,jdbcType=CHAR},
+      RECPAY_TYPE = #{recpayType,jdbcType=CHAR},
+      COM_KEY = #{comKey,jdbcType=VARCHAR},
+      RECPAY_MONEY = #{recpayMoney,jdbcType=DECIMAL},
+      RECPAY_DATE = #{recpayDate,jdbcType=DATE},
+      RECPAY_NAME = #{recpayName,jdbcType=VARCHAR},
+      ACCOUNT_TYPE = #{accountType,jdbcType=VARCHAR},
+      ACCOUNT_PAYEE = #{accountPayee,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where COM_KEY = #{comKey} and CHECKING_NO = #{checkingNo}
+  </update>
+</mapper>

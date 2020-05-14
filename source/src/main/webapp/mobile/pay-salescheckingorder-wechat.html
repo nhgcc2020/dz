@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+    <meta HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
+    <meta HTTP-EQUIV="expires" CONTENT="0">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="/resources/new/base_new.css?v=6359dfca3b">
+    <title>销售对账单微信付款</title>
+    <script src="/wechat/js/jquery-1.8.3.min.js"></script>
+    <script src="/resources/common/vue.min.js?v=32e8fb7bee"></script>
+    <script>
+        var core = 1;
+    </script>
+    
+</head>
+<style>
+    body {
+        line-height: 1.6;
+        font-family: -apple-system-font, "Helvetica Neue", sans-serif;
+    }
+
+    .x-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 999;
+    }
+
+    .big_first {
+        /*margin-top: 49px;*/
+        margin-bottom: 50px;
+    }
+
+    #dingdan {
+        padding-left: 1.2rem;
+        background: #fff;
+        font-size: 0.9rem;
+        border-top: 1px solid #ccc;
+    }
+
+    #dingdan:nth-child(2) {
+        border-top: none;
+    }
+
+    .ul_one {
+        position: relative;
+        margin: 0.7rem 0;
+        background: #fff;
+        font-size: 0.8rem;
+        color: #4f4f4f;
+        padding: 0 1.1rem;
+    }
+
+    .li_one i {
+        font-size: 2rem;
+        color: #4d86ce;
+    }
+
+    .li_two {
+        padding-bottom: 1rem;
+    }
+
+    .li_two span:nth-child(1) {
+        color: #adadad;
+        font-size: .9rem;
+    }
+
+    .li_two p {
+        position: relative;
+        float: right;
+    }
+
+    .li_one span:nth-child(2) {
+        position: absolute;
+        font-size: 1rem;
+        top: 18%;
+    }
+
+    .li_one span:nth-child(3) {
+        position: absolute;
+        right: 1.1rem;
+        top: 20%;
+        font-size: .9rem;
+    }
+
+    .li_two p span:nth-child(1) {
+        position: absolute;
+        right: 0rem;
+        top: -3px;
+        font-size: 1.1rem;
+        color: #d80404;
+    }
+
+    .dingdan {
+        position: absolute;
+        top: 0.7rem;
+        font-size: 1rem;
+        left: 2rem;
+    }
+
+    .time>span:nth-child(1) {
+        display: inline-block;
+    }
+
+    .time>span:nth-child(2) {
+        float: right;
+        margin-right: 1rem;
+    }
+
+    .time>span>span {
+        position: relative;
+        top: -0.2rem;
+        color: #adadad;
+    }
+
+    .li_three {
+        border-top: 1px solid #F6F6F6;
+        padding: 1rem 0;
+        color: #adadad;
+    }
+
+    .ul_two {
+        padding-top: 0.5rem;
+        background: #fff;
+    }
+
+    .ul_two li:nth-child(1) {
+        width: 95%;
+    }
+
+    .ul_two li:nth-child(3) {
+        color: #adadad;
+        border-bottom: 1px solid #F6F6F6;
+        padding-bottom: 0.5rem;
+    }
+
+    .big_first>div>.ul_two:last-child>li:nth-child(3) {
+        border: 0 !important;
+    }
+
+    .ul_three {
+        border-top: 1px solid #F6F6F6;
+        padding-top: 0.5rem;
+        background: #fff;
+        font-size: 0.9rem;
+        padding-left: 1.2rem;
+    }
+
+    .li_show {
+        text-align: center;
+        color: #2e8ae6;
+        padding-top: 0.3rem;
+        font-size: 0.8rem;
+    }
+
+    .li_right {
+        padding-bottom: 0.3rem;
+    }
+
+    .li_right span {
+        float: right;
+        margin-right: 1.15rem;
+    }
+
+    .ul_fore {
+        margin-top: 0.7rem;
+        background: #fff;
+        padding-left: 1.2rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .ul_fore li i {
+        font-size: 1.5rem;
+    }
+
+    .ul_fore li {
+        font-size: 0.9rem;
+        padding-top: 0.3rem;
+    }
+
+    .time {
+        background: #fff;
+        border-bottom: 1px solid #F6F6F6;
+    }
+
+    .time i {
+        font-size: 1.5rem;
+        color: #44ae80;
+    }
+
+    .alt {
+        display: none;
+        position: absolute;
+        top: 20%;
+        width: 70%;
+        margin: 0 auto;
+        left: 15%;
+        right: 15%;
+        background: #fff;
+        border-radius: 0.5rem;
+        z-index: 1100;
+    }
+
+    .alt p:nth-child(1) {
+        text-align: center;
+        padding-top: 1rem;
+    }
+
+    .alt p:nth-child(2) {
+        font-size: 0.9rem;
+        padding: 1rem;
+        word-wrap: break-word;
+    }
+
+    .alt p:nth-child(3) {
+        padding: 0.5rem 0;
+        text-align: center;
+        color: #4284d9;
+        border-top: 1px solid #ccc;
+    }
+
+    /*.title {
+        line-height: 49px;
+        text-align: center;
+        background: #4284d9;
+        color: #fff;
+    }*/
+
+    .foot {
+        position: fixed;
+        bottom: 0;
+        line-height: 50px;
+        color: #fff;
+        width: 100%;
+        background: #4284d9;
+        text-align: center;
+    }
+    .page_two{
+        padding: 0 25px;
+        line-height: 40px;
+        font-size: 14px;
+        color: #000;
+        border-bottom: 1px solid #f2f2f2;
+    }
+    .page_two li:nth-child(2){
+        color: #db1010;
+    }
+</style>
+
+<body>
+    <div id="app">
+        <div>
+           
+            <div v-if="demonstrate" class="big_first" style="overflow: hidden;">
+                <ul class="ul_one">
+                    <li class="li_one">
+                        <i class="iconfont_new">&#xe69b;</i>&nbsp;&nbsp;
+                        <span v-cloak>{{news.partnerShortname}}</span>
+                        <span>{{news.orderCycle}}</span>
+                    </li>
+                    <li class="li_two">
+                        <span v-cloak>订单*{{dataNo.length}} 明细*{{datalist.length}}</span>
+                        <p>
+                            <span>{{news.receivablesMoney | money}}</span>
+                        </p>
+                    </li>
+                    <li v-if="news.remarks" class="li_three">备注 : {{news.remarks}}</li>
+                </ul>
+                <div id="dingdan" v-for="(d,index) in datasumber" key="index">
+                    <div class="time"><span><i class="iconfont_new">&#xe6f3;</i>&nbsp;<span>{{d[0].salesOrderDate}}</span></span><span><i class="iconfont_new">&#xe67b;</i>&nbsp;<span>{{d[0].salesNo}}</span></span>
+                    </div>
+                    <ul class="ul_two" v-for="(l,index) in datasumber[index]" key="index">
+                        <li v-if="!l.businessDesc" style="color:#adadad;">内容未填</li>
+                        <li v-if="l.businessDesc" v-cloak>{{l.businessDesc}}</li>
+                        <li v-if="!l.requirements" style="color:#adadad;padding:0.3rem 0;">制作未填</li>
+                        <li v-if="l.requirements" v-cloak style="padding:0.3rem 0;">{{l.requirements}}</li>
+                        <li v-cloak><span>{{l.length}}m * {{l.width}}m</span>&#x3000;&#x3000;&#x3000;&#x3000;<span>{{l.unitPrice | money}} x&nbsp;{{l.quantity}}</span>                            <span style="float:right;color:#000;margin-right:1.1rem;">{{l.totalPrice | money}}</span></li>
+                    </ul>
+                </div>
+                <ul class="ul_three">
+                    <li v-if="datalist.length>2" class="li_show" @click="montent">查看全部 {{dataNo.length}} 张订单 {{datalist.length}} 条明细 <i style="font-size:0.8rem;font-weight: 700;" class="iconfont_new">&#xe68a;</i></li>
+                    <li class="li_right">合计
+                        <span v-cloak>{{news.price | money}}</span>
+                    </li>
+                    <li v-if="news.discount !== 0" class="li_right" style="color:#adadad;">&nbsp;&nbsp;-&nbsp;折扣
+                        <span v-cloak>{{news.discount | money}}</span>
+                    </li>
+                    <li v-if="news.preferential !==0" class="li_right" style="color:#adadad;">&nbsp;&nbsp;-&nbsp;减免
+                        <span v-cloak>{{news.preferential | money}}</span>
+                    </li>
+                    <li class="li_right" style="color:#adadad;">&nbsp;&nbsp;+&nbsp;税款
+                        <span v-cloak>{{news.taxPrice | money}}</span>
+                    </li>
+                    <li class="li_two" style="padding:0.5rem 1.1rem 0.3rem 0;border-top:1px solid #F6F6F6;">
+                        <span v-cloak style="color:#000;">账单金额</span>
+                        <p>
+                            <span style="color:#000;font-size:0.9rem;">{{news.totalPrice | money}}</span>
+                        </p>
+                    </li>
+                    <li class="li_right" style="border-bottom:1px solid #f6f6f6;color:#adadad;">&nbsp;&nbsp;-&nbsp;预收
+                        <span v-cloak>{{news.depositRequested | money}}</span>
+                    </li>
+                    <li style="text-align: right;padding-right:1rem;font-size:1rem;padding:0.5rem 1rem;">
+                        <span v-cloak>应收 :&#x3000;<span style="color:#d80404;font-size:1.1rem;">{{news.receivablesMoney | money}}</span></span>
+                    </li>
+                </ul>
+                <ul class="ul_fore">
+                    <li style="position:relative;border-bottom:1px solid #F6F6F6"><i class="iconfont_new">&#xe699;</i>&#x3000;<span class="dingdan">对账单信息</span></li>
+                    <li>散单概要 : &nbsp;&nbsp;{{news.caseDesc}}</li>
+                    <li>对账单号 : &nbsp;&nbsp;{{news.salescheckingNo}}</li>
+                    <li>制单时间 : &nbsp;&nbsp;{{news.createTime}}</li>
+                    <li v-if="news.purchasecheckingNo" style="color:#adadad;">好友采购对账单号 : {{news.purchasecheckingNo}}</li>
+                </ul>
+                <div style="text-align: center;padding:1rem 0;color:#ccc;font-size:0.8rem;">——我是有底线的——</div>
+            </div>
+            <div v-if="show1" class="big_first" style="overflow: hidden;">
+                <ol class="page_two">
+                    <li style="border-bottom: 1px solid #f2f2f2;"><span style="color:#999;">商品名称</span>&#x3000;{{news.orderCycle}} 的对账单</li>
+                    <li><span style="color:#999;">应付金额</span>&#x3000;{{news.receivablesMoney | money}}</li>
+                </ol>
+                <p style="line-height:40px;color:#999;font-size:14px;padding:0 25px;">支付方式</p>
+                <p style="padding:0 25px;color:#000;"><img style="height:40px;width:40px;" src="../../images/weixin.png" alt="">&#x3000;微信支付</p>
+                <p @click="immediate" style="line-height:40px;background:#4284d9;text-align:center;margin:10px 20px;border-radius:5px;color:#fff;font-size:15px;">确认支付 &#x3000;{{news.receivablesMoney | money}}元</p>
+            </div>
+            <div v-if="show2" class="big_first" style="overflow: hidden;">
+               <div style="margin:100px 0 0 60px;">
+                   <i style="font-size:100px;color:#03cd03;float:left;margin-right:15px;" class="iconfont_new">&#xe6c7;</i><p style="font-size:26px;color:#01ae3f;position:relative;top:50px;">支付成功</p><p style="position:relative;top:50px;font-size:14px;color:#000;">您的对账单已付款成功</p>
+               </div>
+            </div>
+            <div v-if="demonstrate" class="foot" @click="payment">立即付款</div>
+        </div>
+    </div>
+    
+</body>
+
+</html>
+
+<script>
+        core = 2;
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    show: false,
+                    showContent004: false,
+                    news: "",
+                    url: "",
+                    datalist: "",
+                    datasumber: [],
+                    dataNo: [],
+                    sumber: "",
+                    titleMessage: "销售对账单详情",
+                    demonstrate: true,
+                    show1: false,
+                    show2:false
+                }
+            },
+            created() {
+                this.getInfo();
+            },
+            methods: {
+                getInfo() {
+                    var _this = this;
+                    $.ajax({
+                        url: "/ordershare/salescheckingorderdetail/" + escape(this.GetRequest().key1),
+                        type: 'GET',
+                        dataType: "json",
+                        success: function (data) {
+                            _this.url = data;
+                            _this.news = data.salesCheckingOrder;
+                            _this.datalist = data.salesCheckingOrderDetails;
+                            _this.sumber = _this.datalist[0].salesNo;
+                            var arr = [];
+                            for (var j = 0; j < _this.datalist.length; j++) {
+                                if (_this.datalist[j].salesNo == _this.sumber) {
+                                    arr.push(_this.datalist[j]);
+                                } else {
+                                    _this.dataNo.push(arr);
+                                    arr = [];
+                                    _this.sumber = _this.datalist[j].salesNo;
+                                    arr.push(_this.datalist[j]);
+                                }
+                            }
+                            _this.dataNo.push(arr);
+                            if (_this.datalist.length > 1) {
+                                var arrone = [];
+                                if (_this.dataNo[0].length > 2) {
+                                    for (var i = 0; i < 2; i++) {
+                                        arrone.push(_this.dataNo[0][i]);
+                                    }
+                                    _this.datasumber.push(arrone)
+                                } else {
+                                    arrone = []
+                                    arrone.push(_this.dataNo[1][0]);
+                                    _this.datasumber.push(_this.dataNo[0]);
+                                    _this.datasumber.push(arrone);
+                                }
+                            } else {
+                                _this.datasumber = _this.dataNo;
+                            }
+                        }
+                    });
+
+                },
+                montent() {
+                    this.datasumber = this.dataNo;
+                    $(".li_show").hide();
+                },
+                GetRequest() {
+                    var url = location.search; //获取url中"?"符后的字串
+                    var theRequest = new Object();
+                    if (url.indexOf("?") != -1) {
+                        var str = url.substr(1);
+                        strs = str.split("&");
+                        for (var i = 0; i < strs.length; i++) {
+                            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                        }
+                    }
+                    return theRequest;
+                },
+                payment() {
+                    this.demonstrate = false;
+                    this.titleMessage = "立即付款";
+                    this.show1 = true;
+                },
+                immediate(){
+                    this.show1 = false;
+                    this.titleMessage = "支付成功";
+                    this.show2 = true;
+                }
+            }
+        })
+        Vue.filter('money', value => {
+            return parseFloat(value).toFixed(2)
+        })
+    </script>
+   <script>
+    $(function(){
+        if(core==1){
+            $("#app").html("<div style='position:fixed;top:40%;left:10%;right:10%;'>浏览器版本过低，请直接用QQ或者微信直接打开</div>");
+        }
+    })
+   </script>

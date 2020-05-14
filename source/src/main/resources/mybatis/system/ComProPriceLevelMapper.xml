@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.ComProPriceLevelMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.ComProPriceLevel" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
+    <result column="PRICE_LEVEL" property="priceLevel" jdbcType="CHAR" />
+    <result column="UNIT_PRICE" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="SORT_ITEM" property="sortItem" jdbcType="INTEGER" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, COM_KEY, INDUSTRY_ID, PARTNER_KEY, CATEGORY_ID, PRICE_LEVEL, UNIT_PRICE, SORT_ITEM, REMARKS, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_COM_PROPRICE_LEVEL
+    where COM_KEY = #{comKey} and PARTNER_KEY = #{partnerKey} and CATEGORY_ID = #{categoryId} and INDUSTRY_ID = #{industryId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_COM_PROPRICE_LEVEL
+    where COM_KEY = #{comKey} 
+    and INDUSTRY_ID = #{industryId}
+    <if test=" categoryId != null">
+   		and CATEGORY_ID = #{categoryId} 
+    </if>
+    <if test=" categoryIdIns != null">
+   		and CATEGORY_ID IN ${categoryIdIns} 
+    </if>
+  </delete>
+  <delete id="deleteAllCompany" parameterType="pd" >
+    delete from YDZ_COM_PROPRICE_LEVEL
+    where COM_KEY = #{comKey} and INDUSTRY_ID = #{industryId}
+  </delete>
+  
+  <insert id="insertBatch" parameterType="java.util.List" >
+    insert into YDZ_COM_PROPRICE_LEVEL 
+    (COM_KEY, INDUSTRY_ID, PARTNER_KEY, CATEGORY_ID, PRICE_LEVEL, UNIT_PRICE, SORT_ITEM, 
+      REMARKS, CREATE_TIME)
+    values 
+    <foreach collection="list" item="item" index="index"  
+        separator=",">  
+    (#{item.comKey,jdbcType=VARCHAR}, #{item.industryId,jdbcType=VARCHAR}, #{item.partnerKey,jdbcType=VARCHAR}, #{item.categoryId,jdbcType=VARCHAR}, #{item.priceLevel,jdbcType=CHAR}, #{item.unitPrice,jdbcType=DECIMAL}, #{item.sortItem,jdbcType=INTEGER}, 
+      #{item.remarks,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.ComProPriceLevel" >
+    insert into YDZ_COM_PROPRICE_LEVEL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY,
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID,
+      </if>
+      <if test="priceLevel != null" >
+        PRICE_LEVEL,
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE,
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="priceLevel != null" >
+        #{priceLevel,jdbcType=CHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="sortItem != null" >
+        #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.ComProPriceLevel" >
+    update YDZ_COM_PROPRICE_LEVEL
+    <set >
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="priceLevel != null" >
+        PRICE_LEVEL = #{priceLevel,jdbcType=CHAR},
+      </if>
+      <if test="unitPrice != null" >
+        UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="sortItem != null" >
+        SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.ComProPriceLevel" >
+    update YDZ_COM_PROPRICE_LEVEL
+    set COM_KEY = #{comKey,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      CATEGORY_ID = #{categoryId,jdbcType=VARCHAR},
+      PRICE_LEVEL = #{priceLevel,jdbcType=CHAR},
+      UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      SORT_ITEM = #{sortItem,jdbcType=INTEGER},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

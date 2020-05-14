@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.report.ReportWorkbenchChartMapper" >
+  <resultMap id="daiduizhangSalesOrder" type="com.ydz.entity.report.ReportWorkbenchDaiduizhangAmount" >
+    <result column="PRICE1" property="price1" jdbcType="VARCHAR" />
+    <result column="PRICE2" property="price2" jdbcType="VARCHAR" />
+    <result column="PRICE3" property="price3" jdbcType="VARCHAR" />
+    <result column="PRICE4" property="price4" jdbcType="VARCHAR" />
+    <result column="PRICE5" property="price5" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="daishoukuanSalescheckingOrder" type="com.ydz.entity.report.ReportWorkbenchDaishoukuanAmount" >
+    <result column="TOTAL_PRICE" property="totalPrice" jdbcType="VARCHAR" />
+    <result column="RECEIVABLES_MONEY" property="receivablesMoney" jdbcType="VARCHAR" />
+    <result column="MONTH_ORDER_DATE" property="monthOrderDate" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  <select id="getDaiduizhangAmount" resultMap="daiduizhangSalesOrder" parameterType="pd" >
+    SELECT
+	(
+		SELECT
+			ROUND(SUM(TOTAL_PRICE),2) TOTAL_PRICE
+		FROM
+			YDZ_SALES_ORDER
+		WHERE
+			COM_KEY = #{comKey}
+		AND ORDER_STATUS = '04'
+		AND CURRENT_DATE() &lt;= DATE_ADD(ORDER_DATE, INTERVAL 3 MONTH)
+	) PRICE1 ,
+	(
+		SELECT
+			ROUND(SUM(TOTAL_PRICE),2) TOTAL_PRICE
+		FROM
+			YDZ_SALES_ORDER
+		WHERE
+			COM_KEY = #{comKey}
+		AND ORDER_STATUS = '04'
+		AND CURRENT_DATE() &gt; DATE_ADD(ORDER_DATE, INTERVAL 3 MONTH)
+	) PRICE2 ,
+	(
+		SELECT
+			ROUND(SUM(TOTAL_PRICE),2) TOTAL_PRICE
+		FROM
+			YDZ_SALES_ORDER
+		WHERE
+			COM_KEY = #{comKey}
+		AND ORDER_STATUS = '04'
+		AND CURRENT_DATE() &gt; DATE_ADD(ORDER_DATE, INTERVAL 6 MONTH)
+	) PRICE3 ,
+	(
+		SELECT
+			ROUND(SUM(TOTAL_PRICE),2) TOTAL_PRICE
+		FROM
+			YDZ_SALES_ORDER
+		WHERE
+			COM_KEY = #{comKey}
+		AND ORDER_STATUS = '04'
+		AND CURRENT_DATE() &gt; DATE_ADD(ORDER_DATE, INTERVAL 9 MONTH)
+	) PRICE4 ,
+	(
+		SELECT
+			ROUND(SUM(TOTAL_PRICE),2) TOTAL_PRICE
+		FROM
+			YDZ_SALES_ORDER
+		WHERE
+			COM_KEY = #{comKey}
+		AND ORDER_STATUS = '04'
+		AND CURRENT_DATE() &gt; DATE_ADD(ORDER_DATE, INTERVAL 12 MONTH)
+	) PRICE5
+  </select>
+  
+  <select id="getDaishoukuanAmount" resultMap="daishoukuanSalescheckingOrder" parameterType="pd" >
+  	SELECT
+		ROUND(SUM(PAID_UP),2) TOTAL_PRICE ,
+		ROUND(SUM(RECEIVABLES_MONEY),2) RECEIVABLES_MONEY ,
+		MONTH(ORDER_DATE) MONTH_ORDER_DATE
+	FROM
+		YDZ_SALESCHECKING_ORDER
+	WHERE
+		YEAR(ORDER_DATE) = #{year}
+	AND COM_KEY = #{comKey}
+	AND ORDER_STATUS IN ('07','08')
+	GROUP BY
+		MONTH_ORDER_DATE
+  </select>
+</mapper>

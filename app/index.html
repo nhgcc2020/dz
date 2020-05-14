@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="wap-font-scale" content="no">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <title>易对账</title>
+  <style type="text/css">
+    body {
+      background: #f2f2f2;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app-box"></div>
+  <script type="text/javascript" src="cordova.js"></script>
+  <script type="text/javascript">
+    // var onDeviceReady = function () {
+    //   initiateUI();
+    // };
+    // var getRegistrationID = function () {
+    //   window.JPush.getRegistrationID(onGetRegistrationID);
+    // };
+
+    // var onGetRegistrationID = function (data) {
+    //   try {
+    //     console.log("JPushPlugin:registrationID is " + data);
+
+    //     if (data.length == 0) {
+    //       var t1 = window.setTimeout(getRegistrationID, 1000);
+    //     }
+    //     $("#registrationId").html(data);
+    //   } catch (exception) {
+    //     console.log(exception);
+    //   }
+    // };
+
+    // var onTagsWithAlias = function (event) {
+    //   try {
+    //     console.log("onTagsWithAlias");
+    //     var result = "result code:" + event.resultCode + " ";
+    //     result += "tags:" + event.tags + " ";
+    //     result += "alias:" + event.alias + " ";
+    //     $("#tagAliasResult").html(result);
+    //   } catch (exception) {
+    //     console.log(exception)
+    //   }
+    // };
+
+    // var onOpenNotification = function (event) {
+    //   try {
+    //     var alertContent;
+    //     if (device.platform == "Android") {
+    //       alertContent = event.alert;
+    //     } else {
+    //       alertContent = event.aps.alert;
+    //     }
+    //     alert("open Notification:" + alertContent);
+    //   } catch (exception) {
+    //     console.log("JPushPlugin:onOpenNotification" + exception);
+    //   }
+    // };
+
+    // var onReceiveNotification = function (event) {
+    //   try {
+    //     var alertContent;
+    //     if (device.platform == "Android") {
+    //       alertContent = event.alert;
+    //     } else {
+    //       alertContent = event.aps.alert;
+    //     }
+    //     $("#notificationResult").html(alertContent);
+    //   } catch (exception) {
+    //     console.log(exception)
+    //   }
+    // };
+
+    // var onReceiveMessage = function (event) {
+    //   try {
+    //     var message;
+    //     if (device.platform == "Android") {
+    //       message = event.message;
+    //     } else {
+    //       message = event.content;
+    //     }
+    //     $("#messageResult").html(message);
+    //   } catch (exception) {
+    //     console.log("JPushPlugin:onReceiveMessage-->" + exception);
+    //   }
+    // };
+
+    // var initiateUI = function () {
+    //   try {
+    //     window.JPush.init();
+    //     window.setTimeout(getRegistrationID, 1000);
+    //     if (device.platform != "Android") {
+    //       window.JPush.setDebugModeFromIos();
+    //       window.JPush.setApplicationIconBadgeNumber(0);
+    //     } else {
+    //       window.JPush.setDebugMode(true);
+    //       window.JPush.setStatisticsOpen(true);
+    //     }
+    //   } catch (exception) {
+    //     console.log(exception);
+    //   }
+    // };
+
+    // document.addEventListener("deviceready", onDeviceReady, false);
+    // document.addEventListener("jpush.openNotification", onOpenNotification, false);
+    // document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
+    // document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
+  </script>
+
+
+
+  <script type="text/javascript">
+    var app = {
+      
+      initialize: function () {
+        this.bindEvents();
+      },
+     
+      bindEvents: function () {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+      },
+      
+      onDeviceReady: function () {
+        app.receivedEvent('deviceready');
+
+        JAnalytics.init();
+        JAnalytics.setDebugMode();
+
+      },
+      
+      receivedEvent: function (id) {
+        
+      }
+    };
+
+    app.initialize();
+
+  </script>
+
+  <!-- built files will be auto injected -->
+</body>
+
+</html>

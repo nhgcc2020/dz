@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>成员列表</title>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+    <link href="/wechat/css/main.css" rel="stylesheet"/>
+	<script src="/wechat/js/mui.min.js"></script>
+	<script src="/common/growingio.js"></script>
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+
+	<style>
+		.coustom_list_center ul li{
+			height:70px;
+			width:100%;
+			background: #fff;
+			overflow: hidden;
+			padding:10px 0px 10px 15px;
+			position: relative;
+			margin-bottom:10px;
+		}
+		.coustom_list_center ul li div:first-child{
+			height:50px;
+			width:50px;
+			overflow: hidden;
+			border-radius: 25px;
+			float: left;
+		}
+		.coustom_list_center ul li div:first-child img{
+			height:100%;
+			width:100%;
+		}
+		.coustom_list_center ul li div:nth-child(2){
+			float: left;
+			height:50px;
+			overflow: hidden;
+			margin-left: 10px ;
+		}
+		.coustom_list_center ul li div:nth-child(2) h1{
+			font-size:14px;
+			color: #666;
+			height:25px;
+			margin:0px;
+			padding:0px;
+			line-height:25px;
+			font-weight:normal;
+		}
+		.coustom_list_center ul li div:nth-child(2) p{
+			font-size:12px;
+			color: #999;
+			height:25px;
+			margin:0px;
+			padding:0px;
+			line-height:25px;
+		}
+		.coustom_list_center ul li span{
+			display: block;
+			height:30px;
+			width:80px;
+			line-height:30px;
+			color: #FF9900;
+			position: absolute;
+			top:20px;
+			right:15px;
+			font-size:14px;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+<div class="coustom_list_center">
+	<ul id="friend_list"></ul>
+</div>
+
+<script>
+	function QueryEmployee(){
+		$.ajax({
+			url:'/wx/employee/info',
+			type:'POST',
+			async:false,
+			dataType:"json",
+			timeout:"10000",
+			success:function(callback){
+				console.log(callback)
+				$.each(callback,function(key,val){
+					var statusVal = val.status;
+					var spanStr;
+					switch (statusVal){
+						case "1":
+							spanStr = '<span>邀请中</span>';
+						break;
+						case "3":
+							spanStr = '<span>正常</span>';
+						break;
+					}
+					document.getElementById("friend_list").innerHTML +=
+						'<li>'+
+						'<div>'+
+						'<img onerror="defaultImg(this)" src="'+val.avatarPath+'">'+
+						'</div>'+
+						'<div>'+
+						'<h1>'+val.userName+'</h1>'+
+						'<p>'+val.userPhone+'</p>'+
+						'</div>'+spanStr+
+						'</li>';
+				})
+			},
+			error:function(){
+				$("<div class='error_tips'>").html("请求数据失败").fadeIn(250).delay(500).fadeOut(250).appendTo('.mui-content');
+			}
+		});
+	};
+	QueryEmployee();
+	function defaultImg(img) {
+		$(img).attr("src","/upload/logo/default_user.png");
+	}
+</script>
+
+</body>
+</html>

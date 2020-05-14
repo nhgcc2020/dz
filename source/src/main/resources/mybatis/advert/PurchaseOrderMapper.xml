@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.advert.PurchaseOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.advert.PurchaseOrder" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="PURCHASE_NO" property="purchaseNo" jdbcType="VARCHAR" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="PARTNER_NAME" property="partnerName" jdbcType="VARCHAR" />
+    <result column="PARTNER_SHORTNAME" property="partnerShortname" jdbcType="VARCHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="SALES_ID" property="salesId" jdbcType="VARCHAR" />
+    <result column="SALES_NAME" property="salesName" jdbcType="VARCHAR" />
+    <result column="CONTACT_ID" property="contactId" jdbcType="VARCHAR" />
+    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="ORDER_SELF_NO" property="orderSelfNo" jdbcType="VARCHAR" />
+    <result column="CASE_DESC" property="caseDesc" jdbcType="VARCHAR" />
+    <result column="ORDER_DATE" property="orderDate" jdbcType="DATE" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="DISCOUNT_RATE" property="discountRate" jdbcType="DECIMAL" />
+    <result column="DISCOUNT" property="discount" jdbcType="DECIMAL" />
+    <result column="PREFERENTIAL" property="preferential" jdbcType="DECIMAL" />
+    <result column="TAX_RATE" property="taxRate" jdbcType="DECIMAL" />
+    <result column="TAX_PRICE" property="taxPrice" jdbcType="DECIMAL" />
+    <result column="TOTAL_PRICE" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="DEPOSIT_REQUESTED" property="depositRequested" jdbcType="DECIMAL" />
+    <result column="RECEIVABLES_MONEY" property="receivablesMoney" jdbcType="DECIMAL" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="ORDER_STATUS" property="orderStatus" jdbcType="CHAR" />
+    <result column="ORDER_TYPE" property="orderType" jdbcType="CHAR" />
+    <result column="DETAIL_NUM" property="detailNum" jdbcType="SMALLINT" />
+    <result column="IS_URGENT" property="isUrgent" jdbcType="CHAR" />
+    <result column="WORKING_STATUS" property="workingStatus" jdbcType="CHAR" />
+    <result column="IS_RECEIVED" property="isReceived" jdbcType="CHAR" />
+    <result column="RECEIVED_TIME" property="receivedTime" jdbcType="TIMESTAMP" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="CHANGED_TIME" property="changedTime" jdbcType="TIMESTAMP" />
+    <result column="BUSINESS_TYPE" property="businessType" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="PURCHASECHECKING_NO" property="purchasecheckingNo" jdbcType="VARCHAR" />
+    <result column="SALES_NO" property="salesNo" jdbcType="VARCHAR" />
+    <result column="FROM_SALES_NO" property="fromSalesNo" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, PURCHASE_NO, PARTNER_KEY, PARTNER_NAME, PARTNER_SHORTNAME, COM_KEY, SALES_ID, SALES_NAME, CONTACT_ID, 
+    CONTACT_NAME, ORDER_SELF_NO, CASE_DESC, ORDER_DATE, PRICE, DISCOUNT_RATE, DISCOUNT, 
+    PREFERENTIAL, TAX_RATE, TAX_PRICE, TOTAL_PRICE, DEPOSIT_REQUESTED, RECEIVABLES_MONEY, 
+    REMARKS, ORDER_STATUS, ORDER_TYPE, DETAIL_NUM, IS_URGENT, WORKING_STATUS, IS_RECEIVED, RECEIVED_TIME, IS_VALID, IS_DEL, CHANGED_TIME, 
+    BUSINESS_TYPE, INDUSTRY_ID, PURCHASECHECKING_NO, SALES_NO, FROM_SALES_NO, CREATOR, CREATE_TIME
+  </sql>
+  <sql id="Base_Column_List_Copy" >
+    O.UID, O.PURCHASE_NO, O.COM_KEY, O.PARTNER_KEY, O.PARTNER_NAME, O.PARTNER_SHORTNAME,O.SALES_ID, O.SALES_NAME, O.CONTACT_ID,
+    O.CONTACT_NAME, O.ORDER_SELF_NO, O.CASE_DESC, O.ORDER_DATE, O.PRICE, O.DISCOUNT_RATE, O.DISCOUNT,
+    O.PREFERENTIAL, O.TAX_RATE, O.TAX_PRICE, O.TOTAL_PRICE, O.DEPOSIT_REQUESTED, O.RECEIVABLES_MONEY,
+    O.REMARKS, O.ORDER_STATUS, O.ORDER_TYPE, O.DETAIL_NUM, O.IS_URGENT, O.WORKING_STATUS, O.IS_RECEIVED, O.RECEIVED_TIME, O.IS_VALID, O.IS_DEL, O.CHANGED_TIME,
+    O.BUSINESS_TYPE, O.INDUSTRY_ID, O.PURCHASECHECKING_NO, O.SALES_NO, O.FROM_SALES_NO, O.CREATOR, O.CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List_Copy" />, u.REAL_NAME as creatorName
+    from YDZ_PURCHASE_ORDER O
+    JOIN YDZ_USER u ON O.CREATOR = u.USER_KEY
+    where O.IS_VALID = '1' AND O.IS_DEL = '0' and O.PURCHASE_NO = #{purchaseNo}
+    <if test="comKey != null">
+    	and O.COM_KEY = #{comKey}
+    </if>
+  </select>
+  <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_PURCHASE_ORDER
+    where IS_VALID = '1' AND IS_DEL = '0' and PURCHASE_NO = #{purchaseNo}
+    <if test="comKey != null">
+    	and COM_KEY = #{comKey}
+    </if>
+  </select> -->
+
+  <!--查询非好友的采购单-->
+  <select id="listPageNomal" resultMap="BaseResultMap" parameterType="page">
+    select <include refid="Base_Column_List" /> from YDZ_PURCHASE_ORDER
+    where
+    COM_KEY = #{pd.comKey}
+    <if test="pd.orderStatus != null" >
+     and  ORDER_STATUS = #{pd.orderStatus,jdbcType=CHAR}
+    </if>
+    and (SALES_NO = "" or SALES_NO is NULL)
+    order by UID desc
+  </select>
+
+  <!--查询好友的采购单 协同采购 -->
+  <select id="listPageSynch" resultMap="BaseResultMap" parameterType="page">
+    select <include refid="Base_Column_List" /> from YDZ_PURCHASE_ORDER
+    where
+    COM_KEY = #{pd.comKey}
+    <if test="pd.orderStatus != null" >
+      and  ORDER_STATUS = #{pd.orderStatus,jdbcType=CHAR}
+    </if>
+    and SALES_NO != "" AND SALES_NO is not null
+    order by UID desc
+  </select>
+  
+  <select id="selectCountOrderStatus" resultType="com.ydz.entity.workbench.TodoCountVO" parameterType="pd" useCache="false">
+  	 select count(ORDER_STATUS) orderCount,ORDER_STATUS orderStatus,COM_KEY comKey
+  	 from YDZ_PURCHASE_ORDER
+  	 where IS_VALID = '1' AND IS_DEL = '0' 
+ 	<if test="isSynchro != null">
+ 		AND SALES_NO is not null
+ 	</if>
+  	 AND ORDER_STATUS = #{orderStatus} 
+  	 AND COM_KEY = #{comKey}
+  </select>
+
+  <select id="listPurchaseOrderBySalesNos" resultMap="BaseResultMap" parameterType="pd">
+    SELECT  <include refid="Base_Column_List"/> FROM  YDZ_PURCHASE_ORDER
+    WHERE 1=1
+    <if test="salesNo!=null">
+	    and SALES_NO IN
+		    <foreach collection="salesNo" item="item" index="index" open="(" separator="," close=")">
+		      #{item,jdbcType=VARCHAR}
+		    </foreach>
+    </if>
+    <if test="fromSalesNo!=null">
+    	and FROM_SALES_NO = #{fromSalesNo}
+    </if>
+  </select>
+  
+  <select id="listPurchaseOrderByPurchaseNos" resultMap="BaseResultMap" parameterType="java.util.Map">
+    SELECT  <include refid="Base_Column_List"/> FROM  YDZ_PURCHASE_ORDER
+    WHERE
+    PURCHASE_NO
+    IN
+    <foreach collection="purchaseNos" item="item" index="index" open="(" separator="," close=")">
+      #{item,jdbcType=VARCHAR}
+    </foreach>
+  </select>
+  
+  <select id="listFromSalesNoToPurchaseNoNum" resultType="com.ydz.entity.advert.PurchaseOrder" parameterType="pd">
+    SELECT  
+		count(PURCHASE_NO) purchaseNoNum,
+		FROM_SALES_NO
+    FROM  YDZ_PURCHASE_ORDER
+    WHERE is_valid = '1' and is_del = '0'
+    and FROM_SALES_NO in ${fromSalesNo}
+    group by FROM_SALES_NO
+  </select>
+  
+
+
+  <select id="listPagePurchaseOrder" resultMap="BaseResultMap" parameterType="page" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_PURCHASE_ORDER
+    where IS_VALID = '1' AND IS_DEL = '0' and COM_KEY = #{pd.comKey}
+    <if test="pd.purchaseNo != null">
+    	and PURCHASE_NO = #{pd.purchaseNo}
+    </if>
+    <if test="pd.partnerKey != null">
+    	and PARTNER_KEY = #{pd.partnerKey}
+    </if>    
+    <if test="pd.partnerName != null">
+    	and PARTNER_NAME LIKE '%${pd.partnerName}%'
+    </if>
+    <if test="pd.startDate != null">
+    	and ORDER_DATE &gt;= #{pd.startDate}
+    </if> 
+    <if test="pd.endDate != null">
+    	and ORDER_DATE &lt;= #{pd.endDate}
+    </if> 
+    <if test="pd.isUrgent != null">
+    	and IS_URGENT = #{pd.isUrgent}
+    </if>
+    <if test="pd.industryId != null">
+    	and INDUSTRY_ID = #{pd.industryId}
+    </if>
+    <if test="pd.purchasecheckingNo != null">
+    	and PURCHASECHECKING_NO = #{pd.purchasecheckingNo}
+    </if>
+    <if test="pd.orderStatus != null">
+    	and ORDER_STATUS = #{pd.orderStatus}
+    </if>
+    <if test="pd.orderStatusIN != null">
+      and ORDER_STATUS IN ${pd.orderStatusIN}
+    </if>
+    <if test="pd.fromSalesNo != null">
+      and FROM_SALES_NO = ${pd.fromSalesNo}
+    </if>
+    order by ORDER_DATE DESC
+  </select>
+  
+  <select id="listPagePurchaseOrderConcat" resultType="com.ydz.entity.advert.PurchaseOrder" parameterType="page" >
+    select 
+	    a.PURCHASE_NO purchaseNo, a.PARTNER_KEY partnerKey, a.PARTNER_NAME partnerName, a.PARTNER_SHORTNAME partnerShortname, a.COM_KEY comKey, a.SALES_ID saleId, a.SALES_NAME saleName, a.CONTACT_ID contactId, 
+	    a.CONTACT_NAME contactName, a.ORDER_SELF_NO orderSelfNo, a.CASE_DESC caseDesc, a.ORDER_DATE orderDate, a.PRICE price, a.DISCOUNT_RATE discountRate, a.DISCOUNT discount, 
+	    a.PREFERENTIAL preferential, a.TAX_RATE taxRate, a.TAX_PRICE taxPrice, a.TOTAL_PRICE totalPrice, a.DEPOSIT_REQUESTED depositRequested, a.RECEIVABLES_MONEY receivablesMoney, 
+	    a.REMARKS remarks, a.ORDER_STATUS orderStatus, a.ORDER_TYPE orderType, a.DETAIL_NUM detailNum, a.IS_URGENT isUrgent, a.WORKING_STATUS workingStatus, a.IS_VALID isValid, a.IS_DEL isDel, a.CHANGED_TIME changedTime, 
+	    a.BUSINESS_TYPE businessType, a.INDUSTRY_ID industryId, a.PURCHASECHECKING_NO purchasecheckingNo, a.SALES_NO salesNo, a.FROM_SALES_NO fromSalesNo, a.CREATOR creator, u.REAL_NAME creatorName, a.CREATE_TIME createTime
+    from YDZ_PURCHASE_ORDER a, YDZ_USER u
+    where u.USER_KEY = a.CREATOR 
+    and a.PURCHASE_NO IN ${pd.purchaseNoIns}
+    order by a.ORDER_DATE DESC
+  </select>
+  <select id="getPurchaseOrderNoList" resultMap="BaseResultMap" parameterType="page" >
+  	SELECT DISTINCT
+		p.PURCHASE_NO
+	FROM
+		YDZ_PURCHASE_ORDER p,
+		YDZ_PURCHASE_ORDER_DETAIL d
+	WHERE p.IS_VALID = '1' AND p.IS_DEL = '0' and d.IS_VALID = '1' AND d.IS_DEL = '0' AND p.PURCHASE_NO = d.PURCHASE_NO
+	<if test="pd.comKey != null">
+		and p.COM_KEY = #{pd.comKey}
+	</if>
+	<if test="pd.partnerKey != null">
+    	and p.PARTNER_KEY = #{pd.partnerKey}
+    </if>
+	<if test="pd.startDate != null">
+    	and p.ORDER_DATE &gt;= #{pd.startDate}
+    </if> 
+    <if test="pd.endDate != null">
+    	and p.ORDER_DATE &lt;= #{pd.endDate}
+    </if>
+    <if test="pd.searchKey != null">
+    	AND CONCAT(d.PURCHASE_NO,d.BUSINESS_DESC,p.CASE_DESC) LIKE '%${pd.searchKey}%'
+    </if>
+    <if test="pd.orderStatus != null">
+    	and p.ORDER_STATUS = #{pd.orderStatus}
+    </if>
+    <if test="pd.orderStatusNoCancel != null">
+      and p.ORDER_STATUS <![CDATA[<>]]> 'CC'
+    </if>
+  </select>  
+  
+  <select id="selectSumPurchaseOrder" resultType="com.ydz.vo.OrderTotalVO" parameterType="pd">
+    select 
+    	sum(TOTAL_PRICE) sumTotalPrice,
+    	count(PURCHASE_NO) orderCount 
+    from YDZ_PURCHASE_ORDER
+    where IS_VALID = '1' AND IS_DEL = '0' and COM_KEY = #{comKey}
+    <if test="purchaseNo != null">
+    	and PURCHASE_NO = #{purchaseNo}
+    </if>
+    <if test="partnerKey != null">
+    	and PARTNER_KEY = #{partnerKey}
+    </if>    
+    <if test="startDate != null and endDate !=null">
+    	and ORDER_DATE BETWEEN #{startDate} AND #{endDate}
+    </if>
+    <if test="isUrgent != null">
+    	and IS_URGENT = #{isUrgent}
+    </if>
+    <if test="orderStatus != null">
+    	and ORDER_STATUS = #{orderStatus}
+    </if>
+    <if test="orderStatusIN != null">
+      and ORDER_STATUS IN 
+      <foreach collection="orderStatusIN" item="item" index="index"
+		open="(" separator="," close=")">#{item}</foreach>
+    </if>
+    <if test="purchaseNoList != null">
+    	and PURCHASE_NO in
+	    <foreach collection="purchaseNoList" item="item" index="index" open="(" separator="," close=")">
+	      #{item,jdbcType=VARCHAR}
+	    </foreach>
+    </if>
+<!--     <if test="pd.isSynchro != null">
+    	and SALES_NO is not null
+    </if>
+    <if test="pd.isSynchro == null">
+    	and SALES_NO is null
+    </if> -->
+  </select>
+  
+  <select id="selectOrderCycle" resultType="java.lang.String" parameterType="pd">
+  	SELECT
+		CONCAT(MIN(ORDER_DATE),' 至 ',MAX(ORDER_DATE)) orderCycle
+	FROM
+		YDZ_PURCHASE_ORDER
+	WHERE
+		PURCHASE_NO IN ${purchaseOrderNoIn}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_PURCHASE_ORDER
+    where COM_KEY = #{comKey} and PURCHASE_NO = #{purchaseNo}
+  </delete>
+  <insert id="insertList" parameterType="java.util.List" >
+    insert into YDZ_PURCHASE_ORDER (PURCHASE_NO, PARTNER_KEY, 
+      PARTNER_NAME, PARTNER_SHORTNAME, COM_KEY, SALES_ID, 
+      SALES_NAME, CONTACT_ID, CONTACT_NAME, 
+      ORDER_SELF_NO, CASE_DESC, ORDER_DATE, 
+      PRICE, DISCOUNT_RATE, DISCOUNT, 
+      PREFERENTIAL, TAX_RATE, TAX_PRICE, 
+      TOTAL_PRICE, DEPOSIT_REQUESTED, RECEIVABLES_MONEY, 
+      REMARKS, ORDER_STATUS, ORDER_TYPE, 
+      DETAIL_NUM, IS_URGENT, WORKING_STATUS, IS_VALID, 
+      IS_DEL, CHANGED_TIME, BUSINESS_TYPE, 
+      INDUSTRY_ID, PURCHASECHECKING_NO, SALES_NO, 
+      CREATOR, CREATE_TIME)
+    values 
+    <foreach collection="list" item="item" index="index"  
+        separator=",">  
+    (#{item.purchaseNo,jdbcType=VARCHAR}, #{item.partnerKey,jdbcType=VARCHAR}, 
+      #{item.partnerName,jdbcType=VARCHAR}, #{item.partnerShortname,jdbcType=VARCHAR}, #{item.comKey,jdbcType=VARCHAR}, #{item.salesId,jdbcType=VARCHAR}, 
+      #{item.salesName,jdbcType=VARCHAR}, #{item.contactId,jdbcType=VARCHAR}, #{item.contactName,jdbcType=VARCHAR}, 
+      #{item.orderSelfNo,jdbcType=VARCHAR}, #{item.caseDesc,jdbcType=VARCHAR}, #{item.orderDate,jdbcType=DATE}, 
+      #{item.price,jdbcType=DECIMAL}, #{item.discountRate,jdbcType=DECIMAL}, #{item.discount,jdbcType=DECIMAL}, 
+      #{item.preferential,jdbcType=DECIMAL}, #{item.taxRate,jdbcType=DECIMAL}, #{item.taxPrice,jdbcType=DECIMAL}, 
+      #{item.totalPrice,jdbcType=DECIMAL}, #{item.depositRequested,jdbcType=DECIMAL}, #{item.receivablesMoney,jdbcType=DECIMAL}, 
+      #{item.remarks,jdbcType=VARCHAR}, #{item.orderStatus,jdbcType=CHAR}, #{item.orderType,jdbcType=CHAR}, 
+      #{item.detailNum,jdbcType=SMALLINT}, #{item.isUrgent,jdbcType=CHAR}, #{item.workingStatus,jdbcType=CHAR}, #{item.isValid,jdbcType=CHAR}, 
+      #{item.isDel,jdbcType=CHAR}, #{item.changedTime,jdbcType=TIMESTAMP}, #{item.businessType,jdbcType=VARCHAR}, 
+      #{item.industryId,jdbcType=VARCHAR}, #{item.purchasecheckingNo,jdbcType=VARCHAR}, #{item.salesNo,jdbcType=VARCHAR}, 
+      #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP})
+    </foreach>  
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.advert.PurchaseOrder" >
+    insert into YDZ_PURCHASE_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="purchaseNo != null" >
+        PURCHASE_NO,
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY,
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME,
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME,
+      </if>      
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="salesId != null" >
+        SALES_ID,
+      </if>
+      <if test="salesName != null" >
+        SALES_NAME,
+      </if>
+      <if test="contactId != null" >
+        CONTACT_ID,
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME,
+      </if>
+      <if test="orderSelfNo != null" >
+        ORDER_SELF_NO,
+      </if>
+      <if test="caseDesc != null" >
+        CASE_DESC,
+      </if>
+      <if test="orderDate != null" >
+        ORDER_DATE,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="discountRate != null" >
+        DISCOUNT_RATE,
+      </if>
+      <if test="discount != null" >
+        DISCOUNT,
+      </if>
+      <if test="preferential != null" >
+        PREFERENTIAL,
+      </if>
+      <if test="taxRate != null" >
+        TAX_RATE,
+      </if>
+      <if test="taxPrice != null" >
+        TAX_PRICE,
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE,
+      </if>
+      <if test="depositRequested != null" >
+        DEPOSIT_REQUESTED,
+      </if>
+      <if test="receivablesMoney != null" >
+        RECEIVABLES_MONEY,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS,
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE,
+      </if>
+      <if test="detailNum != null" >
+        DETAIL_NUM,
+      </if>
+      <if test="isUrgent != null" >
+        IS_URGENT,
+      </if>
+      <if test="workingStatus != null" >
+        WORKING_STATUS,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="changedTime != null" >
+        CHANGED_TIME,
+      </if>
+      <if test="businessType != null" >
+        BUSINESS_TYPE,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="purchasecheckingNo != null" >
+        PURCHASECHECKING_NO,
+      </if>
+      <if test="salesNo != null" >
+        SALES_NO,
+      </if>
+      <if test="fromSalesNo != null" >
+        FROM_SALES_NO,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseNo != null" >
+        #{purchaseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        #{partnerShortname,jdbcType=VARCHAR},
+      </if>      
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="salesId != null" >
+        #{salesId,jdbcType=VARCHAR},
+      </if>
+      <if test="salesName != null" >
+        #{salesName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactId != null" >
+        #{contactId,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSelfNo != null" >
+        #{orderSelfNo,jdbcType=VARCHAR},
+      </if>
+      <if test="caseDesc != null" >
+        #{caseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discountRate != null" >
+        #{discountRate,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="preferential != null" >
+        #{preferential,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRate != null" >
+        #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="taxPrice != null" >
+        #{taxPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositRequested != null" >
+        #{depositRequested,jdbcType=DECIMAL},
+      </if>
+      <if test="receivablesMoney != null" >
+        #{receivablesMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=CHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="detailNum != null" >
+        #{detailNum,jdbcType=SMALLINT},
+      </if>
+      <if test="isUrgent != null" >
+        #{isUrgent,jdbcType=CHAR},
+      </if>
+      <if test="workingStatus != null" >
+        #{workingStatus,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="changedTime != null" >
+        #{changedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessType != null" >
+        #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasecheckingNo != null" >
+        #{purchasecheckingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesNo != null" >
+        #{salesNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromSalesNo != null" >
+        #{fromSalesNo,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.advert.PurchaseOrder" >
+    update YDZ_PURCHASE_ORDER
+    <set >
+      <if test="purchaseNo != null" >
+        PURCHASE_NO = #{purchaseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME = #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME = #{partnerShortname,jdbcType=VARCHAR},
+      </if>      
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="salesId != null" >
+        SALES_ID = #{salesId,jdbcType=VARCHAR},
+      </if>
+      <if test="salesName != null" >
+        SALES_NAME = #{salesName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactId != null" >
+        CONTACT_ID = #{contactId,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSelfNo != null" >
+        ORDER_SELF_NO = #{orderSelfNo,jdbcType=VARCHAR},
+      </if>
+      <if test="caseDesc != null" >
+        CASE_DESC = #{caseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        ORDER_DATE = #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discountRate != null" >
+        DISCOUNT_RATE = #{discountRate,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        DISCOUNT = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="preferential != null" >
+        PREFERENTIAL = #{preferential,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRate != null" >
+        TAX_RATE = #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="taxPrice != null" >
+        TAX_PRICE = #{taxPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositRequested != null" >
+        DEPOSIT_REQUESTED = #{depositRequested,jdbcType=DECIMAL},
+      </if>
+      <if test="receivablesMoney != null" >
+        RECEIVABLES_MONEY = #{receivablesMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS = #{orderStatus,jdbcType=CHAR},
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE = #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="detailNum != null" >
+        DETAIL_NUM = #{detailNum,jdbcType=SMALLINT},
+      </if>
+      <if test="isUrgent != null" >
+        IS_URGENT = #{isUrgent,jdbcType=CHAR},
+      </if>
+      <if test="workingStatus != null" >
+        WORKING_STATUS = #{workingStatus,jdbcType=CHAR},
+      </if>
+      <if test="isReceived != null" >
+        IS_RECEIVED = #{isReceived,jdbcType=CHAR},
+      </if>
+      <if test="receivedTime != null" >
+        RECEIVED_TIME = #{receivedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="changedTime != null" >
+        CHANGED_TIME = #{changedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessType != null" >
+        BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasecheckingNo != null" >
+        PURCHASECHECKING_NO = #{purchasecheckingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesNo != null" >
+        SALES_NO = #{salesNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromSalesNo != null" >
+        FROM_SALES_NO = #{fromSalesNo,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where
+    PURCHASE_NO = #{purchaseNo}
+    <if test="comKey != null">
+      and COM_KEY = #{comKey}
+    </if>
+  </update>
+  <update id="updateByMapPara" parameterType="pd" >
+    update YDZ_PURCHASE_ORDER
+    <set >
+      <if test="partnerKey != null" >
+        PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerName != null" >
+        PARTNER_NAME = #{partnerName,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerShortname != null" >
+        PARTNER_SHORTNAME = #{partnerShortname,jdbcType=VARCHAR},
+      </if>      
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="salesId != null" >
+        SALES_ID = #{salesId,jdbcType=VARCHAR},
+      </if>
+      <if test="salesName != null" >
+        SALES_NAME = #{salesName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactId != null" >
+        CONTACT_ID = #{contactId,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSelfNo != null" >
+        ORDER_SELF_NO = #{orderSelfNo,jdbcType=VARCHAR},
+      </if>
+      <if test="caseDesc != null" >
+        CASE_DESC = #{caseDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDate != null" >
+        ORDER_DATE = #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="discountRate != null" >
+        DISCOUNT_RATE = #{discountRate,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        DISCOUNT = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="preferential != null" >
+        PREFERENTIAL = #{preferential,jdbcType=DECIMAL},
+      </if>
+      <if test="taxRate != null" >
+        TAX_RATE = #{taxRate,jdbcType=DECIMAL},
+      </if>
+      <if test="taxPrice != null" >
+        TAX_PRICE = #{taxPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositRequested != null" >
+        DEPOSIT_REQUESTED = #{depositRequested,jdbcType=DECIMAL},
+      </if>
+      <if test="receivablesMoney != null" >
+        RECEIVABLES_MONEY = #{receivablesMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        ORDER_STATUS = #{orderStatus,jdbcType=CHAR},
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE = #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="detailNum != null" >
+        DETAIL_NUM = #{detailNum,jdbcType=SMALLINT},
+      </if>
+      <if test="isUrgent != null" >
+        IS_URGENT = #{isUrgent,jdbcType=CHAR},
+      </if>
+      <if test="workingStatus != null" >
+        WORKING_STATUS = #{workingStatus,jdbcType=CHAR},
+      </if>
+      <if test="isReceived != null" >
+        IS_RECEIVED = #{isReceived,jdbcType=CHAR},
+      </if>
+      <if test="receivedTime != null" >
+        RECEIVED_TIME = #{receivedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="changedTime != null" >
+        CHANGED_TIME = #{changedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessType != null" >
+        BUSINESS_TYPE = #{businessType,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasecheckingNo != null" >
+        PURCHASECHECKING_NO = #{purchasecheckingNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesNo != null" >
+        SALES_NO = #{salesNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromSalesNo != null" >
+        FROM_SALES_NO = #{fromSalesNo,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isReceived != null" >
+        	IS_RECEIVED = #{isReceived,jdbcType=CHAR},
+       </if>
+       <if test="receivedTime != null" >
+       	RECEIVED_TIME = #{receivedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where
+    PURCHASE_NO = #{purchaseNo}
+    <if test="comKey != null">
+      and COM_KEY = #{comKey}
+    </if>
+
+  </update>
+
+  <!--批量修改订单状态-->
+  <update id="updateBatchByPurchaseNoIn" parameterType="pd">
+    UPDATE YDZ_PURCHASE_ORDER
+    <set>
+    	<if test="orderStatus != null" >
+        	ORDER_STATUS = #{orderStatus},
+      	</if>
+    	<if test="changedTime != null" >
+        	CHANGED_TIME = #{changedTime},
+      	</if>
+    	<if test="purchasecheckingNo != null" >
+        	PURCHASECHECKING_NO = #{purchasecheckingNo},
+      	</if>
+    	<if test="isDel != null" >
+        	IS_DEL = #{isDel},
+      	</if>
+    </set>
+    where PURCHASE_NO IN
+    <foreach collection="purchaseOrderNoIn" item="item" index="index" open="(" separator="," close=")">
+    	#{item}
+    </foreach>
+  </update>
+</mapper>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>权限转移</title>
+    <link href="/wechat/css/mui.min.css" rel="stylesheet"/>
+    <link href="/wechat/css/main.css" rel="stylesheet"/>
+	<script src="/common/growingio.js"></script>
+</head>
+<body>
+
+	
+	<div class="mui-content">
+		<div class="mui-content-padded related_form_content">
+			<p>企业信息只有管理员权限才能修改。</p>
+			<form class="mui-input-group related_form" action="../member/company_modify.html">
+				<p>当前管理员</p>
+			    <div class="mui-input-row related_form_row">
+			    		<input type="password" class="mui-input-clear" placeholder="杜万" disabled="disabled">
+			    </div>
+			   
+			    
+			    <div class="mui-input-row related_form_codes related_form_prov_undline">
+			        <input type="text" class="mui-input" placeholder="请输入验证码">
+			        <div><button id="countdown">获取短信验证码</button></div>
+			    </div>
+			    
+			    	<p>转交新管理员</p>
+			    <div class="mui-input-row related_form_occupation">
+			    		<select name="prov">
+			    			<option value="">请选择</option>
+			    			<option value="">张三</option>
+			    			<option value="">李四</option>
+			    		</select>
+			    </div>
+			    <div class="mui-button-row related_form_sub">
+			        <button type="submit" class="mui-btn mui-btn-primary">确认转移权限</button>
+			    </div>
+			</form>
+		</div>
+	</div>
+
+	<script src="/wechat/js/jquery-1.8.3.min.js"></script>
+	<script src="/wechat/js/form.js"></script>
+	<script>
+
+		$("#countdown").click(function(){
+			$(this).countdown();
+		});
+
+	</script>
+
+</body>
+</html>

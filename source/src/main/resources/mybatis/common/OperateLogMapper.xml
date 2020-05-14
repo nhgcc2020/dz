@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.common.OperateLogMapper" >
+  <select id="listPageOperateLogs" resultType="com.ydz.entity.common.OperateLog" parameterType="page" >
+	select
+		com_key,com_shortname,user_key,user_name,oper_place,oper_action,oper_content,create_time
+	from ydz_operate_log
+	where com_key = #{pd.comKey}
+	<if test="pd.userKey != null">
+		and user_key = #{pd.userKey}
+	</if>
+  </select>
+  <insert id="insertSelective" parameterType="com.ydz.entity.common.OperateLog" >
+    insert into YDZ_OPERATE_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="comShortname != null" >
+        COM_SHORTNAME,
+      </if>
+      <if test="userKey != null" >
+        USER_KEY,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="operPlace != null" >
+        OPER_PLACE,
+      </if>
+      <if test="operAction != null" >
+        OPER_ACTION,
+      </if>
+      <if test="operContent != null" >
+        OPER_CONTENT,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="comShortname != null" >
+        #{comShortname,jdbcType=VARCHAR},
+      </if>
+      <if test="userKey != null" >
+        #{userKey,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="operPlace != null" >
+        #{operPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="operAction != null" >
+        #{operAction,jdbcType=VARCHAR},
+      </if>
+      <if test="operContent != null" >
+        #{operContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

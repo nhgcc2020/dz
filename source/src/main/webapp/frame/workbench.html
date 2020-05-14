@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <meta HTTP-EQUIV="Cache-Control" CONTENT="no-store, must-revalidate">
+    <meta HTTP-EQUIV="expires" CONTENT="Wed, 26 Feb 1997 08:21:57 GMT">
+    <meta HTTP-EQUIV="expires" CONTENT="0">
+    <title>工作台</title>
+    <base href="/">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="/resources/business/global.css?v=76321dbcfe">
+    <link rel="stylesheet" type="text/css" href="/resources/new/base_new.css?v=da63245499"> 		<!--整体修改-->
+    <style>
+        *, *:before, *:after{
+            box-sizing: inherit;
+        }
+        .balanceQry_arrow{height:30px;cursor:pointer;line-height:29px;border-radius:3px;background-color:#fff;color:#27283c;display:inline-block;padding:0 15px;text-indent:0;margin:0 10px 0 10px;border:1px solid #27283c}
+        .balanceQry_arrow:hover{background-color:#3dcc74;color:#fff;border:1px solid #3dcc74}
+        .balanceQry_arrow:hover .iconfont{color:#fff}
+        .arrow_code_img{display:none}
+        /*.left_tips_center_fir{width:50%}*/
+
+        .table_list_right{
+            float: right;
+            width:20%;
+            margin-right:1%;
+        }
+        .table_list_right .table_list_right_lis {
+            background: #fff;
+            padding-bottom: 20px;
+            margin-bottom:20px;
+            /*box-shadow: -1px 1px 5px 0px rgba(0,0,0,.2);*/
+        }
+        .table_list_right>div:last-child{
+        }
+        .table_list_right_title{
+            height:36px;
+            line-height: 36px;
+            padding:0px;
+            margin:10px 0px 0px;
+            text-indent: 1em;
+        }
+        .table_list_todo{
+            padding:0 0 20px 0px !important;
+            overflow: hidden;
+
+        }
+        .table_list_todo li{
+            text-align: center;
+            color: #666;
+            height:180px;
+            opacity: 0;
+            position: relative;
+            cursor: pointer;
+            transition:margin-top 0.3s 0s linear;
+            cursor: pointer;
+            overflow: hidden;
+            background: #fff;
+            float: left;
+            width: 19%;
+            margin-right: 0;
+            margin-left: 1%;
+        }
+        .table_list_todo li:last-child{
+            margin-right:0;
+        }
+        .table_list_todo li:hover{
+            margin-top: -10px;
+        }
+        .table_list_todo li a{
+            /*display: block;*/
+            margin-top: 20px;
+        }
+        .table_list_todo li p{
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            font-size:12px;
+        }
+
+        .table_list_todo li span{
+            display: block;
+            width:26px;
+            height: 26px;
+            position: absolute;
+            top:0px;
+            opacity:0;
+            right: 30px;
+        }
+        .table_list_todo li i{
+            display: block;
+            width:26px;
+            height: 26px;
+            position: absolute;
+            top:0px;
+            right: 30px;
+            line-height: 26px;
+            text-align: center;
+            color: #fff;
+            font-size: 12px;
+            font-style: normal;
+            opacity:0;
+        }
+
+        .new-tips li {
+            height:48px;
+            position: relative;
+            cursor: pointer;
+            /*border-bottom:1px dashed #e4e4e4;*/
+        }
+        .new-tips li a{
+            color:#000;
+        }
+        .new-tips li span{
+            display: inline-block;
+            height:22px;
+            line-height: 22px;
+            width: calc(100% - 90px);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .new-tips li i{
+            position: absolute;
+            right: 0px;
+            top: 0;
+            font-style: normal;
+            width: 90px;
+            overflow: hidden;
+        }
+        .new-tips li p{
+            overflow: hidden;
+            color:#ccc;
+            white-space:nowrap;
+            text-overflow:ellipsis;
+            font-size: 12px;
+        }
+        .new-tips li:hover{
+        }
+
+        .tips_contants{
+            height: 80px;
+            line-height: 80px;
+            width:auto;
+            text-align: center;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            position: absolute;
+            top:50%;
+            /*margin-top:-150px;*/
+            left:46.5%;
+            /*margin-left: -150px;*/
+            border-radius: 5px;
+            display: none;
+            padding: 0 15px;
+        }
+        .new-tips{
+            padding:10px 10px 10px 30px ;
+        }
+        .table_list_left{
+            width: 78%;
+            float: left;
+        }
+
+        .table_list_tips{
+            height: 15px;
+        }
+        /*body{*/
+        /*background: url("/resources/images/bgmain.jpg") no-repeat center center fixed;*/
+        /*-webkit-background-size: cover;*/
+        /*}*/
+
+        .table_list_todo li:first-child{
+            animation:animation-panel .5s ease-out 0s forwards ;
+            -webkit-animation:animation-panel .5s ease-out 0s forwards ;
+        }
+        .table_list_todo li:nth-child(2){
+            animation:animation-panel .5s ease-out .3s forwards ;
+            -webkit-animation:animation-panel .5s ease-out .3s forwards ;
+        }
+        .table_list_todo li:nth-child(3){
+            animation:animation-panel .5s ease-out .6s forwards ;
+            -webkit-animation:animation-panel .5s ease-out .6s forwards ;
+        }
+        .table_list_todo li:nth-child(4){
+            animation:animation-panel .5s ease-out .9s forwards ;
+            -webkit-animation:animation-panel .5s ease-out .9s forwards ;
+        }
+        .table_list_todo li:nth-child(5){
+            animation:animation-panel .5s ease-out 1s forwards ;
+            -webkit-animation:animation-panel .5s ease-out 1s forwards ;
+        }
+        #mainshoukuan,#mainduizhang{
+            animation:top-panel .5s ease-out 0s forwards ;
+            -webkit-animation:top-panel .5s ease-out 0s forwards ;
+        }
+        @keyframes top-panel{
+            0% {
+                -webkit-transform: translatey(24px);
+                transform: translatey(24px);
+                opacity: 0;
+            }
+            100% {
+                -webkit-transform: translatey(0);
+                transform: translatey(0);
+                opacity: 1;
+            }
+        }
+        @keyframes animation-panel{
+            0% {
+                -webkit-transform: scale(0.1);
+                transform: scale(0.1);
+                opacity: 0;
+            }
+            100% {
+                -webkit-transform: scale(1);
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+    .guidance{
+        width: 100%;
+        height: 70px;
+        overflow: hidden;
+    }
+    .guidance>ul{
+        margin-left:20px;
+        margin-top:8px;
+        height: 48px;
+    }
+    .guidance>ul>li{
+        width: 88px;
+        display: inline-block;
+        font-size: 12px;
+        text-align: center;
+        color: #666;
+        cursor: pointer;
+    }
+    .guidance>ul>li>span{
+        display: inline-block;
+        height: 26px;
+        width: 26px;
+        border-radius: 50%;
+        line-height: 26px;
+        color: #fff;
+        margin-bottom:3px;
+        font-size: 14px;
+    }
+    .guidance>ul>#state{
+        position: relative;
+        width:210px;
+        height:48px;
+        text-align:center;
+        color:#fff;
+        margin-left:10px;
+    }
+    .guidance>ul>li:hover{
+        color: #1e88e5;
+    }
+    #state:hover>span{
+        background: #fff !important;
+        color: #1e88e5 !important;
+    }
+    .cover{
+        display: none;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 170%;
+        background: #000;
+        opacity: 0.7;
+        z-index: 1000;
+    }
+    .alart,.alart_one{
+        display: none;
+        position: absolute;
+        top:0;
+        z-index: 2000;
+        width: 100%;
+    }
+    .alart>img{
+        display: block;
+        margin: 0px auto 20px;
+        width: 680px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    .alart_one>img{
+        display: none;
+        width: 1100px;
+        height: 540px;
+        margin: 10% auto;
+    }
+    /*.callback,.alart_callback{
+        font-size: 45px;
+        right: 8%;
+        top: 21%;
+        position: absolute;
+        color: #fff;
+        cursor: pointer;
+    }*/
+    @media only screen and (min-width: 1920px) {
+   .callback,.alart_callback{
+        font-size: 45px;
+        right: 15%;
+        top: 21%;
+        position: absolute;
+        color: #fff;
+        cursor: pointer;
+    }
+    .alart_callback{
+        right: 20%;
+        top:8%;
+    }
+}
+ @media only screen and (max-width: 1919px) {
+   .callback,.alart_callback{
+        font-size: 45px;
+        right: 5%;
+        top: 17%;
+        position: absolute;
+        color: #fff;
+        cursor: pointer;
+    }
+    .alart_callback{
+        right: 20%;
+        top:8%;
+    }
+}
+    /*1366*768*/
+    </style>
+</head>
+<body >
+<script src="/resources/jquery/jquery-2.1.3.min.js?v=a03e4bc153"></script>
+
+<div class="table_list">
+    <!--使用引导-->
+    <div class="guidance">
+        <ul>
+            <li title="点击了解详情">
+                <span style="background:#FF9200;">1</span><br>
+                录服务报价
+            </li>
+            <li title="点击了解详情">
+                <span style="background:#00c59f;">2</span><br>
+                录伙伴信息
+            </li>
+            <li title="点击了解详情">
+                <span style="background:#eb6877;">3</span><br>
+                销售开单
+            </li>
+            <li title="点击了解详情">
+                <span style="background:#1e88e5;">4</span><br>
+                邀员工使用
+            </li>
+            <li title="点击了解详情" id="state"><span style="position:absolute; width:210px;height:20px;background:#1e88e5; border-radius:0 10px 10px 0;line-height:20px;top:17px;left:0;font-size:12px;">4步教你使用易对账，点击了解详情</span></li>
+        </ul>
+    </div>
+    <div class="cover"></div>
+    <div class="alart">
+        <div class="alart_callback iconfont_new">&#xe6a0;</div>
+        <div style="height:74px;text-align:center;color:#fff;font-size:22px;line-height:74px;">4步教你如何使用易对账</div>
+        <img title="点击查看功能截图" src="/images/01.png" alt="">
+        <img title="点击查看功能截图" src="/images/02.png" alt="">
+        <img title="点击查看功能截图" src="/images/03.png" alt="">
+        <img title="点击查看功能截图" src="/images/04.png" alt="">
+    </div>
+    <div class="alart_one">
+        <div class="callback iconfont_new">&#xe6a0;</div>
+        <img src="/images/01_1.png" alt="">
+        <img src="/images/02_2.png" alt="">
+        <img src="/images/03_3.png" alt="">
+        <img src="/images/04_4.png" alt="">
+    </div>
+
+
+
+
+    <div class="table_list_contant">
+
+        <!--工作台左侧-->
+        <div class="table_list_left">
+            <div class="left_tips_list">
+
+                <div class="left_tips_center_sec" style="width: 100%;background: none">
+                    <ul class="table_list_todo">
+
+                        <li onclick="workbenchPageFun.showDaijijia()">
+
+                            <a class="xiaoshouNum48"  id="table_list_todo_ionic3">0
+                            </a>&nbsp;笔
+                            <p>待提交订单</p>
+                            <p class="p50pxtip2">销售</p>
+                        </li>
+                        <li onclick="workbenchPageFun.showDaiduizhang()" >
+
+                            <a class="xiaoshouNum48"  id="table_list_todo_ionic4">0
+                            </a>&nbsp;笔
+                            <p>待对账订单</p>
+                            <p class="p50pxtip2">销售</p>
+                        </li>
+                        <li onclick="workbenchPageFun.showDaishoukuan()" >
+                            <a class="xiaoshouNum48"  id="table_list_todo_ionic5">0
+                            </a>&nbsp;笔
+                            <p>待收款对账单</p>
+                            <p class="p50pxtip2">销售</p>
+                        </li>
+                        <li onclick="workbenchPageFun.showDaishouhuo()"   >
+                            <a class="blueNum48"  id="table_list_todo_ionic1">0
+                            </a>&nbsp;笔
+                            <p>待对账订单</p>
+                            <p class="p50pxtip">采购</p>
+                        </li>
+                        <li onclick="workbenchPageFun.showDaifukuan()"   >
+                            <a class="blueNum48"  id="table_list_todo_ionic2">0
+                            </a>&nbsp;笔
+                            <p>待付款对账单</p>
+                            <p class="p50pxtip">采购</p>
+                        </li>
+                    </ul>
+                    <style>
+                        #mainduizhang,#mainshoukuan{
+                            display: inline-block;
+                            background: #fff;
+                            float: left;
+                            height:300px;
+                            opacity: 0;
+                            width:49%;
+                            margin-left:1%;
+                            /*box-shadow:-1px 1px 5px 0px rgba(0,0,0,.2);*/
+                            position: relative;
+                        }
+                        #mainshoukuanInner{
+                            height:260px;
+                            width:100%;
+                        }
+                        #mainduizhangInner{
+                            height:260px;
+                            width:100%;
+                        }
+
+                        .left_tips_center_sec li{
+                            background: #fff;
+
+                            padding:30px 30px;
+                        }
+                        .left_tips_center_sec li:hover{
+                            box-shadow: 0px 5px 9px 0px rgba(0,0,0,.2);
+                        }
+                        .chartTitle{
+                            height: 40px;
+                            line-height: 40px;
+                            padding: 0 0 0 20px;
+                            font-size: 16px;
+                            position: relative;
+                        }
+                        .chartTitle span {
+                            font-size: 12px;
+                            background: #e9dfdf;
+                            color:#b89a9a;
+                            border-radius: 3px;
+                            display: inline-block;
+                            height: 20px;
+                            margin-left: 10px;
+                            line-height: 20px;
+                            padding: 0 5px;
+                        }
+
+                    </style>
+                    <div id="mainshoukuan" >
+
+                        <div style="position: absolute;right: 15px;"></div>
+                        <div class="chartTitle">待对账订单<span>销售</span></div>
+
+                        <div id="mainshoukuanInner" style="background: url('/resources/images/nodata.png') center center no-repeat #fff;"></div>
+
+                    </div>
+                    <div id="mainduizhang" >
+
+                        <div class="chartTitle">待收款对账单<span>销售</span>
+                            <div style="    right: 70px;
+    width: 60px;
+    position: absolute;
+    top: 2px;">
+                                <!--<select id="yearSelChange">-->
+                                    <!--<option value="2017">2017年</option>-->
+                                    <!--<option value="2018">2018年</option>-->
+                                <!--</select>-->
+                            </div>
+                        </div>
+                        <div style="position: absolute;right: 15px;"></div>
+
+                        <div id="mainduizhangInner" style="background: url('/resources/images/nodata.png') center center no-repeat #fff;"></div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--工作台右侧-->
+        <div class="table_list_right">
+            <div class="table_list_right_lis "  style="height: 260px;">
+
+                <div class="table_list_title">
+                    新的好友
+                </div>
+                <div id="table_list_right_lis"  class="table-con hide" style="padding: 67px 30px;">
+                    <p style="text-align: center;"><span class="iconfont_new" style="font-size: 80px;color:#ccc;">&#xe6c8;</span></p>
+                    <p style="    font-size: 14px;color:#ccc;padding: 10px 0 10px 0;text-align: center;">你的伙伴已在使用易对账</p>
+                    <p style="    font-size: 14px;color:#ccc;text-align: center;">通过顶部+按钮，加好友互相对账</p>
+                </div>
+                <ul id="new-tips" class="new-tips hide" style="height:200px;position:relative;overflow: hidden;">
+
+                </ul>
+            </div>
+
+            <div id="inviteDiv" class="table_list_right_lis "  style="cursor:pointer;padding:50px;background: url('/resources/images/invitejl.png') center center no-repeat #fff">
+
+            </div>
+
+
+            <div class="balanceQry"  style="position: relative;">
+                <div class="table_list_right_lis "  style="padding:50px;background:url('/resources/images/vxfollow.png') center center no-repeat #fff;">
+                </div>
+                <div class="arrow_code_img" style="    position: absolute;
+    top: -30px;
+    left: -265px;"><img src="/images/workbench_code.png" /></div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<script src="/resources/util/echarts.common.min.js?v=30600e2acd"></script>
+
+
+<script src="/resources/common/global-config.js?v=051236a6d6"></script>
+<script >
+    //添加好友合作伙伴
+    var callfriendcount = "";
+    function request_data(){
+        $.ajax({
+            url:'/common/workbench/info',
+            type:'GET',
+            dataType:"json",
+            timeout:"10000",
+            cache:false,
+            success:function(data){
+                friendFun(data.callfriendcount,data.callfriend);
+                todoFun(data.todo);
+            },
+            error:function(){
+                $("<div class='tips_contants'>").fadeIn(250).html("请求失败").delay(500).fadeOut(250).appendTo('body');
+            }
+        });
+    }
+    function  friendFun(callfriendcount,callfriend) {
+        $('#table_list_title_num').html(callfriendcount);
+        callfriendcount = Number(callfriendcount);
+        if(callfriendcount<12){
+            $(".table_list_more").css("display","none");
+        }
+        if(callfriendcount == 0){
+            $(".table_contant_list_box").css("display","none");
+            $(".table_list_title button").css("display","none");
+        }
+        if(callfriend.length==0){
+            $('#table_list_right_lis').removeClass("hide");
+            $('#new-tips').html("");
+        }else{
+            $('#new-tips').removeClass("hide");
+        }
+        var tips="";
+        for(var kk=0;kk<callfriend.length;kk++){
+            var val=callfriend[kk];
+            tips +=
+                "<li >"+
+                "<a><span>"+val.comName+ "</span><i >"+val.sendTime+"</i>"+ "</a>"
+                +"<p>"+val.adminName+"&nbsp;&nbsp;&nbsp;&nbsp;"+val.adminPhone+"</p>"+
+                "</li>";
+        }
+        $("#new-tips").html(tips);
+    }
+    function todoFun(todo) {
+        //遍历代办事项
+        $.each(todo,function(key,val){
+            if(val.orderType === "P"){
+                if(val.orderStatus === "04"){
+                    $("#table_list_todo_ionic1").html(val.orderCount);
+                }
+                if(val.orderStatus === "09"){
+                    $("#table_list_todo_ionic2").html(val.orderCount);
+                }
+            }
+            if(val.orderType === "S"){
+                if(val.orderStatus === "01"){
+                    $("#table_list_todo_ionic3").html(val.orderCount);
+                }
+                if(val.orderStatus === "04"){
+                    $("#table_list_todo_ionic4").html(val.orderCount);
+                }
+                if(val.orderStatus === "07"){
+                    $("#table_list_todo_ionic5").html(val.orderCount);
+                }
+            }
+
+            if(val.orderCount > 99){
+                $(".todo-list").html("99+");
+            }
+
+        });
+    }
+
+    //生意伙伴提醒分页
+    $(function(){
+        request_data();
+        var slider_count = 0;	//赋值
+        /*		if(callfriendcount>=12){
+         $('#table_contant_list').width(12 * table_contant_list_box/3);
+         //下一页
+         $('.table_paner_next').bind("click",(function(){
+         if( slider_count+3 >= 12 ){
+         $("<div class='tips_contants'>").fadeIn(250).html("请点击更多查看").delay(500).fadeOut(250).appendTo('body');
+         return false;
+         }
+         slider_count += 3;
+         $(this).parent().next("div").children("ul").animate({left: '-=' + table_contant_list_box + 'px'}, 'slow');
+         }));
+
+         }else{
+         $('#table_contant_list').width(callfriendcount * table_contant_list_box/3);
+         //下一页
+         $('.table_paner_next').bind("click",(function(){
+         if( slider_count+3 >= callfriendcount ){
+         $("<div class='tips_contants'>").fadeIn(250).html("已经是最后一页").delay(500).fadeOut(250).appendTo('body');
+         return false;
+         }
+         slider_count += 3;
+         $(this).parent().next("div").children("ul").animate({left: '-=' + table_contant_list_box + 'px'}, 'slow');
+         }));
+
+         }
+         //上一页
+         $('.table_paner_prev').bind("click",(function(){
+         if(slider_count <= 0 ){
+         $("<div class='tips_contants'>").fadeIn(250).html("这已经是第一页了").delay(500).fadeOut(250).appendTo('body');
+         return false;
+         };
+         slider_count -= 3;
+         $(this).parent().next("div").children("ul").animate({left: '+=' + table_contant_list_box+ 'px'}, 'slow');
+         }));*/
+
+
+//		年份切换
+        $("#yearSelChange").change(function () {
+            changeYear($(this).val());
+
+        })
+    });
+    changeYear();
+    function changeYear(y){
+        if(!y){
+            y= new Date().getFullYear();
+        }
+        $.ajax({
+            type : "POST",
+            dataType:"json",
+            data:{year:y},
+            url : "/common/workbench/report/chart"
+        }).done(function(result) {
+            initChartsMain(result);
+            mainduizhang.hideLoading ();
+            mainshoukuan.hideLoading ();
+        }).fail(function() {
+            $("<div class='tips_contants'>").fadeIn(250).html("加载失败，请检查网络连接！").appendTo('body');
+        });
+    }
+    //打开新页面
+  var workbenchPageFun={
+            showDaishouhuo:function () {
+                // 待对账订单
+                var App = window.parent.App;
+                var config = {
+                    closeable: "true",
+                    icon : "icon dashboard",
+                    label: "协同订单处理",
+                    path : "/openPage?pageName=advert_purchase-order-list",
+                    type : "icon-ydz-menu-synchro-order"
+                };
+                App.clickMenu(config.type);
+                App.open(config.path,config);
+            },
+
+            showDaifukuan:function () {
+//                待付款对账单
+                var App = window.parent.App;
+                var config = {
+                    closeable: "true",
+                    icon : "icon dashboard",
+                    label: "协同对账结算",
+                    path : "/openPage?pageName=advert_purchasechecking-order-list",
+                    type : "icon-ydz-menu-synchro-order"
+                };
+                App.clickMenu(config.type);
+                App.open(config.path,config);
+            },
+
+
+            showDaijijia:function () {
+//                待提交订单
+                var App = window.parent.App;
+                var time = new Date().getTime();
+                var config = {
+                    closeable: "true",
+                    icon : "icon dashboard",
+                    label: "销售订单管理",
+                    path : "/openPage?pageName=advert_sales-order-list",
+                    type : "icon-ydz-menu-cash-sale"
+                };
+                App.clickMenu(config.type);
+                App.open(config.path,config);
+            },
+
+            showDaiduizhang:function () {
+//                待对账订单
+                var App = window.parent.App;
+                var time = new Date().getTime();
+                var config = {
+                    closeable: "true",
+                    icon : "icon dashboard",
+                    label: "销售订单管理",
+                    path : "/openPage?pageName=advert_sales-order-list&type=order4",
+                    type : "icon-ydz-menu-cash-sale"
+                };
+                App.clickMenu(config.type);
+                App.open(config.path,config);
+            },
+
+            showDaishoukuan:function () {
+//                待收款对账单
+                var App = window.parent.App;
+                var time = new Date().getTime();
+                var config = {
+                    closeable: "true",
+                    icon : "icon dashboard",
+                    label: "销售对账结算",
+                    path : "/openPage?pageName=advert_saleschecking-order-list",
+                    type : "icon-ydz-menu-cash-sale"
+                };
+                App.clickMenu(config.type);
+                App.open(config.path,config);
+            },
+
+        };
+
+    //判断是否协同接单是否大于0，现实隐藏；
+    $(function(){
+        $.each( $(".table_list_todo i") , function(){
+            if( $(this).html() > 0 ){
+                $(this).prev("span").css("opacity","1")
+                $(this).css("opacity","1");
+            }
+        });
+//手机查账、对账
+        var timeCtrl;
+        $(".balanceQry").hover(function(){
+            timeCtrl = setTimeout(function(){
+                    $(".arrow_code_img").fadeIn()
+                },
+                200);
+        },function () {
+            clearTimeout(timeCtrl);
+            $(".arrow_code_img").fadeOut()
+        })
+    });
+
+    $("#inviteDiv").click(function(){
+        // $.get("/invite/normal/getKey", {}, function (data) {
+        //     $("#inventMsgShow",parent.document).text("链接地址:"+data);
+        //     $("#inventMsg",parent.document).val(data);
+        //     $('#wechat_code',parent.document).qrcode({width: 120, height: 120, text: data});
+        //     $('.invent_user',parent.document).fadeIn();
+        //     $(".blur_box",parent.document).addClass("blur");
+        // });
+        /*$('.invent_user',parent.document).fadeIn();*/
+        $("<div class='tips_contants'>").fadeIn(250).html("请通过 左上角下拉选项切换至个人版，通过个人版开始邀请好友").delay(2000).fadeOut(250).appendTo('body');
+    });
+    $("#new-tips").on("click","li",function(){
+        window.parent.xiaoxiliebiao();
+    });
+
+    bodyClick();
+    var mainduizhang = echarts.init(document.getElementById('mainduizhangInner'));
+    var mainshoukuan = echarts.init(document.getElementById('mainshoukuanInner'));
+    mainduizhang.showLoading();
+    mainshoukuan.showLoading();
+
+    function mainduizhang1(datadz,mainshoukuan) {
+        // 饼图
+
+        var pzData1_2={"3个月以内":datadz.price1,
+            "超过3个月":datadz.price2,
+            "超过6个月":datadz.price3,
+            "超过9个月":datadz.price4,
+            "超过12个月":datadz.price5};
+        var ii=0;
+        var pzData1=[];
+        var pzData1_1=[];
+        for(var k in pzData1_2){
+            ii++;
+            var arrpz={};
+            arrpz.value=datadz["price"+ii];
+            arrpz.name=k;
+            pzData1.push(arrpz);
+            pzData1_1.push(k);
+        }
+        var optionsk =
+            {
+                baseOption: {
+                    backgroundColor: '#fff',
+                    color: ['#afe2a0', '#3598dc', '#4f5467', '#f96868', '#f6b55a'],
+                    tooltip: {
+                        axisPointer: {
+                            type: 'none'
+                        },
+                        formatter: "待对账订单金额：{c}"
+                    },
+                    legend: {
+                        orient: 'vertical',
+                     formatter: function (a) {
+                            if(a=="超过12个月"){
+                                return (a + "                  " + pzData1_2[a]);
+                            }else{
+                                return (a + "                    " + pzData1_2[a]);
+                            }
+                        },
+                        x: '55%',
+                        align: 'left',
+                        y: '50',
+                        textStyle:{
+                            color:'#415161'
+                        },
+
+                        itemGap:20,
+                        itemWidth:10,
+                        itemHeight:10,
+                        data: pzData1_1
+                    },
+                    series: [
+                        {
+                            type: 'pie',
+//                            center: ['150', '170'],
+//                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+//                            hoverAnimation:false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                }
+                                ,
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '16',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: pzData1
+                        }
+                    ]
+                }
+                ,
+                media: [
+                    {
+
+                        option: {
+                            series: [
+                                {
+                                    center: ['200', '130'],
+                                    radius: ['50%', '70%']
+                                }
+                            ],
+                            legend: {
+
+                                x: '55%',
+                                align: 'left'
+                            }
+                        }
+                    },
+                    {
+                        query: {
+                            maxWidth: 600
+                        },
+                        option: {
+                            series: [
+                                {
+                                    center: ['120', '130'],
+                                    radius: ['40%', '55%']
+                                }
+                            ],
+                            legend: {
+
+                                x: '55%',
+                                align: 'left'
+                            }
+
+                        }
+                    },  {
+                        query: {
+                            maxWidth: 400
+                        },
+                        option: {
+                            series: [
+                                {
+                                    center: ['80', '130'],
+                                    radius: ['30%', '45%']
+                                }
+                            ],
+                            legend: {
+
+                                x: '45%',
+                                align: 'left'
+                            }
+
+                        }
+                    }
+
+                ]
+            };
+        mainshoukuan.setOption(optionsk);
+        $(window).on("resize", function () {
+            mainshoukuan.resize()
+        })
+    }
+    function mainshoukuan1(datask,mainduizhang) {
+        // 指定图表的配置项和数据
+        var monthData=[],dzData=[],skData=[];
+        for(var i=0;i<datask.length;i++){
+            monthData.push(datask[i].monthOrderDate+"月");
+            dzData.push(datask[i].totalPrice);
+            skData.push(datask[i].receivablesMoney);
+        }
+
+        var optiondz ={
+
+                baseOption:{
+                    color:['#2e8be7','#ff6600'],
+                    backgroundColor:'#fff',
+                    /*    title : {
+                     text: '销售待收款对账单',
+                     padding:15,
+                     textStyle :{
+                     fontSize: '22',
+                     fontWeight:'normal',
+                     fontFamily  : 'microsoft yahei'
+
+                     }
+                     },*/
+                    tooltip : {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'none'
+                        }
+                    },
+                    legend: {
+                        padding:[15,0],
+                        y:'bottom',
+                        itemWidth:10,
+                        itemHeight:10,
+                        data:['应收金额','实收金额']
+                    },
+                    xAxis : [
+                        {
+                            type : 'category',
+                            axisLine:{
+                            lineStyle:{
+                                color:"#415161",
+                                opacity:'0.1'
+                            }
+                        },
+                            data : monthData
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            axisLine:{
+                                lineStyle:{
+                                    color:"#415161",
+                                    opacity:'0.1'
+                                }
+                            },
+                            splitLine:{
+                                lineStyle: {
+                                    color: ['#f2f3f8']
+                                }
+                            },
+                            type : 'value'
+                        }
+                    ],
+                    grid:{
+                        top:20
+                    },
+                    series : [
+                        {
+                            name:'应收金额',
+                            type:'bar',
+                            barMaxWidth:20,
+                            data:skData
+                        },
+                        {
+                            name:'实收金额',
+                            type:'bar',
+                            barMaxWidth:20,
+                            data:dzData
+                        }
+
+                    ]
+                },
+                media: [
+                    {
+
+                        option: {
+                            grid:{
+                                top:20
+                            }
+                        }
+                    },
+                    {
+                        query: {
+                            maxWidth: 600
+                        },
+                        option: { grid:{
+                            left:80,
+                            top:20
+                        }
+
+                        }
+                    }
+
+                ]
+            }
+            ;
+        // 使用刚指定的配置项和数据显示图表。
+        mainduizhang.setOption(optiondz);
+
+        $(window).on("resize", function () {
+            mainduizhang.resize();
+        })
+    }
+    function initChartsMain(result){
+        // 基于准备好的dom，初始化echarts实例
+        if(result.daiduizhang !=null){
+
+            mainduizhang1(result.daiduizhang,mainshoukuan);
+        }else{
+            //          加载无数据层
+
+        }
+        if(result.daishoukuan !=null && result.daishoukuan.length>0 ) {
+
+            mainshoukuan1(result.daishoukuan, mainduizhang);
+        }else{
+            //          加载无数据层
+        }
+        mainduizhang.hideLoading();
+        mainshoukuan.hideLoading();
+    }
+    $(function(){
+        $(".guidance>ul>li").click(function(){
+            $(".cover").show();
+            $(".alart").show();
+        })
+        $(".alart>img").click(function(){
+            $(".alart").hide();
+            var i = $(this).index();
+            $(".alart_one").show();
+            $(".alart_one>img").eq(i-2).css("display","block").siblings("img").css("display","none");
+
+        })
+        $(".alart_callback").click(function(){
+            $(".cover").hide();
+            $(".alart").hide();
+        })
+         $(".callback").click(function(){
+            $(".alart_one").hide();
+            $(".alart").show();
+        })
+    })
+
+
+
+</script>
+</body>
+</html>

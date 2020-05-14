@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.ComEmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.ComEmployee" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="USER_KEY" property="userKey" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="IS_BOSS" property="isBoss" jdbcType="CHAR" />
+    <result column="IS_ADMIN" property="isAdmin" jdbcType="CHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="DATE" />
+    <result column="ID_NUMBER" property="idNumber" jdbcType="VARCHAR" />
+    <result column="ENTRY_DATE" property="entryDate" jdbcType="DATE" />
+    <result column="BASE_SALARY" property="baseSalary" jdbcType="DECIMAL" />
+    <result column="OTHER_REVENUE" property="otherRevenue" jdbcType="DECIMAL" />
+    <result column="REAL_NAME" property="realName" jdbcType="VARCHAR" />
+    <result column="ROLE_KEY" property="roleKey" jdbcType="VARCHAR" />
+    <result column="MENU_ID" property="menuId" jdbcType="VARCHAR" />
+    <result column="PERMISSION_CODE" property="permissionCode" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, COM_KEY, USER_KEY, USER_ID, REAL_NAME, ROLE_KEY, DEPT_ID, IS_BOSS, IS_ADMIN, 
+    STATUS, BIRTHDAY, ID_NUMBER, ENTRY_DATE, BASE_SALARY, OTHER_REVENUE, IS_VALID, REMARKS, MENU_ID, PERMISSION_CODE, CREATOR, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from YDZ_COM_EMPLOYEE
+    where 1=1
+    <if test="comKey != null" >
+      AND COM_KEY = #{comKey,jdbcType=VARCHAR}
+    </if>
+    <if test="userKey != null" >
+      AND USER_KEY = #{userKey,jdbcType=VARCHAR}
+    </if>
+    <if test="userId != null" >
+      AND USER_ID = #{userId,jdbcType=VARCHAR}
+    </if>
+      AND IS_VALID = '1'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from YDZ_COM_EMPLOYEE
+    where 1=1
+    <if test="comKey != null" >
+      AND COM_KEY = #{comKey,jdbcType=VARCHAR}
+    </if>
+    <if test="userKey != null" >
+      AND USER_KEY = #{userKey,jdbcType=VARCHAR}
+    </if>
+    <if test="userId != null" >
+      AND USER_ID = #{userId,jdbcType=VARCHAR}
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.system.ComEmployee" >
+    insert into YDZ_COM_EMPLOYEE (UID, COM_KEY, USER_KEY, 
+      USER_ID, DEPT_ID, IS_BOSS, IS_ADMIN, 
+      STATUS, BIRTHDAY, ID_NUMBER, ENTRY_DATE, BASE_SALARY, OTHER_REVENUE, IS_VALID, REMARKS, MENU_ID, PERMISSION_CODE, 
+      CREATOR, CREATE_TIME)
+    values (#{uid,jdbcType=BIGINT}, #{comKey,jdbcType=VARCHAR}, #{userKey,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{roleKey,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, #{isBoss,jdbcType=CHAR}, #{isAdmin,jdbcType=CHAR}, 
+      #{status,jdbcType=CHAR}, #{item.birthday,jdbcType=DATE}, #{idNumber,jdbcType=VARCHAR}, #{item.entryDate,jdbcType=DATE}, #{item.baseSalary,jdbcType=DECIMAL}, #{item.otherRevenue,jdbcType=DECIMAL},
+      #{isValid,jdbcType=CHAR}, #{remarks,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR}, #{permissionCode,jdbcType=VARCHAR},
+      #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.ComEmployee" >
+    insert into YDZ_COM_EMPLOYEE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="userKey != null" >
+        USER_KEY,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="realName != null" >
+        REAL_NAME,
+      </if>
+      <if test="roleKey != null" >
+        ROLE_KEY,
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID,
+      </if>
+      <if test="isBoss != null" >
+        IS_BOSS,
+      </if>
+      <if test="isAdmin != null" >
+        IS_ADMIN,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+      <if test=" idNumber!= null" >
+        ID_NUMBER,
+      </if>
+      <if test="entryDate != null" >
+        ENTRY_DATE,
+      </if>
+      <if test="baseSalary != null" >
+        BASE_SALARY,
+      </if>
+      <if test="otherRevenue != null" >
+        OTHER_REVENUE,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="menuId != null" >
+        MENU_ID,
+      </if>
+      <if test="permissionCode != null" >
+        PERMISSION_CODE,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="userKey != null" >
+        #{userKey,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=CHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null" >
+        #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="isBoss != null" >
+        #{isBoss,jdbcType=CHAR},
+      </if>
+      <if test="isAdmin != null" >
+        #{isAdmin,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDate != null" >
+        #{entryDate,jdbcType=DATE},
+      </if>
+      <if test="baseSalary != null" >
+        #{baseSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="otherRevenue != null" >
+        #{otherRevenue,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCode != null" >
+        #{permissionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.ComEmployee" >
+    update YDZ_COM_EMPLOYEE
+    <set >
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        USER_ID = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleKey != null" >
+        ROLE_KEY = #{roleKey,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null" >
+        DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="isBoss != null" >
+        IS_BOSS = #{isBoss,jdbcType=CHAR},
+      </if>
+      <if test="isAdmin != null" >
+        IS_ADMIN = #{isAdmin,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="idNumber != null" >
+        ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="entryDate != null" >
+        ENTRY_DATE = #{entryDate,jdbcType=DATE},
+      </if>
+      <if test="baseSalary != null" >
+        BASE_SALARY = #{baseSalary,jdbcType=DECIMAL},
+      </if>
+      <if test="otherRevenue != null" >
+        OTHER_REVENUE = #{otherRevenue,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        MENU_ID = #{menuId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCode != null" >
+        PERMISSION_CODE = #{permissionCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where COM_KEY = #{comKey}
+    <if test="userKey != null">
+    	and USER_KEY = #{userKey} 
+    </if>
+    <if test="userId != null">
+    	and USER_ID = #{userId} 
+    </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.ComEmployee" >
+    update YDZ_COM_EMPLOYEE
+    set COM_KEY = #{comKey,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      REAL_NAME = #{realName,jdbcType=VARCHAR},
+      ROLE_KEY = #{roleKey,jdbcType=VARCHAR},
+      DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      IS_BOSS = #{isBoss,jdbcType=CHAR},
+      IS_ADMIN = #{isAdmin,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      BIRTHDAY = #{birthday,jdbcType=DATE},
+      ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+      ENTRY_DATE = #{entryDate,jdbcType=DATE},
+      BASE_SALARY = #{baseSalary,jdbcType=DECIMAL},
+      OTHER_REVENUE = #{otherRevenue,jdbcType=DECIMAL},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

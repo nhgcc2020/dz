@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.commissions.OrderCommissionsMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.commissions.OrderCommissions" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="SALES_NO" property="salesNo" jdbcType="VARCHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="SALES_ID" property="salesId" jdbcType="VARCHAR" />
+    <result column="SALES_NAME" property="salesName" jdbcType="VARCHAR" />
+    <result column="TASK_USER_KEY" property="taskUserKey" jdbcType="VARCHAR" />
+    <result column="TASK_EMPLOYEE_ID" property="taskEmployeeId" jdbcType="VARCHAR" />
+    <result column="TASK_USER_NAME" property="taskUserName" jdbcType="VARCHAR" />
+    <result column="TASK_DESC" property="taskDesc" jdbcType="VARCHAR" />
+    <result column="ALLOCATION_TYPE" property="allocationType" jdbcType="CHAR" />
+    <result column="COMMISSIONS_RATE" property="commissionsRate" jdbcType="DECIMAL" />
+    <result column="COMMISSIONS_MONEY" property="commissionsMoney" jdbcType="DECIMAL" />
+    <result column="ORDER_TYPE" property="orderType" jdbcType="CHAR" />
+    <result column="IS_CHECKING" property="isChecking" jdbcType="CHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, ORDER_NO, SALES_NO, COM_KEY, INDUSTRY_ID, PARTNER_KEY, SALES_ID, SALES_NAME, TASK_USER_KEY, TASK_EMPLOYEE_ID, TASK_USER_NAME, TASK_DESC, 
+    ALLOCATION_TYPE, COMMISSIONS_RATE, COMMISSIONS_MONEY, ORDER_TYPE, IS_CHECKING, REMARKS, IS_VALID, CREATOR, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_order_commissions
+    where IS_VALID = '1' AND COM_KEY = #{comKey}
+    <if test="orderNo != null">
+    	and ORDER_NO = #{orderNo}
+    </if>
+    <if test="partnerKey != null">
+    	and PARTNER_KEY = #{partnerKey}
+    </if>
+    <if test="salesId != null">
+    	and SALES_ID = #{salesId}
+    </if>
+    <if test="allocationType != null">
+    	and ALLOCATION_TYPE = #{allocationType}
+    </if>
+    <if test="orderType != null">
+    	and ORDER_TYPE = #{orderType}
+    </if>
+    <if test="isChecking != null">
+    	and IS_CHECKING = #{isChecking}
+    </if>
+  </select>
+  
+  <select id="listPageByPrimaryKey" resultMap="BaseResultMap" parameterType="page" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_order_commissions
+    where IS_VALID = '1' AND COM_KEY = #{pd.comKey}
+    <if test="pd.orderNo != null">
+    	and ORDER_NO = #{pd.orderNo}
+    </if>
+    <if test="pd.partnerKey != null">
+    	and PARTNER_KEY = #{pd.partnerKey}
+    </if>
+    <if test="pd.allocationType != null">
+    	and ALLOCATION_TYPE = #{pd.allocationType}
+    </if>
+    <if test="pd.orderType != null">
+    	and ORDER_TYPE = #{pd.orderType}
+    </if>
+    <if test="pd.isChecking != null">
+    	and IS_CHECKING = #{pd.isChecking}
+    </if>
+  </select>
+  
+  <select id="listPageSalesCheckingOrderForCommissions" resultType="com.ydz.entity.commissions.CommissionsCheckingOrderDetail" parameterType="page" >
+    select 
+    	 DISTINCT(so.SALESCHECKING_NO) checkingNo,
+		 so.COM_KEY comKey,
+		 so.PARTNER_KEY partnerKey,
+		 so.PARTNER_NAME partnerName,
+		 so.PARTNER_SHORTNAME partnerShortname,
+		 so.SALES_ID salesId,
+		 so.SALES_NAME salesName,
+		 so.CONTACT_ID contactId,
+		 so.CONTACT_NAME contactName,
+		 so.ORDER_CYCLE orderCycle,
+		 so.CASE_DESC caseDesc,
+		 so.ORDER_DATE orderDate,
+		 so.TOTAL_PRICE totalPrice,
+		 so.DEPOSIT_REQUESTED depositRequested,
+		 so.PAID_UP paidUp,
+		 so.ORDER_STATUS orderStatus,
+		 so.ORDER_TYPE orderType,
+		 so.SALES_ORDER_NUM salesOrderNum,
+		 so.DETAIL_NUM detailNum,
+		 so.IS_VALID isValid,
+		 so.IS_DEL isDel,
+		 so.INDUSTRY_ID industryId,
+		 so.SALES_NO salesNo,
+		 so.CREATOR creator,
+		 so.CREATE_TIME createTime,
+		 rp.RECPAY_DATE recpayDate,
+		 oc.COMMISSIONS_MONEY commissionsMoney
+    from YDZ_RECEIPT_PAYMENT rp, YDZ_SALESCHECKING_ORDER so
+    left join YDZ_ORDER_COMMISSIONS oc ON oc.ORDER_NO = so.SALESCHECKING_NO
+    where so.IS_VALID = '1' AND so.IS_DEL = '0' and so.COM_KEY = #{pd.comKey}
+    and so.SALESCHECKING_NO = rp.CHECKING_NO
+    and rp.RECPAY_TYPE = '1'
+    <if test="pd.salescheckingNo != null">
+    	and so.SALESCHECKING_NO = #{pd.salescheckingNo}
+    </if>
+    <if test="pd.salescheckingNoIns != null">
+    	and so.SALESCHECKING_NO IN ${pd.salescheckingNoIns}
+    </if>
+    <if test="pd.partnerKey != null">
+    	and so.PARTNER_KEY = #{pd.partnerKey}
+    </if>    
+    <if test="pd.isSettlement != null">
+    	and so.IS_SETTLEMENT = #{pd.isSettlement}
+    </if>
+    <if test="pd.startDate != null and pd.endDate !=null">
+    	and rp.RECPAY_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+    </if>
+    <if test="pd.orderStatus != null">
+    	and so.ORDER_STATUS = #{pd.orderStatus}
+    </if>
+    <if test="pd.industryId != null">
+    	and so.INDUSTRY_ID = #{pd.industryId}
+    </if>
+    <if test="pd.salesId != null">
+    	and so.SALES_ID = #{pd.salesId}
+    </if>
+    <if test="pd.isChecking != null">
+    	and oc.IS_CHECKING = #{pd.isChecking}
+    </if>
+    order by rp.RECPAY_DATE DESC
+  </select>
+  
+  <select id="selectSumSalesCheckingOrderAndSettlement" resultType="com.ydz.vo.OrderTotalVO" parameterType="pd" >
+    select 
+    	count(DISTINCT(SALESCHECKING_NO)) orderCount,
+	    sum(so.DEPOSIT_REQUESTED) sumDepositRequested,
+	    sum(so.PAID_UP) sumPaidUp,
+	    sum(oc.COMMISSIONS_MONEY) sumCommissionsMoney
+	from YDZ_RECEIPT_PAYMENT rp, YDZ_SALESCHECKING_ORDER so
+	LEFT JOIN YDZ_ORDER_COMMISSIONS oc ON oc.ORDER_NO = so.SALESCHECKING_NO
+    where so.IS_VALID = '1' AND so.IS_DEL = '0' and so.COM_KEY = #{comKey}
+    and so.SALESCHECKING_NO = rp.CHECKING_NO
+    <if test="salescheckingNo != null">
+    	and so.SALESCHECKING_NO = #{salescheckingNo}
+    </if>
+    <if test="salescheckingNoIns != null">
+    	and so.SALESCHECKING_NO IN ${salescheckingNoIns}
+    </if>
+    <if test="partnerKey != null">
+    	and so.PARTNER_KEY = #{partnerKey}
+    </if>    
+    <if test="isSettlement != null">
+    	and so.IS_SETTLEMENT = #{isSettlement}
+    </if>
+    <if test="startDate != null and endDate !=null">
+    	and rp.RECPAY_DATE BETWEEN #{startDate} AND #{endDate}
+    </if>
+    <if test="orderStatus != null">
+    	and so.ORDER_STATUS = #{orderStatus}
+    </if>
+    <if test="industryId != null">
+    	and so.INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="salesId != null">
+    	and so.SALES_ID = #{salesId}
+    </if>
+    <if test="isChecking != null">
+    	and oc.IS_CHECKING = #{isChecking}
+    </if>
+  </select>
+  
+  <select id="listPageAssignTasksForCommission" resultType="com.ydz.entity.commissions.OrderCommissions" parameterType="page">
+  	SELECT
+		 T.TASK_NO orderNo,
+		 T.SALES_NO salesNo,
+		 T.ORDER_DATE orderDate,
+		 T.COM_KEY comKey,
+		 T.INDUSTRY_ID industryId,
+		 T.TASK_DATE taskDate,
+		 T.PARTNER_KEY partnerKey,
+		 T.PARTNER_NAME partnerName,
+		 T.PARTNER_SHORTNAME partnerShortname,
+		 T.CONTACT_ID contactId,
+		 T.CONTACT_NAME contactName,
+		 T.CASE_DESC caseDesc,
+		 T.BUSINESS_DESC businessDesc,
+		 T.TASK_DESC taskDesc,
+		 T.STATUS status,
+		 T.REMARKS remarks,
+		 T.CREATE_TIME createTime,
+		 T.CREATOR creator,
+		 T.IS_VALID isValid,
+		(
+			SELECT
+				GROUP_CONCAT( D.TASK_USER_NAME, D.STATUS SEPARATOR ';' ) 
+			FROM
+				YDZ_ASSIGN_TASK_DETAIL D 
+			WHERE
+				D.TASK_NO = T.TASK_NO 
+		) taskUser,
+		so.total_price totalPrice 
+	FROM
+		YDZ_ASSIGN_TASK T,ydz_sales_order so
+	WHERE
+		T.IS_VALID = '1' AND T.IS_DEL = '0'
+		AND so.SALES_NO = T.SALES_NO
+		and T.status = '2'
+		<if test="pd.staff != null">
+			AND T.TASK_NO IN (
+							SELECT
+								DISTINCT TASK_NO 
+							FROM
+								YDZ_ASSIGN_TASK_DETAIL 
+							WHERE TASK_EMPLOYEE_ID = #{pd.taskEmployeeId}
+				)
+		</if>
+		AND T.COM_KEY = #{pd.comKey}
+		<if test="pd.status != null">
+			AND T.STATUS = #{pd.status}
+		</if>
+		<if test="pd.startDate != null and pd.endDate !=null">
+    		AND T.ORDER_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+    	</if>
+    	<if test="pd.partnerKey != null">
+    		AND T.PARTNER_KEY = #{pd.partnerKey}
+    	</if>
+    	<if test="pd.isSettlement != null">
+    		AND T.IS_SETTLEMENT = #{pd.isSettlement}
+    	</if>
+    	<if test="pd.taskNoIns != null">
+    		AND T.TASK_NO IN ${pd.taskNoIns}
+    	</if>
+    	order by T.ORDER_DATE DESC
+  </select>
+  
+  <select id="listPageOrderCommissionByDesign" resultMap="BaseResultMap" parameterType="page" >
+    select 
+    	 oc.uid uid,
+		 oc.order_no orderNo,
+		 oc.sales_no salesNo,
+		 oc.com_key comKey,
+		 oc.partner_key partnerKey,
+		 at.partner_name partnerName,
+		 at.partner_shortname partnerShortname,
+		 at.contact_id contactId,
+		 at.contact_name contactName,
+		 at.business_desc businessDesc,
+		 at.case_desc caseDesc,
+		 oc.task_desc taskDesc,
+		 oc.task_user_key taskUserKey,
+		 oc.task_user_name taskUserName,
+		 oc.task_employee_id taskEmployeeId,
+		 oc.commissions_money commissionsMoney,
+		 so.total_price totalPrice,
+		 so.order_date orderDate
+    from ydz_order_commissions oc, ydz_assign_task at
+    left join ydz_sales_order so on so.sales_no = at.sales_no
+    where oc.IS_VALID = '1' and oc.order_no = at.task_no and oc.order_type = '2'
+    AND oc.COM_KEY = #{pd.comKey}
+    <if test="pd.partnerKey != null">
+    	and oc.PARTNER_KEY = #{pd.partnerKey}
+    </if>
+    <if test="pd.orderNoIns != null">
+    	and CONCAT(oc.order_no,oc.task_employee_id) in ${pd.orderNoIns}
+    </if>
+    <if test="pd.uidIns != null">
+    	and oc.uid in ${pd.uidIns}
+    </if>
+    <if test="pd.isChecking != null">
+    	and oc.IS_CHECKING = #{pd.isChecking}
+    </if>
+    <if test="pd.taskEmployeeId != null">
+    	and oc.TASK_EMPLOYEE_ID = #{pd.taskEmployeeId}
+    </if>
+    <if test="pd.startDate != null and pd.endDate !=null">
+   		AND so.ORDER_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+   	</if>
+   	order by so.ORDER_DATE DESC,oc.uid desc
+  </select>
+  
+  <select id="selectSumDesignerCommission" resultType="com.ydz.vo.OrderTotalVO" parameterType="pd" >
+    select 
+      count(oc.order_no) orderCount,
+      sum(oc.commissions_money) sumCommissionsMoney,
+      sum(so.total_price) sumTotalPrice
+    from ydz_order_commissions oc
+    join ydz_sales_order so on so.sales_no = oc.sales_no
+    where oc.IS_VALID = '1' AND oc.COM_KEY = #{comKey}
+    <if test="uidIns != null">
+    	and oc.uid in ${uidIns}
+    </if>
+    <if test="isChecking != null">
+    	and oc.IS_CHECKING = #{isChecking}
+    </if>
+    <if test="partnerKey != null">
+    	and oc.PARTNER_KEY = #{partnerKey}
+    </if>
+    <if test="taskEmployeeId != null">
+    	and oc.TASK_EMPLOYEE_ID = #{taskEmployeeId}
+    </if>
+    <if test="startDate != null and endDate !=null">
+   		AND so.ORDER_DATE BETWEEN #{startDate} AND #{endDate}
+   	</if>
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from ydz_order_commissions
+    where COM_KEY = #{comKey}
+    <if test="orderNo != null">
+    	and ORDER_NO = #{orderNo}
+    </if>
+    <if test="salesNo != null">
+    	and SALES_NO = #{salesNo}
+    </if>
+  </delete>
+  <insert id="insertList" parameterType="java.util.List" >
+    insert into ydz_order_commissions (
+      ORDER_NO, SALES_NO, COM_KEY, 
+      INDUSTRY_ID, PARTNER_KEY, SALES_ID, 
+      SALES_NAME, TASK_USER_KEY, TASK_EMPLOYEE_ID, TASK_USER_NAME, TASK_DESC, ALLOCATION_TYPE, COMMISSIONS_RATE, 
+      COMMISSIONS_MONEY, ORDER_TYPE, REMARKS, 
+      IS_VALID, CREATOR, CREATE_TIME
+      )
+    values 
+    <foreach collection="list" item="item" index="index" separator=",">  
+	    (#{item.orderNo,jdbcType=VARCHAR}, #{item.salesNo,jdbcType=VARCHAR}, #{item.comKey,jdbcType=VARCHAR}, 
+	      #{item.industryId,jdbcType=VARCHAR}, #{item.partnerKey,jdbcType=VARCHAR}, #{item.salesId,jdbcType=VARCHAR}, 
+	      #{item.salesName,jdbcType=VARCHAR}, #{item.taskUserKey,jdbcType=VARCHAR}, #{item.taskEmployeeId,jdbcType=VARCHAR}, #{item.taskUserName,jdbcType=VARCHAR}, #{item.taskDesc,jdbcType=VARCHAR}, 
+	      #{item.allocationType,jdbcType=CHAR}, #{item.commissionsRate,jdbcType=DECIMAL}, #{item.commissionsMoney,jdbcType=DECIMAL}, #{item.orderType,jdbcType=CHAR}, #{item.remarks,jdbcType=VARCHAR}, 
+	      #{item.isValid,jdbcType=CHAR}, #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}
+	      )
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.commissions.OrderCommissions" >
+    insert into ydz_order_commissions
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="salesNo != null" >
+        SALES_NO,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY,
+      </if>
+      <if test="salesId != null" >
+        SALES_ID,
+      </if>
+      <if test="salesName != null" >
+        SALES_NAME,
+      </if>
+      <if test="taskUserKey != null" >
+        TASK_USER_KEY,
+      </if>
+      <if test="taskEmployeeId != null" >
+        TASK_EMPLOYEE_ID,
+      </if>
+      <if test="taskUserName != null" >
+        TASK_USER_NAME,
+      </if>
+      <if test="taskDesc != null" >
+        TASK_DESC,
+      </if>
+      <if test="allocationType != null" >
+        ALLOCATION_TYPE,
+      </if>
+      <if test="commissionsRate != null" >
+        COMMISSIONS_RATE,
+      </if>
+      <if test="commissionsMoney != null" >
+        COMMISSIONS_MONEY,
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE,
+      </if>
+      <if test="isChecking != null" >
+        IS_CHECKING,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesNo != null" >
+        #{salesNo,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="salesId != null" >
+        #{salesId,jdbcType=VARCHAR},
+      </if>
+      <if test="salesName != null" >
+        #{salesName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskUserKey != null" >
+        #{taskUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="taskEmployeeId != null" >
+        #{taskEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskUserName != null" >
+        #{taskUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDesc != null" >
+        #{taskDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="allocationType != null" >
+        #{allocationType,jdbcType=CHAR},
+      </if>
+      <if test="commissionsRate != null" >
+        #{commissionsRate,jdbcType=DECIMAL},
+      </if>
+      <if test="commissionsMoney != null" >
+        #{commissionsMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="isChecking != null" >
+        #{isChecking,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.commissions.OrderCommissions" >
+    update ydz_order_commissions
+    <set >
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="salesNo != null" >
+        SALES_NO = #{salesNo,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="salesId != null" >
+        SALES_ID = #{salesId,jdbcType=VARCHAR},
+      </if>
+      <if test="salesName != null" >
+        SALES_NAME = #{salesName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskUserKey != null" >
+        TASK_USER_KEY = #{taskUserKey,jdbcType=VARCHAR},
+      </if>
+      <if test="taskEmployeeId != null" >
+        TASK_EMPLOYEE_ID = #{taskEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskUserName != null" >
+        TASK_USER_NAME = #{taskUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskDesc != null" >
+        TASK_DESC = #{taskDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="allocationType != null" >
+        ALLOCATION_TYPE = #{allocationType,jdbcType=CHAR},
+      </if>
+      <if test="commissionsRate != null" >
+        COMMISSIONS_RATE = #{commissionsRate,jdbcType=DECIMAL},
+      </if>
+      <if test="commissionsMoney != null" >
+        COMMISSIONS_MONEY = #{commissionsMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE = #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="isChecking != null" >
+        IS_CHECKING = #{isChecking,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where COM_KEY = #{comKey}
+    <if test="orderNo != null">
+    	and ORDER_NO = #{orderNo}
+    </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.commissions.OrderCommissions" >
+    update ydz_order_commissions
+    set ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      SALES_NO = #{salesNo,jdbcType=VARCHAR},
+      COM_KEY = #{comKey,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      SALES_ID = #{salesId,jdbcType=VARCHAR},
+      SALES_NAME = #{salesName,jdbcType=VARCHAR},
+      TASK_USER_KEY = #{taskUserKey,jdbcType=VARCHAR},
+      TASK_EMPLOYEE_ID = #{taskEmployeeId,jdbcType=VARCHAR},
+      TASK_USER_NAME = #{taskUserName,jdbcType=VARCHAR},
+      TASK_DESC = #{taskDesc,jdbcType=VARCHAR},
+      ALLOCATION_TYPE = #{allocationType,jdbcType=CHAR},
+      COMMISSIONS_RATE = #{commissionsRate,jdbcType=DECIMAL},
+      COMMISSIONS_MONEY = #{commissionsMoney,jdbcType=DECIMAL},
+      ORDER_TYPE = #{orderType,jdbcType=CHAR},
+      IS_CHECKING = #{isChecking,jdbcType=CHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateBatchStatusByPrimaryKey" parameterType="pd" >
+  	update ydz_order_commissions
+    <set>
+      <if test="isChecking != null">
+      	IS_CHECKING = #{isChecking,jdbcType=CHAR},
+      </if>
+      <if test="isValid != null">
+      	IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+    </set>
+    where COM_KEY = #{comKey}
+    <if test="orderNoIns != null">
+    	and ORDER_NO in ${orderNoIns}
+    </if>
+    <if test="uidIns != null">
+    	and uid in ${uidIns}
+    </if>
+  </update>
+</mapper>

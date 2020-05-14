@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.project.OpportunityChatMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.project.OpportunityChat" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="OPPO_NO" property="oppoNo" jdbcType="VARCHAR" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="CHAT_EMPLOYEE_ID" property="chatEmployeeId" jdbcType="VARCHAR" />
+    <result column="CHAT_EMPLOYEE_NAME" property="chatEmployeeName" jdbcType="VARCHAR" />
+    <result column="CHAT_TYPE" property="chatType" jdbcType="CHAR" />
+    <result column="CHAT_CONTENT" property="chatContent" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, OPPO_NO, COM_KEY, CHAT_EMPLOYEE_ID, CHAT_EMPLOYEE_NAME, CHAT_TYPE, CHAT_CONTENT, IS_VALID, IS_DEL, 
+    CREATE_TIME, CREATOR
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_opportunity_chat
+    where IS_VALID = '1' AND IS_DEL = '0' AND CHAT_EMPLOYEE_ID = #{chatEmployeeId}
+    	AND OPPO_NO = #{oppoNo}
+    <if test="comKey != null">
+    	and COM_KEY = #{comKey}
+    </if>
+    <if test="chatType != null">
+    	and CHAT_TYPE = #{chatType}
+    </if>
+  </select>
+  <select id="listPageOpportChats" resultMap="BaseResultMap" parameterType="page" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_opportunity_chat
+    where IS_VALID = '1' AND IS_DEL = '0' 
+    	AND OPPO_NO = #{pd.oppoNo}
+    <if test="pd.comKey != null">
+    	and COM_KEY = #{pd.comKey}
+    </if>
+    <if test="pd.chatType != null">
+    	and CHAT_TYPE = #{pd.chatType}
+    </if>
+    order by UID DESC
+  </select>
+  
+  <select id="listLatestChat" resultType="com.ydz.entity.project.OpportunityChat" parameterType="pd">
+  	SELECT
+		chat.oppo_no,chat.chat_content,chat.chat_employee_name
+	FROM
+		(
+			SELECT
+				*
+			FROM
+				ydz_opportunity_chat
+			WHERE
+				com_key = #{comKey}
+				and oppo_no in ${oppoNoIns}
+			ORDER BY
+				UID DESC
+		) chat
+	WHERE
+		chat.com_key = #{comKey}
+	and chat.oppo_no in ${oppoNoIns}
+	GROUP BY
+		chat.oppo_no
+	ORDER BY
+		chat.UID DESC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from ydz_opportunity_chat
+    where OPPO_NO = #{oppoNo}
+    <if test="chatEmployeeId != null">
+    	and CHAT_EMPLOYEE_ID = #{chatEmployeeId}
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.project.OpportunityChat" >
+    insert into ydz_opportunity_chat (UID, OPPO_NO, CHAT_EMPLOYEE_ID, 
+      CHAT_EMPLOYEE_NAME, CHAT_CONTENT, IS_VALID, 
+      IS_DEL, CREATE_TIME, CREATOR
+      )
+    values (#{uid,jdbcType=BIGINT}, #{oppoNo,jdbcType=VARCHAR}, #{chatEmployeeId,jdbcType=VARCHAR}, 
+      #{chatEmployeeName,jdbcType=VARCHAR}, #{chatContent,jdbcType=VARCHAR}, #{isValid,jdbcType=CHAR}, 
+      #{isDel,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.project.OpportunityChat" >
+    insert into ydz_opportunity_chat
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="oppoNo != null" >
+        OPPO_NO,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="chatEmployeeId != null" >
+        CHAT_EMPLOYEE_ID,
+      </if>
+      <if test="chatEmployeeName != null" >
+        CHAT_EMPLOYEE_NAME,
+      </if>
+      <if test="chatType != null" >
+        CHAT_TYPE,
+      </if>
+      <if test="chatContent != null" >
+        CHAT_CONTENT,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="oppoNo != null" >
+        #{oppoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="chatEmployeeId != null" >
+        #{chatEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="chatEmployeeName != null" >
+        #{chatEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="chatType != null" >
+        #{chatType,jdbcType=CHAR},
+      </if>
+      <if test="chatContent != null" >
+        #{chatContent,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.project.OpportunityChat" >
+    update ydz_opportunity_chat
+    <set >
+      <if test="oppoNo != null" >
+        OPPO_NO = #{oppoNo,jdbcType=VARCHAR},
+      </if>
+      <if test="chatEmployeeId != null" >
+        CHAT_EMPLOYEE_ID = #{chatEmployeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="chatEmployeeName != null" >
+        CHAT_EMPLOYEE_NAME = #{chatEmployeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="chatType != null" >
+        CHAT_TYPE = #{chatType,jdbcType=CHAR},
+      </if>
+      <if test="chatContent != null" >
+        CHAT_CONTENT = #{chatContent,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CHAT_EMPLOYEE_ID = #{chatEmployeeId}
+    	AND OPPO_NO = #{oppoNo}
+    <if test="comKey != null">
+    	and COM_KEY = #{comKey}
+    </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.project.OpportunityChat" >
+    update ydz_opportunity_chat
+    set OPPO_NO = #{oppoNo,jdbcType=VARCHAR},
+      CHAT_EMPLOYEE_ID = #{chatEmployeeId,jdbcType=VARCHAR},
+      CHAT_EMPLOYEE_NAME = #{chatEmployeeName,jdbcType=VARCHAR},
+      CHAT_CONTENT = #{chatContent,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      IS_DEL = #{isDel,jdbcType=CHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ydz.dao.system.ComPartnerRechargeLogMapper" >
+  <resultMap id="BaseResultMap" type="com.ydz.entity.system.ComPartnerRechargeLog" >
+    <id column="UID" property="uid" jdbcType="BIGINT" />
+    <result column="COM_KEY" property="comKey" jdbcType="VARCHAR" />
+    <result column="INDUSTRY_ID" property="industryId" jdbcType="VARCHAR" />
+    <result column="PARTNER_KEY" property="partnerKey" jdbcType="VARCHAR" />
+    <result column="RECHARGE_ACCOUNT" property="rechargeAccount" jdbcType="VARCHAR" />
+    <result column="RECHARGE_MONEY" property="rechargeMoney" jdbcType="DECIMAL" />
+    <result column="BALANCE_MONEY" property="balanceMoney" jdbcType="DECIMAL" />
+    <result column="RECHARGE_DATE" property="rechargeDate" jdbcType="DATE" />
+    <result column="PRESENT_MONEY" property="presentMoney" jdbcType="DECIMAL" />
+    <result column="PRESENT_RATE" property="presentRate" jdbcType="DECIMAL" />
+    <result column="RECHARGE_TYPE" property="rechargeType" jdbcType="VARCHAR" />
+    <result column="PAYMENT_NAME" property="paymentName" jdbcType="VARCHAR" />
+    <result column="PAYMENT_TEL" property="paymentTel" jdbcType="VARCHAR" />
+    <result column="REMARKS" property="remarks" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="CHAR" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UID, COM_KEY, INDUSTRY_ID, PARTNER_KEY, RECHARGE_ACCOUNT, RECHARGE_MONEY, BALANCE_MONEY, 
+    RECHARGE_DATE, PRESENT_MONEY, PRESENT_RATE, RECHARGE_TYPE, PAYMENT_NAME, PAYMENT_TEL, REMARKS, 
+    IS_VALID, CREATOR, CREATE_TIME
+  </sql>
+  
+  <select id="listPageComPartenr" resultType="com.ydz.entity.system.PartnerVO" parameterType="page" >
+    select 
+    	cp.com_key comKey,
+    	cp.partner_key partnerKey,
+    	p.partner_name partnerName,
+    	p.partner_shortname partnerShortname,
+    	cp.balance_money balanceMoney
+    from ydz_com_partner cp
+    left join ydz_partner p on p.partner_key = cp.partner_key
+    where cp.is_valid = '1' and cp.com_key =#{pd.comKey} 
+    	and p.partner_type in ('1','A')
+    <if test="pd.isRecharge != null">
+    	and cp.is_recharge = #{pd.isRecharge}
+    </if>
+    <if test="pd.searchKey != null">
+    	and p.partner_name like '%${pd.searchKey}%'
+    </if>
+    ORDER BY CONVERT( p.partner_shortname USING gbk ) COLLATE gbk_chinese_ci ASC
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="pd" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_com_partner_recharge_log
+    where IS_VALID = '1' AND COM_KEY = #{comKey} and PARTNER_KEY = #{partnerKey}
+    <if test="industryId != null">
+    	and INDUSTRY_ID = #{industryId}
+    </if>
+  </select>
+  <select id="selectSumOrderTotalVO" resultType="com.ydz.vo.OrderTotalVO" parameterType="pd" >
+    select 
+    	sum(RECHARGE_MONEY) sumRechargeMoney,
+    	sum(PRESENT_MONEY) sumPresentMoney
+    from ydz_com_partner_recharge_log
+    where IS_VALID = '1' AND COM_KEY = #{comKey}
+    <if test="industryId != null">
+    	and INDUSTRY_ID = #{industryId}
+    </if>
+    <if test="partnerKey != null">
+    	and PARTNER_KEY = #{partnerKey}
+    </if>
+  </select>
+  <select id="listPageByPrimaryKey" resultMap="BaseResultMap" parameterType="page" >
+    select 
+    <include refid="Base_Column_List" />
+    from ydz_com_partner_recharge_log
+    where IS_VALID = '1' AND COM_KEY = #{pd.comKey} and PARTNER_KEY = #{pd.partnerKey}
+    <if test="pd.industryId != null">
+    	and INDUSTRY_ID = #{pd.industryId}
+    </if>
+    <if test="pd.startDate != null and pd.endDate !=null">
+    	and RECHARGE_DATE BETWEEN #{pd.startDate} AND #{pd.endDate}
+    </if>
+    <if test="pd.rechargeType != null">
+    	and RECHARGE_TYPE like '%${pd.rechargeType}%'
+    </if>
+    order by CREATE_TIME DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="pd" >
+    delete from ydz_com_partner_recharge_log
+    where COM_KEY = #{comKey} and PARTNER_KEY = #{partnerKey}
+  </delete>
+  <insert id="insert" parameterType="com.ydz.entity.system.ComPartnerRechargeLog" >
+    insert into ydz_com_partner_recharge_log (UID, COM_KEY, INDUSTRY_ID, 
+      PARTNER_KEY, RECHARGE_ACCOUNT, RECHARGE_MONEY, 
+      BALANCE_MONEY, RECHARGE_DATE, PRESENT_MONEY, 
+      PRESENT_RATE, RECHARGE_TYPE, PAYMENT_NAME, PAYMENT_TEL,
+      REMARKS, IS_VALID, CREATOR, 
+      CREATE_TIME)
+    values (#{uid,jdbcType=BIGINT}, #{comKey,jdbcType=VARCHAR}, #{industryId,jdbcType=VARCHAR}, 
+      #{partnerKey,jdbcType=VARCHAR}, #{rechargeAccount,jdbcType=VARCHAR}, #{rechargeMoney,jdbcType=DECIMAL}, 
+      #{balanceMoney,jdbcType=DECIMAL}, #{rechargeDate,jdbcType=DATE}, #{presentMoney,jdbcType=DECIMAL}, 
+      #{presentRate,jdbcType=DECIMAL}, #{rechargeType,jdbcType=CHAR}, #{paymentName,jdbcType=VARCHAR}, #{paymentTel,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{isValid,jdbcType=CHAR}, #{creator,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ydz.entity.system.ComPartnerRechargeLog" >
+    insert into ydz_com_partner_recharge_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        UID,
+      </if>
+      <if test="comKey != null" >
+        COM_KEY,
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID,
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY,
+      </if>
+      <if test="rechargeAccount != null" >
+        RECHARGE_ACCOUNT,
+      </if>
+      <if test="rechargeMoney != null" >
+        RECHARGE_MONEY,
+      </if>
+      <if test="balanceMoney != null" >
+        BALANCE_MONEY,
+      </if>
+      <if test="rechargeDate != null" >
+        RECHARGE_DATE,
+      </if>
+      <if test="presentMoney != null" >
+        PRESENT_MONEY,
+      </if>
+      <if test="presentRate != null" >
+        PRESENT_RATE,
+      </if>
+      <if test="rechargeType != null" >
+        RECHARGE_TYPE,
+      </if>
+      <if test="paymentName != null" >
+        PAYMENT_NAME,
+      </if>
+      <if test="paymentTel != null" >
+        PAYMENT_TEL,
+      </if>
+      <if test="remarks != null" >
+        REMARKS,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="comKey != null" >
+        #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeAccount != null" >
+        #{rechargeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeMoney != null" >
+        #{rechargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="balanceMoney != null" >
+        #{balanceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="rechargeDate != null" >
+        #{rechargeDate,jdbcType=DATE},
+      </if>
+      <if test="presentMoney != null" >
+        #{presentMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="presentRate != null" >
+        #{presentRate,jdbcType=DECIMAL},
+      </if>
+      <if test="rechargeType != null" >
+        #{rechargeType,jdbcType=CHAR},
+      </if>
+      <if test="paymentName != null" >
+        #{paymentName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTel != null" >
+        #{paymentTel,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ydz.entity.system.ComPartnerRechargeLog" >
+    update ydz_com_partner_recharge_log
+    <set >
+      <if test="comKey != null" >
+        COM_KEY = #{comKey,jdbcType=VARCHAR},
+      </if>
+      <if test="industryId != null" >
+        INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="partnerKey != null" >
+        PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeAccount != null" >
+        RECHARGE_ACCOUNT = #{rechargeAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeMoney != null" >
+        RECHARGE_MONEY = #{rechargeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="balanceMoney != null" >
+        BALANCE_MONEY = #{balanceMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="rechargeDate != null" >
+        RECHARGE_DATE = #{rechargeDate,jdbcType=DATE},
+      </if>
+      <if test="presentMoney != null" >
+        PRESENT_MONEY = #{presentMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="presentRate != null" >
+        PRESENT_RATE = #{presentRate,jdbcType=DECIMAL},
+      </if>
+      <if test="rechargeType != null" >
+        RECHARGE_TYPE = #{rechargeType,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentName != null" >
+        PAYMENT_NAME = #{paymentName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTel != null" >
+        PAYMENT_TEL = #{paymentTel,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=CHAR},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ydz.entity.system.ComPartnerRechargeLog" >
+    update ydz_com_partner_recharge_log
+    set COM_KEY = #{comKey,jdbcType=VARCHAR},
+      INDUSTRY_ID = #{industryId,jdbcType=VARCHAR},
+      PARTNER_KEY = #{partnerKey,jdbcType=VARCHAR},
+      RECHARGE_ACCOUNT = #{rechargeAccount,jdbcType=VARCHAR},
+      RECHARGE_MONEY = #{rechargeMoney,jdbcType=DECIMAL},
+      BALANCE_MONEY = #{balanceMoney,jdbcType=DECIMAL},
+      RECHARGE_DATE = #{rechargeDate,jdbcType=DATE},
+      PRESENT_MONEY = #{presentMoney,jdbcType=DECIMAL},
+      PRESENT_RATE = #{presentRate,jdbcType=DECIMAL},
+      RECHARGE_TYPE = #{rechargeType,jdbcType=VARCHAR},
+      PAYMENT_NAME = #{paymentName,jdbcType=VARCHAR},
+      PAYMENT_TEL = #{paymentTel,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=CHAR},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where UID = #{uid,jdbcType=BIGINT}
+  </update>
+</mapper>
